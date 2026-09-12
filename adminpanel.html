@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Admin Panel | ClassyDate</title>
+    <meta name="description" content="Admin dashboard for managing ClassyDate members.">
+    <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f3e8ff;
+            color: #4a1a6b;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* HEADER */
+        .cb-shell-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(108, 60, 179, 0.12);
+        }
+
+        .cb-shell-header__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .cb-shell-brand {
+            display: flex;
+            align-items: center;
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a0533;
+            flex-shrink: 0;
+        }
+        .cb-shell-brand .heart { color: #ff0000; display: inline-block; }
+        .cb-shell-brand span {
+            font-family: "Inter", sans-serif;
+            font-weight: 300;
+            color: #6c3cb3;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .heartbeat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        .heartbeat-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #28a745;
+            animation: pulse-dot 1.5s infinite;
+        }
+        .heartbeat-badge.stopped {
+            background: rgba(173, 181, 189, 0.15);
+            color: #adb5bd;
+        }
+        .heartbeat-badge.stopped .dot { background: #adb5bd; animation: none; }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .admin-badge-nav {
+            background: #6c3cb3;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .menu-container { position: relative; }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px 8px;
+            font-size: 22px;
+            color: #4a1a6b;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-btn:hover { background: rgba(108, 60, 179, 0.08); }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 44px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(16px);
+            min-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            z-index: 200;
+        }
+        .menu-dropdown.show { display: block; animation: slideDown 0.2s ease; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            color: #4a1a6b;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(108, 60, 179, 0.06);
+        }
+        .menu-dropdown a:last-child { border-bottom: none; }
+        .menu-dropdown a:hover { background: rgba(108, 60, 179, 0.06); }
+        .menu-dropdown .logout-btn { color: #dc3545; font-weight: 600; }
+
+        /* ADMIN WRAPPER */
+        .admin-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 68px 12px 60px;
+        }
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(108, 60, 179, 0.1);
+            padding: 12px 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(108, 60, 179, 0.2);
+            box-shadow: 0 4px 16px rgba(108, 60, 179, 0.08);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .stat-card .stat-value {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a0533;
+            line-height: 1.1;
+            position: relative;
+        }
+
+        .stat-card.has-unread .stat-value::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: -12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3b82f6;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        .stat-card .stat-label {
+            font-size: 9.5px;
+            color: rgba(74, 26, 107, 0.55);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-top: 2px;
+        }
+
+        /* TABS */
+        .tabs-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(108, 60, 179, 0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 12px;
+            background: none;
+            border: none;
+            border-radius: 9px;
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            font-size: 12.5px;
+            color: rgba(74, 26, 107, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(108, 60, 179, 0.25);
+        }
+
+        .tab-btn .badge-count {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 1px 7px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .tab-btn.active .badge-count {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-btn:not(.active) .badge-count {
+            background: rgba(108, 60, 179, 0.12);
+            color: #6c3cb3;
+        }
+
+        .tab-btn .unread-dot {
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #3b82f6;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        /* SEARCH + FILTERS */
+        .filter-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 140px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(108, 60, 179, 0.12);
+            border-radius: 10px;
+            color: #4a1a6b;
+            font-size: 13px;
+            font-family: "Inter", sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .search-input::placeholder { color: rgba(74, 26, 107, 0.35); }
+        .search-input:focus {
+            border-color: #6c3cb3;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(108, 60, 179, 0.08);
+        }
+
+        .filter-select {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(108, 60, 179, 0.12);
+            border-radius: 10px;
+            color: #4a1a6b;
+            font-size: 12.5px;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236c3cb3' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 26px;
+        }
+
+        /* LIST WRAPPER */
+        .list-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* CONVERSATION CARD */
+        .conv-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(108, 60, 179, 0.1);
+            padding: 12px 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conv-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(108, 60, 179, 0.25);
+            box-shadow: 0 6px 20px rgba(108, 60, 179, 0.08);
+        }
+
+        .conv-card.unread {
+            border-left: 3px solid #3b82f6;
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .conv-card.unread .conv-name {
+            font-weight: 700;
+        }
+
+        .conv-card.unread::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #3b82f6;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        .conv-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .conv-name {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a0533;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .conv-status {
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-size: 9.5px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .conv-status.open { background: rgba(40, 167, 69, 0.12); color: #28a745; }
+        .conv-status.pending { background: rgba(255, 165, 0, 0.12); color: #b37400; }
+        .conv-status.closed { background: rgba(74, 26, 107, 0.08); color: rgba(74, 26, 107, 0.5); }
+
+        .conv-time {
+            font-size: 10.5px;
+            color: rgba(74, 26, 107, 0.45);
+            margin-left: auto;
+            font-weight: 500;
+        }
+
+        .conv-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            font-size: 11.5px;
+            color: rgba(74, 26, 107, 0.75);
+            margin-bottom: 8px;
+        }
+
+        .conv-info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: 500;
+        }
+
+        .conv-info .wants {
+            color: #6c3cb3;
+            font-weight: 700;
+        }
+
+        .conv-preview {
+            background: rgba(108, 60, 179, 0.05);
+            border-left: 2px solid rgba(108, 60, 179, 0.15);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            color: rgba(74, 26, 107, 0.7);
+            margin-bottom: 8px;
+            font-style: italic;
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
+        .conv-preview .sender-tag {
+            font-weight: 700;
+            font-style: normal;
+            color: #6c3cb3;
+            flex-shrink: 0;
+        }
+
+        .conv-preview.user .sender-tag { color: #dc3545; }
+        .conv-preview.admin .sender-tag { color: #28a745; }
+
+        .conv-preview-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .conv-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .btn-conv {
+            padding: 7px 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-conv-chat {
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            flex: 1;
+            justify-content: center;
+        }
+        .btn-conv-chat:hover {
+            background: linear-gradient(135deg, #4a1a6b, #6c3cb3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 60, 179, 0.3);
+        }
+
+        .btn-conv-delete {
+            background: rgba(220, 53, 69, 0.08);
+            color: #dc3545;
+        }
+        .btn-conv-delete:hover {
+            background: rgba(220, 53, 69, 0.18);
+        }
+
+        /* MEMBER CARD */
+        .member-card-item {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(108, 60, 179, 0.1);
+            padding: 12px 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .member-card-item:hover {
+            border-color: rgba(108, 60, 179, 0.25);
+            box-shadow: 0 6px 20px rgba(108, 60, 179, 0.08);
+        }
+
+        .member-card-item img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(108, 60, 179, 0.15);
+            flex-shrink: 0;
+        }
+
+        .member-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .member-card-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a0533;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .member-card-meta {
+            font-size: 11.5px;
+            color: rgba(74, 26, 107, 0.6);
+            margin-top: 2px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px 10px;
+        }
+
+        .member-card-actions {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .btn-mini {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+        }
+        .btn-mini-edit {
+            background: rgba(108, 60, 179, 0.08);
+            color: #4a1a6b;
+        }
+        .btn-mini-edit:hover { background: rgba(108, 60, 179, 0.18); }
+        .btn-mini-delete {
+            background: rgba(220, 53, 69, 0.08);
+            color: #dc3545;
+        }
+        .btn-mini-delete:hover { background: rgba(220, 53, 69, 0.18); }
+
+        .badge-mini {
+            padding: 1px 7px;
+            border-radius: 50px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        .badge-mini-verified { background: rgba(40, 167, 69, 0.12); color: #28a745; }
+        .badge-mini-premium { background: rgba(255, 215, 0, 0.15); color: #b8960f; }
+        .badge-mini-photos { background: rgba(108, 60, 179, 0.08); color: #6c3cb3; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(74, 26, 107, 0.35);
+        }
+        .empty-state .icon { font-size: 44px; margin-bottom: 10px; }
+        .empty-state h3 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 18px;
+            color: #4a1a6b;
+            margin-bottom: 6px;
+        }
+        .empty-state p { font-size: 13px; }
+
+        /* PAGINATION */
+        .pagination-bar {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            padding: 12px 0;
+            flex-wrap: wrap;
+        }
+        .pagination-bar button {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(108, 60, 179, 0.1);
+            border-radius: 8px;
+            color: rgba(74, 26, 107, 0.6);
+            cursor: pointer;
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .pagination-bar button:hover { background: rgba(255, 255, 255, 0.9); }
+        .pagination-bar button.active {
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            border-color: transparent;
+        }
+        .pagination-bar button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* NOTIFICATION PERMISSION BANNER */
+        .notif-banner {
+            display: none;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(108, 60, 179, 0.3);
+        }
+        .notif-banner.show { display: flex; }
+        .notif-banner .notif-text {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .notif-banner .notif-btn {
+            padding: 8px 16px;
+            background: #fff;
+            color: #6c3cb3;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: "Inter", sans-serif;
+            flex-shrink: 0;
+        }
+        .notif-banner .notif-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .notif-banner .notif-dismiss {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 4px;
+            flex-shrink: 0;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            padding: 24px 20px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .modal .modal-header h2 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 20px;
+            color: #4a1a6b;
+        }
+        .modal .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: rgba(74, 26, 107, 0.4);
+            cursor: pointer;
+            padding: 0 6px;
+        }
+        .modal .modal-close:hover { color: #4a1a6b; }
+
+        .modal .modal-subtitle {
+            color: rgba(74, 26, 107, 0.5);
+            font-size: 12.5px;
+            margin-bottom: 16px;
+        }
+
+        .modal .form-group { margin-bottom: 12px; }
+        .modal .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(74, 26, 107, 0.7);
+            margin-bottom: 4px;
+        }
+        .modal .form-group label .required { color: #dc3545; }
+
+        .modal .form-group input,
+        .modal .form-group select,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(108, 60, 179, 0.12);
+            border-radius: 10px;
+            color: #4a1a6b;
+            font-size: 13.5px;
+            font-family: "Inter", sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .modal .form-group input:focus,
+        .modal .form-group select:focus,
+        .modal .form-group textarea:focus {
+            border-color: #6c3cb3;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(108, 60, 179, 0.08);
+        }
+        .modal .form-group textarea { resize: vertical; min-height: 60px; }
+
+        .modal .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .file-upload-zone {
+            border: 2px dashed rgba(108, 60, 179, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        .file-upload-zone:hover {
+            border-color: #6c3cb3;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .file-upload-zone .icon { font-size: 32px; display: block; margin-bottom: 4px; }
+        .file-upload-zone p { color: rgba(74, 26, 107, 0.5); font-size: 12px; }
+        .file-upload-zone input[type="file"] {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .uploaded-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .uploaded-image-item {
+            width: 66px;
+            height: 66px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(108, 60, 179, 0.15);
+        }
+        .uploaded-image-item img { width: 100%; height: 100%; object-fit: cover; }
+        .uploaded-image-item .remove-image-btn {
+            position: absolute;
+            top: 2px; right: 2px;
+            background: rgba(220, 53, 69, 0.95);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+        }
+        .btn-modal-save {
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+        }
+        .btn-modal-save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(108, 60, 179, 0.3);
+        }
+        .btn-modal-cancel {
+            background: rgba(108, 60, 179, 0.06);
+            color: rgba(74, 26, 107, 0.6);
+        }
+        .btn-modal-cancel:hover { background: rgba(108, 60, 179, 0.12); }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 16px;
+            left: 16px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #1a0533;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 420px;
+            margin: 0 auto;
+            z-index: 2000;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { background: #28a745; }
+        .toast.error { background: #dc3545; }
+
+        /* LOADING */
+        .loading-spinner {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(108, 60, 179, 0.15);
+            border-top-color: #6c3cb3;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (min-width: 600px) {
+            .cb-shell-header__inner { height: 60px; padding: 0 20px; }
+            .cb-shell-brand { font-size: 20px; }
+            .admin-wrapper { padding: 76px 20px 60px; }
+            .stats-row { gap: 12px; margin-bottom: 18px; }
+            .stat-card { padding: 16px 12px; }
+            .stat-card .stat-icon { font-size: 20px; }
+            .stat-card .stat-value { font-size: 28px; }
+            .stat-card .stat-label { font-size: 10.5px; }
+            .tab-btn { padding: 12px 18px; font-size: 13.5px; }
+            .conv-card { padding: 14px 18px; }
+            .conv-name { font-size: 16px; }
+            .conv-info { font-size: 12.5px; }
+            .member-card-item { padding: 14px 16px; }
+            .member-card-item img { width: 50px; height: 50px; }
+        }
+
+        @media (max-width: 380px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .cb-shell-brand { font-size: 16px; }
+            .admin-badge-nav { font-size: 9px; padding: 3px 8px; }
+            .heartbeat-badge { font-size: 9px; padding: 2px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="cb-shell-header">
+        <div class="cb-shell-header__inner">
+            <a class="cb-shell-brand" href="index.html">
+                Classy<span>Date</span><span class="heart">❤️</span>
+            </a>
+            <div class="header-right">
+                <span class="heartbeat-badge" id="heartbeat-badge" title="Admin online">
+                    <span class="dot"></span>
+                    <span id="heartbeat-text">Online</span>
+                </span>
+                <span class="admin-badge-nav">🔑 Admin</span>
+                <div class="menu-container">
+                    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+                    <div class="menu-dropdown" id="menuDropdown">
+                        <a href="#" onclick="openAddModal(); closeMenu(); return false;">
+                            <span>➕</span> Add New Member
+                        </a>
+                        <a href="#" onclick="enableNotifications(); closeMenu(); return false;">
+                            <span>🔔</span> <span id="notif-menu-text">Enable Alerts</span>
+                        </a>
+                        <div style="height:1px;background:rgba(108,60,179,0.06);margin:4px 0;"></div>
+                        <a href="#" onclick="logoutAdmin(); closeMenu(); return false;" class="logout-btn">
+                            <span>🚪</span> Log Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="admin-wrapper">
+
+        <!-- NOTIFICATION PERMISSION BANNER -->
+        <div class="notif-banner" id="notif-banner">
+            <span style="font-size:22px;">🔔</span>
+            <div class="notif-text">
+                Enable alerts to get notified when users send you messages
+            </div>
+            <button class="notif-btn" onclick="enableNotifications()">Enable</button>
+            <button class="notif-dismiss" onclick="dismissNotifBanner()">✕</button>
+        </div>
+
+        <!-- STATS ROW -->
+        <div class="stats-row">
+            <div class="stat-card" onclick="showTab('members')" style="cursor:pointer;">
+                <span class="stat-icon">👥</span>
+                <div class="stat-value" id="stat-members">0</div>
+                <div class="stat-label">Members</div>
+            </div>
+            <div class="stat-card" onclick="showTab('conversations')" style="cursor:pointer;">
+                <span class="stat-icon">💬</span>
+                <div class="stat-value" id="stat-conversations">0</div>
+                <div class="stat-label">Chats</div>
+            </div>
+            <div class="stat-card" id="stat-card-unread" onclick="showTab('conversations')" style="cursor:pointer;">
+                <span class="stat-icon">🔵</span>
+                <div class="stat-value" id="stat-unread">0</div>
+                <div class="stat-label">Unread</div>
+            </div>
+            <div class="stat-card" onclick="showTab('conversations')" style="cursor:pointer;">
+                <span class="stat-icon">⏳</span>
+                <div class="stat-value" id="stat-pending">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-row">
+            <button class="tab-btn active" id="tab-btn-members" onclick="showTab('members')">
+                👥 Members
+                <span class="badge-count" id="tab-members-count">0</span>
+            </button>
+            <button class="tab-btn" id="tab-btn-conversations" onclick="showTab('conversations')">
+                💬 Conversations
+                <span class="badge-count" id="tab-conv-count">0</span>
+                <span class="unread-dot" id="tab-conv-unread" style="display:none;"></span>
+            </button>
+        </div>
+
+        <!-- MEMBERS TAB -->
+        <div id="tab-content-members">
+            <div class="filter-row">
+                <input type="text" class="search-input" id="search-members" placeholder="🔍 Search members..." oninput="filterMembers()">
+                <button class="btn-conv btn-conv-chat" style="flex:0 0 auto; padding:10px 16px; font-size:12px;" onclick="openAddModal()">
+                    ➕ Add
+                </button>
+            </div>
+
+            <div class="list-wrapper" id="members-list">
+                <div class="empty-state">
+                    <span class="loading-spinner"></span>
+                    <p style="margin-top:10px;">Loading members...</p>
+                </div>
+            </div>
+
+            <div class="pagination-bar" id="members-pagination"></div>
+        </div>
+
+        <!-- CONVERSATIONS TAB -->
+        <div id="tab-content-conversations" style="display:none;">
+            <div class="filter-row">
+                <input type="text" class="search-input" id="search-conv" placeholder="🔍 Search conversations..." oninput="filterConversations()">
+                <select class="filter-select" id="filter-status" onchange="filterConversations()">
+                    <option value="all">All</option>
+                    <option value="unread">🔵 Unread</option>
+                    <option value="open">🟢 Open</option>
+                    <option value="pending">🟡 Pending</option>
+                    <option value="closed">⚪ Closed</option>
+                </select>
+            </div>
+
+            <div class="list-wrapper" id="conversations-list">
+                <div class="empty-state">
+                    <span class="loading-spinner"></span>
+                    <p style="margin-top:10px;">Loading conversations...</p>
+                </div>
+            </div>
+
+            <div class="pagination-bar" id="conversations-pagination"></div>
+        </div>
+
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Member</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <p class="modal-subtitle" id="modal-subtitle">Fill in the details to add a new member.</p>
+
+            <form id="member-form" onsubmit="saveMember(event)">
+                <input type="hidden" id="edit-id" value="">
+
+                <div class="form-group">
+                    <label for="form-name">Full Name <span class="required">*</span></label>
+                    <input type="text" id="form-name" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-age">Age <span class="required">*</span></label>
+                        <input type="number" id="form-age" placeholder="25" min="18" max="99" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-gender">Gender <span class="required">*</span></label>
+                        <select id="form-gender" required>
+                            <option value="">Select...</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-current-location">Current Location</label>
+                    <input type="text" id="form-current-location" placeholder="New York, USA">
+                </div>
+
+                <div class="form-group">
+                    <label for="form-home-country">Home Country</label>
+                    <input type="text" id="form-home-country" placeholder="Zimbabwe">
+                </div>
+
+                <div class="form-group">
+                    <label for="form-occupation">Occupation</label>
+                    <input type="text" id="form-occupation" placeholder="Software Engineer">
+                </div>
+
+                <div class="form-group">
+                    <label for="form-bio">About Me</label>
+                    <textarea id="form-bio" placeholder="Write a short bio about this member..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-looking">Looking For</label>
+                    <input type="text" id="form-looking" placeholder="e.g. Serious Relationship, Friendship">
+                </div>
+
+                <div class="form-group">
+                    <label>Photos</label>
+                    <div class="file-upload-zone" id="file-upload-zone">
+                        <span class="icon">📸</span>
+                        <p>Tap to select photos</p>
+                        <input type="file" id="file-input" accept="image/*" multiple onchange="handleFileSelect(event)">
+                    </div>
+                    <div class="uploaded-images" id="uploaded-images"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-verified">Verified</label>
+                        <select id="form-verified">
+                            <option value="true" selected>✅ Yes</option>
+                            <option value="false">❌ No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-premium">Premium</label>
+                        <select id="form-premium">
+                            <option value="true">⭐ Yes</option>
+                            <option value="false" selected>❌ No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-interests">Interests (comma separated)</label>
+                    <input type="text" id="form-interests" placeholder="Travel, Coffee, Music">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-modal-save" id="modal-save-btn">💾 Save Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { createClient } from "@supabase/supabase-js";
+
+        const SUPABASE_URL = 'https://eswlfgrzdmdwmfqncpew.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_oeCfBt8Ci0xQ4mg6o2mnnA_mbgnwRVS';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        console.log('🔗 Supabase connected:', SUPABASE_URL);
+
+        // ============================================================
+        // ADMIN HEARTBEAT
+        // ============================================================
+        let heartbeatInterval = null;
+        let consecutiveFailures = 0;
+
+        async function sendHeartbeat() {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session || !session.user) return;
+
+                const { error } = await supabase
+                    .from('admin_status')
+                    .upsert({
+                        admin_id: session.user.id,
+                        last_seen: new Date().toISOString()
+                    }, { onConflict: 'admin_id' });
+
+                if (error) {
+                    consecutiveFailures++;
+                    if (consecutiveFailures >= 3) setHeartbeatStatus(false);
+                } else {
+                    consecutiveFailures = 0;
+                    setHeartbeatStatus(true);
+                }
+            } catch (err) {}
+        }
+
+        function startHeartbeat() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            sendHeartbeat();
+            heartbeatInterval = setInterval(sendHeartbeat, 20000);
+        }
+
+        function stopHeartbeat() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            heartbeatInterval = null;
+            setHeartbeatStatus(false);
+        }
+
+        function setHeartbeatStatus(active) {
+            const badge = document.getElementById('heartbeat-badge');
+            const text = document.getElementById('heartbeat-text');
+            if (!badge || !text) return;
+            if (active) {
+                badge.classList.remove('stopped');
+                text.textContent = 'Online';
+            } else {
+                badge.classList.add('stopped');
+                text.textContent = 'Offline';
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            sendHeartbeat();
+        });
+
+        // ============================================================
+        // 🔔 NOTIFICATION SYSTEM
+        // ============================================================
+        const ALERT_PREFS_KEY = 'classydate_admin_alert_prefs';
+
+        function getAlertPrefs() {
+            try {
+                return JSON.parse(localStorage.getItem(ALERT_PREFS_KEY) || '{}');
+            } catch (e) { return {}; }
+        }
+
+        function setAlertPrefs(prefs) {
+            localStorage.setItem(ALERT_PREFS_KEY, JSON.stringify(prefs));
+        }
+
+        // Request permission + enable alerts
+        window.enableNotifications = async function() {
+            try {
+                // Check if browser supports notifications
+                if (!('Notification' in window)) {
+                    showToast('⚠️ Notifications not supported on this browser', 'error');
+                    return;
+                }
+
+                // Request permission
+                const permission = await Notification.requestPermission();
+                const prefs = getAlertPrefs();
+
+                if (permission === 'granted') {
+                    prefs.notifications = true;
+                    setAlertPrefs(prefs);
+                    document.getElementById('notif-menu-text').textContent = 'Alerts Enabled ✅';
+                    dismissNotifBanner();
+                    showToast('🔔 Alerts enabled! You will be notified of new messages.', 'success');
+
+                    // Send a test notification to confirm
+                    try {
+                        new Notification('🎉 ClassyDate Admin Alerts ON', {
+                            body: 'You will now receive alerts for new messages.',
+                            icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>"
+                        });
+                    } catch (e) {}
+                } else if (permission === 'denied') {
+                    showToast('⚠️ Notification permission denied. Check browser settings.', 'error');
+                } else {
+                    showToast('Notification permission dismissed', 'info');
+                }
+            } catch (err) {
+                console.error('Enable notifications error:', err);
+                showToast('Error enabling notifications', 'error');
+            }
+        }
+
+        function dismissNotifBanner() {
+            document.getElementById('notif-banner').classList.remove('show');
+            localStorage.setItem('classydate_notif_banner_dismissed', 'true');
+        }
+
+        // Vibrate (Android only — silently no-ops elsewhere)
+        function vibrate() {
+            if (navigator.vibrate) {
+                try {
+                    navigator.vibrate([200, 100, 200]);
+                } catch (e) {}
+            }
+        }
+
+        // Play a soft ping using Web Audio API
+        function playPing() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.type = 'sine';
+                osc.frequency.value = 880; // A5
+
+                gain.gain.setValueAtTime(0, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.4);
+
+                // Second higher ping
+                setTimeout(() => {
+                    try {
+                        const ctx2 = new (window.AudioContext || window.webkitAudioContext)();
+                        const osc2 = ctx2.createOscillator();
+                        const gain2 = ctx2.createGain();
+                        osc2.connect(gain2);
+                        gain2.connect(ctx2.destination);
+                        osc2.type = 'sine';
+                        osc2.frequency.value = 1320; // E6
+                        gain2.gain.setValueAtTime(0, ctx2.currentTime);
+                        gain2.gain.linearRampToValueAtTime(0.12, ctx2.currentTime + 0.02);
+                        gain2.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 0.3);
+                        osc2.start(ctx2.currentTime);
+                        osc2.stop(ctx2.currentTime + 0.35);
+                    } catch (e) {}
+                }, 150);
+            } catch (err) {
+                console.warn('Sound play failed:', err);
+            }
+        }
+
+        // Flash the page title
+        let titleFlashInterval = null;
+        function flashTitle(message) {
+            if (titleFlashInterval) return;
+            let showOriginal = false;
+            const original = 'Admin Panel | ClassyDate';
+            document.title = message;
+            titleFlashInterval = setInterval(() => {
+                document.title = showOriginal ? message : original;
+                showOriginal = !showOriginal;
+            }, 900);
+        }
+
+        function stopFlashTitle() {
+            if (titleFlashInterval) {
+                clearInterval(titleFlashInterval);
+                titleFlashInterval = null;
+                document.title = 'Admin Panel | ClassyDate';
+            }
+        }
+
+        // Show browser notification
+        function showBrowserNotification(userName, messageText) {
+            const prefs = getAlertPrefs();
+            if (prefs.notifications !== true) return;
+            if (!('Notification' in window)) return;
+            if (Notification.permission !== 'granted') return;
+
+            try {
+                const notification = new Notification(`💬 New message from ${userName}`, {
+                    body: messageText || '📸 Photo',
+                    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>",
+                    badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>",
+                    tag: 'classydate-message',
+                    renotify: true,
+                    requireInteraction: false
+                });
+
+                notification.onclick = () => {
+                    window.focus();
+                    notification.close();
+                };
+            } catch (err) {
+                console.warn('Browser notification failed:', err);
+            }
+        }
+
+        // Update favicon with unread badge
+        let faviconOriginal = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>";
+        let faviconWithBadge = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text><circle cx='80' cy='20' r='14' fill='%23ff3b30'/><text x='80' y='26' font-size='18' fill='white' text-anchor='middle' font-family='Arial' font-weight='bold'>!</text></svg>";
+
+        function setFaviconWithBadge(hasUnread) {
+            const favicon = document.getElementById('favicon');
+            if (favicon) favicon.href = hasUnread ? faviconWithBadge : faviconOriginal;
+        }
+
+        // ============================================================
+        // 🔔 REALTIME NEW MESSAGE ALERTS
+        // ============================================================
+        let globalRealtimeChannel = null;
+
+        function subscribeToNewMessages() {
+            if (globalRealtimeChannel) {
+                supabase.removeChannel(globalRealtimeChannel);
+            }
+
+            globalRealtimeChannel = supabase
+                .channel('admin-new-messages')
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'messages',
+                    filter: 'sender_type=eq.user'
+                }, async (payload) => {
+                    console.log('🔔 New user message received:', payload.new);
+
+                    const newMsg = payload.new;
+
+                    // Get conversation details for notification
+                    let userName = 'User';
+                    try {
+                        const { data: conv } = await supabase
+                            .from('conversations')
+                            .select('full_name')
+                            .eq('id', newMsg.conversation_id)
+                            .maybeSingle();
+                        if (conv?.full_name) userName = conv.full_name;
+                    } catch (e) {}
+
+                    // Trigger all alerts
+                    vibrate();
+                    playPing();
+                    showBrowserNotification(userName, newMsg.text);
+                    flashTitle(`💬 New message from ${userName}`);
+
+                    // Update conversation list
+                    await loadConversations();
+                })
+                .subscribe((status) => {
+                    console.log('🔔 Realtime new messages:', status);
+                });
+        }
+
+        // Stop flashing title when user focuses the page
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                stopFlashTitle();
+            }
+        });
+        window.addEventListener('focus', () => {
+            stopFlashTitle();
+        });
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let adminMembers = [];
+        let conversations = [];
+        let filteredMembers = [];
+        let filteredConversations = [];
+        let currentMemberPage = 1;
+        let currentConvPage = 1;
+        const membersPerPage = 10;
+        const convPerPage = 10;
+
+        let currentTab = 'members';
+        let uploadedFileIds = [];
+        let uploadedFileUrls = [];
+        let editingId = null;
+        let currentAdmin = null;
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        async function requireAdmin() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) { window.location.href = 'adminlogin.html'; return false; }
+
+            const { data: adminRow } = await supabase
+                .from('admins')
+                .select('id, email')
+                .eq('id', session.user.id)
+                .maybeSingle();
+
+            if (!adminRow) {
+                await supabase.auth.signOut();
+                window.location.href = 'adminlogin.html';
+                return false;
+            }
+
+            currentAdmin = adminRow;
+            return true;
+        }
+
+        // ============================================================
+        // MENU
+        // ============================================================
+        window.toggleMenu = function() {
+            document.getElementById('menuDropdown').classList.toggle('show');
+        }
+        window.closeMenu = function() {
+            document.getElementById('menuDropdown').classList.remove('show');
+        }
+        document.addEventListener('click', (e) => {
+            const c = document.querySelector('.menu-container');
+            if (c && !c.contains(e.target)) closeMenu();
+        });
+
+        // ============================================================
+        // TABS
+        // ============================================================
+        window.showTab = function(tab) {
+            currentTab = tab;
+
+            document.getElementById('tab-content-members').style.display = tab === 'members' ? 'block' : 'none';
+            document.getElementById('tab-content-conversations').style.display = tab === 'conversations' ? 'block' : 'none';
+
+            document.getElementById('tab-btn-members').classList.toggle('active', tab === 'members');
+            document.getElementById('tab-btn-conversations').classList.toggle('active', tab === 'conversations');
+
+            if (tab === 'members') renderMembers();
+            else renderConversations();
+        }
+
+        // ============================================================
+        // LOAD MEMBERS
+        // ============================================================
+        async function loadMembers() {
+            try {
+                const { data, error } = await supabase
+                    .from('members')
+                    .select('*')
+                    .eq('verified', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                adminMembers = data || [];
+                filteredMembers = [...adminMembers];
+
+                document.getElementById('stat-members').textContent = adminMembers.length;
+                document.getElementById('tab-members-count').textContent = adminMembers.length;
+
+                renderMembers();
+                updateStats();
+            } catch (err) {
+                console.error('Error loading members:', err);
+                document.getElementById('members-list').innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">⚠️</div>
+                        <h3>Could not load members</h3>
+                        <p>Please refresh the page.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // LOAD CONVERSATIONS
+        // ============================================================
+        async function loadConversations() {
+            try {
+                const { data: convData, error: convErr } = await supabase
+                    .from('conversations')
+                    .select('*')
+                    .order('updated_at', { ascending: false });
+
+                if (convErr) throw convErr;
+
+                conversations = convData || [];
+
+                for (const conv of conversations) {
+                    const { data: msgs } = await supabase
+                        .from('messages')
+                        .select('text, sender_type, created_at, attachment_url, read_by_admin')
+                        .eq('conversation_id', conv.id)
+                        .order('created_at', { ascending: false })
+                        .limit(1);
+
+                    if (msgs && msgs[0]) conv.lastMessage = msgs[0];
+                    else conv.lastMessage = null;
+
+                    const { count } = await supabase
+                        .from('messages')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('conversation_id', conv.id)
+                        .eq('sender_type', 'user')
+                        .eq('read_by_admin', false);
+
+                    conv.unreadCount = count || 0;
+                }
+
+                filteredConversations = [...conversations];
+
+                document.getElementById('stat-conversations').textContent = conversations.length;
+                document.getElementById('tab-conv-count').textContent = conversations.length;
+
+                updateStats();
+                renderConversations();
+            } catch (err) {
+                console.error('Error loading conversations:', err);
+                document.getElementById('conversations-list').innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">⚠️</div>
+                        <h3>Could not load conversations</h3>
+                        <p>Please refresh the page.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // UPDATE STATS
+        // ============================================================
+        function updateStats() {
+            const unread = conversations.reduce((sum, c) => sum + (c.unreadCount || 0), 0);
+            const pending = conversations.filter(c => c.status === 'pending').length;
+
+            document.getElementById('stat-unread').textContent = unread;
+            document.getElementById('stat-pending').textContent = pending;
+
+            const unreadCard = document.getElementById('stat-card-unread');
+            if (unread > 0) unreadCard.classList.add('has-unread');
+            else unreadCard.classList.remove('has-unread');
+
+            document.getElementById('tab-conv-unread').style.display = unread > 0 ? 'block' : 'none';
+
+            // Update favicon
+            setFaviconWithBadge(unread > 0);
+        }
+
+        // ============================================================
+        // FILTER MEMBERS
+        // ============================================================
+        window.filterMembers = function() {
+            const q = (document.getElementById('search-members').value || '').toLowerCase().trim();
+            filteredMembers = adminMembers.filter(m =>
+                (m.name || '').toLowerCase().includes(q) ||
+                (m.current_location || '').toLowerCase().includes(q) ||
+                (m.home_country || '').toLowerCase().includes(q) ||
+                (m.occupation || '').toLowerCase().includes(q)
+            );
+            currentMemberPage = 1;
+            renderMembers();
+        }
+
+        // ============================================================
+        // FILTER CONVERSATIONS
+        // ============================================================
+        window.filterConversations = function() {
+            const q = (document.getElementById('search-conv').value || '').toLowerCase().trim();
+            const status = document.getElementById('filter-status').value;
+
+            filteredConversations = conversations.filter(c => {
+                const matchesSearch =
+                    (c.full_name || '').toLowerCase().includes(q) ||
+                    (c.email || '').toLowerCase().includes(q) ||
+                    (c.member_name || '').toLowerCase().includes(q) ||
+                    (c.whatsapp_no || '').includes(q);
+
+                let matchesStatus = true;
+                if (status === 'unread') matchesStatus = (c.unreadCount || 0) > 0;
+                else if (status !== 'all') matchesStatus = c.status === status;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            currentConvPage = 1;
+            renderConversations();
+        }
+
+        // ============================================================
+        // RENDER MEMBERS
+        // ============================================================
+        function renderMembers() {
+            const container = document.getElementById('members-list');
+
+            if (filteredMembers.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">👥</div>
+                        <h3>No members yet</h3>
+                        <p>Tap "Add" to create your first member.</p>
+                    </div>
+                `;
+                document.getElementById('members-pagination').innerHTML = '';
+                return;
+            }
+
+            const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+            const start = (currentMemberPage - 1) * membersPerPage;
+            const page = filteredMembers.slice(start, start + membersPerPage);
+
+            container.innerHTML = page.map(m => {
+                let photo = `https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || 'User')}&background=6c3cb3&color=fff&size=100`;
+                if (m.photo_file_ids && m.photo_file_ids.length > 0) {
+                    const { data } = supabase.storage.from('member_photos').getPublicUrl(m.photo_file_ids[0]);
+                    if (data && data.publicUrl) photo = data.publicUrl;
+                }
+
+                const badges = [
+                    m.verified ? '<span class="badge-mini badge-mini-verified">✅</span>' : '',
+                    m.premium ? '<span class="badge-mini badge-mini-premium">⭐</span>' : '',
+                    m.photo_file_ids && m.photo_file_ids.length > 0
+                        ? `<span class="badge-mini badge-mini-photos">📸 ${m.photo_file_ids.length}</span>`
+                        : ''
+                ].filter(Boolean).join(' ');
+
+                return `
+                    <div class="member-card-item">
+                        <img src="${photo}" alt="${m.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || 'User')}&background=6c3cb3&color=fff&size=100'">
+                        <div class="member-card-info">
+                            <div class="member-card-name">
+                                ${escapeHtml(m.name || 'Unknown')}
+                                ${badges}
+                            </div>
+                            <div class="member-card-meta">
+                                <span>${m.age ? '🎂 ' + m.age : ''}</span>
+                                <span>${m.current_location ? '📍 ' + escapeHtml(m.current_location) : ''}</span>
+                                <span>${m.occupation ? '💼 ' + escapeHtml(m.occupation) : ''}</span>
+                            </div>
+                        </div>
+                        <div class="member-card-actions">
+                            <button class="btn-mini btn-mini-edit" onclick="openEditModal('${m.id}')">✏️</button>
+                            <button class="btn-mini btn-mini-delete" onclick="deleteMember('${m.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            renderMembersPagination(totalPages);
+        }
+
+        // ============================================================
+        // RENDER CONVERSATIONS
+        // ============================================================
+        function renderConversations() {
+            const container = document.getElementById('conversations-list');
+
+            if (filteredConversations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💬</div>
+                        <h3>No conversations</h3>
+                        <p>When users tap "Connect", their details appear here.</p>
+                    </div>
+                `;
+                document.getElementById('conversations-pagination').innerHTML = '';
+                return;
+            }
+
+            const totalPages = Math.ceil(filteredConversations.length / convPerPage);
+            const start = (currentConvPage - 1) * convPerPage;
+            const page = filteredConversations.slice(start, start + convPerPage);
+
+            container.innerHTML = page.map(c => {
+                const isUnread = (c.unreadCount || 0) > 0;
+                const statusClass = c.status === 'open' ? 'open' : c.status === 'pending' ? 'pending' : 'closed';
+                const statusLabel = c.status === 'open' ? '🟢 Open' : c.status === 'pending' ? '🟡 Pending' : '⚪ Closed';
+
+                const timeAgo = c.lastMessage?.created_at
+                    ? formatTimeAgo(new Date(c.lastMessage.created_at))
+                    : formatTimeAgo(new Date(c.created_at));
+
+                let previewHTML = '';
+                if (c.lastMessage) {
+                    const senderTag = c.lastMessage.sender_type === 'user' ? '👤 User' : '🛡️ You';
+                    const senderClass = c.lastMessage.sender_type === 'user' ? 'user' : 'admin';
+                    let text = c.lastMessage.text || '';
+                    if (!text && c.lastMessage.attachment_url) text = '📷 Photo';
+                    previewHTML = `
+                        <div class="conv-preview ${senderClass}">
+                            <span class="sender-tag">${senderTag}:</span>
+                            <span class="conv-preview-text">${escapeHtml(text)}</span>
+                        </div>
+                    `;
+                } else {
+                    previewHTML = `
+                        <div class="conv-preview">
+                            <span class="conv-preview-text" style="font-style:italic;opacity:0.6;">No messages yet</span>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="conv-card ${isUnread ? 'unread' : ''}" onclick="openChat('${c.id}')">
+                        <div class="conv-top">
+                            <div class="conv-name">👤 ${escapeHtml(c.full_name || 'Unknown')}</div>
+                            <span class="conv-status ${statusClass}">${statusLabel}</span>
+                            <span class="conv-time">${timeAgo}</span>
+                        </div>
+
+                        <div class="conv-info">
+                            <span class="wants">💎 Wants: <strong>${escapeHtml(c.member_name || '—')}</strong></span>
+                            ${c.whatsapp_no ? `<span>📱 ${escapeHtml(c.whatsapp_no)}</span>` : ''}
+                            ${c.location ? `<span>📍 ${escapeHtml(c.location)}</span>` : ''}
+                        </div>
+
+                        ${previewHTML}
+
+                        <div class="conv-actions">
+                            <button class="btn-conv btn-conv-chat" onclick="event.stopPropagation(); openChat('${c.id}')">
+                                💬 Open Chat
+                            </button>
+                            <button class="btn-conv btn-conv-delete" onclick="event.stopPropagation(); deleteConversation('${c.id}', '${(c.full_name || '').replace(/'/g, "\\'")}')">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            renderConversationsPagination(totalPages);
+        }
+
+        // ============================================================
+        // TIME AGO
+        // ============================================================
+        function formatTimeAgo(date) {
+            const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+            if (seconds < 60) return 'just now';
+            const mins = Math.floor(seconds / 60);
+            if (mins < 60) return mins + 'm ago';
+            const hours = Math.floor(mins / 60);
+            if (hours < 24) return hours + 'h ago';
+            const days = Math.floor(hours / 24);
+            if (days === 1) return 'yesterday';
+            if (days < 7) return days + 'd ago';
+            return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        }
+
+        // ============================================================
+        // PAGINATION
+        // ============================================================
+        function renderMembersPagination(totalPages) {
+            const el = document.getElementById('members-pagination');
+            if (totalPages <= 1) { el.innerHTML = ''; return; }
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="${i === currentMemberPage ? 'active' : ''}" onclick="goToMemberPage(${i})">${i}</button>`;
+            }
+            el.innerHTML = html;
+        }
+
+        function renderConversationsPagination(totalPages) {
+            const el = document.getElementById('conversations-pagination');
+            if (totalPages <= 1) { el.innerHTML = ''; return; }
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="${i === currentConvPage ? 'active' : ''}" onclick="goToConvPage(${i})">${i}</button>`;
+            }
+            el.innerHTML = html;
+        }
+
+        window.goToMemberPage = (p) => { currentMemberPage = p; renderMembers(); };
+        window.goToConvPage = (p) => { currentConvPage = p; renderConversations(); };
+
+        // ============================================================
+        // OPEN CHAT
+        // ============================================================
+        window.openChat = (id) => {
+            window.location.href = `chat.html?conversation=${id}`;
+        }
+
+        // ============================================================
+        // DELETE CONVERSATION
+        // ============================================================
+        window.deleteConversation = async (id, name) => {
+            if (!confirm(`Delete conversation with ${name}? All messages will also be deleted.`)) return;
+            try {
+                const conv = conversations.find(c => c.id === id);
+                if (conv?.user_photo_ids?.length) {
+                    await supabase.storage.from('user_uploads').remove(conv.user_photo_ids);
+                }
+                await supabase.from('conversations').delete().eq('id', id);
+                showToast('🗑️ Conversation deleted', 'success');
+                await loadConversations();
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        }
+
+        // ============================================================
+        // MODAL — ADD/EDIT MEMBER
+        // ============================================================
+        window.openAddModal = () => {
+            editingId = null;
+            document.getElementById('modal-title').textContent = 'Add New Member';
+            document.getElementById('modal-subtitle').textContent = 'Fill in the details to add a new member.';
+            document.getElementById('modal-save-btn').textContent = '💾 Save Member';
+            document.getElementById('member-form').reset();
+            document.getElementById('edit-id').value = '';
+            uploadedFileIds = [];
+            uploadedFileUrls = [];
+            renderUploadedImages();
+            document.getElementById('modal-overlay').classList.add('active');
+            closeMenu();
+        }
+
+        window.openEditModal = (id) => {
+            const m = adminMembers.find(x => x.id === id);
+            if (!m) return;
+
+            editingId = id;
+            document.getElementById('modal-title').textContent = 'Edit Member';
+            document.getElementById('modal-subtitle').textContent = 'Update the member details below.';
+            document.getElementById('modal-save-btn').textContent = '💾 Update Member';
+
+            document.getElementById('edit-id').value = id;
+            document.getElementById('form-name').value = m.name || '';
+            document.getElementById('form-age').value = m.age || '';
+            document.getElementById('form-gender').value = m.gender || '';
+            document.getElementById('form-current-location').value = m.current_location || '';
+            document.getElementById('form-home-country').value = m.home_country || '';
+            document.getElementById('form-occupation').value = m.occupation || '';
+            document.getElementById('form-bio').value = m.bio || m.about_me || '';
+            document.getElementById('form-looking').value = m.looking_for || '';
+            document.getElementById('form-verified').value = m.verified ? 'true' : 'false';
+            document.getElementById('form-premium').value = m.premium ? 'true' : 'false';
+            document.getElementById('form-interests').value = (m.interests || []).join(', ');
+
+            uploadedFileIds = m.photo_file_ids || [];
+            uploadedFileUrls = [];
+            for (const fid of uploadedFileIds) {
+                const { data } = supabase.storage.from('member_photos').getPublicUrl(fid);
+                if (data?.publicUrl) uploadedFileUrls.push(data.publicUrl);
+            }
+            renderUploadedImages();
+            document.getElementById('modal-overlay').classList.add('active');
+            closeMenu();
+        }
+
+        window.closeModal = () => {
+            document.getElementById('modal-overlay').classList.remove('active');
+            uploadedFileIds = [];
+            uploadedFileUrls = [];
+            renderUploadedImages();
+        }
+
+        // ============================================================
+        // SAVE MEMBER
+        // ============================================================
+        window.saveMember = async (event) => {
+            event.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const isEdit = !!id;
+            const existing = isEdit ? adminMembers.find(m => m.id === id) : null;
+
+            const name = document.getElementById('form-name').value.trim();
+            const interests = document.getElementById('form-interests').value
+                .split(',').map(s => s.trim()).filter(Boolean);
+
+            const data = {
+                name,
+                email: `${name.toLowerCase().replace(/\s/g, '.')}_${Date.now()}@classydate.com`,
+                age: parseInt(document.getElementById('form-age').value),
+                gender: document.getElementById('form-gender').value,
+                current_location: document.getElementById('form-current-location').value.trim(),
+                home_country: document.getElementById('form-home-country').value.trim(),
+                occupation: document.getElementById('form-occupation').value.trim(),
+                bio: document.getElementById('form-bio').value.trim(),
+                looking_for: document.getElementById('form-looking').value.trim(),
+                verified: document.getElementById('form-verified').value === 'true',
+                premium: document.getElementById('form-premium').value === 'true',
+                interests,
+                photo_file_ids: uploadedFileIds,
+                online: existing?.online || false,
+                created_at: existing?.created_at || new Date().toISOString()
+            };
+
+            if (!data.name || !data.age || !data.gender) {
+                showToast('Please fill in required fields', 'error');
+                return;
+            }
+
+            try {
+                if (isEdit) {
+                    await supabase.from('members').update(data).eq('id', id);
+                    showToast('✅ Member updated', 'success');
+                } else {
+                    await supabase.from('members').insert([data]);
+                    showToast('✅ Member added', 'success');
+                }
+                closeModal();
+                await loadMembers();
+                showTab('members');
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        }
+
+        // ============================================================
+        // DELETE MEMBER
+        // ============================================================
+        window.deleteMember = async (id) => {
+            const m = adminMembers.find(x => x.id === id);
+            if (!m) return;
+            if (!confirm(`Delete ${m.name}? This cannot be undone.`)) return;
+
+            try {
+                if (m.photo_file_ids?.length) {
+                    await supabase.storage.from('member_photos').remove(m.photo_file_ids);
+                }
+                await supabase.from('members').delete().eq('id', id);
+                showToast('🗑️ Member deleted', 'success');
+                await loadMembers();
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        }
+
+        // ============================================================
+        // FILE UPLOAD
+        // ============================================================
+        window.handleFileSelect = async (event) => {
+            const files = event.target.files;
+            if (!files?.length) return;
+
+            for (const file of files) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast(`${file.name} too large (max 5MB)`, 'error');
+                    continue;
+                }
+                if (!file.type.startsWith('image/')) {
+                    showToast(`${file.name} is not an image`, 'error');
+                    continue;
+                }
+
+                try {
+                    const ext = file.name.split('.').pop();
+                    const fname = `${Date.now()}_${Math.random().toString(36).substring(2, 10)}.${ext}`;
+                    const { data, error } = await supabase.storage
+                        .from('member_photos')
+                        .upload(fname, file);
+                    if (error) throw error;
+
+                    uploadedFileIds.push(data.path);
+                    const { data: urlData } = supabase.storage.from('member_photos').getPublicUrl(data.path);
+                    if (urlData?.publicUrl) uploadedFileUrls.push(urlData.publicUrl);
+                    renderUploadedImages();
+                } catch (err) {
+                    showToast('Upload failed: ' + err.message, 'error');
+                }
+            }
+            document.getElementById('file-input').value = '';
+        }
+
+        function renderUploadedImages() {
+            const el = document.getElementById('uploaded-images');
+            if (uploadedFileUrls.length === 0) { el.innerHTML = ''; return; }
+            el.innerHTML = uploadedFileUrls.map((url, i) => `
+                <div class="uploaded-image-item">
+                    <img src="${url}" alt="Photo ${i + 1}">
+                    <button type="button" class="remove-image-btn" onclick="removeUploadedImage(${i})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        window.removeUploadedImage = (i) => {
+            uploadedFileIds.splice(i, 1);
+            uploadedFileUrls.splice(i, 1);
+            renderUploadedImages();
+        }
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        window.logoutAdmin = async () => {
+            stopHeartbeat();
+            stopFlashTitle();
+            if (globalRealtimeChannel) supabase.removeChannel(globalRealtimeChannel);
+            try { await supabase.auth.signOut(); } catch (e) {}
+            window.location.href = 'adminlogin.html';
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        let toastTimeout;
+        function showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type;
+            t.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => t.classList.remove('show'), 3200);
+        }
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.getElementById('modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-overlay') closeModal();
+        });
+
+        (async function init() {
+            const ok = await requireAdmin();
+            if (!ok) return;
+
+            startHeartbeat();
+
+            // Check notification permission status
+            const prefs = getAlertPrefs();
+            if (!('Notification' in window)) {
+                document.getElementById('notif-menu-text').textContent = 'Alerts not supported';
+            } else if (Notification.permission === 'granted') {
+                document.getElementById('notif-menu-text').textContent = 'Alerts Enabled ✅';
+            } else {
+                // Show the enable banner if not dismissed
+                const dismissed = localStorage.getItem('classydate_notif_banner_dismissed');
+                if (!dismissed && Notification.permission !== 'denied') {
+                    setTimeout(() => {
+                        document.getElementById('notif-banner').classList.add('show');
+                    }, 1500);
+                }
+            }
+
+            await loadMembers();
+            await loadConversations();
+            showTab('members');
+
+            // Subscribe to new user messages for alerts
+            subscribeToNewMessages();
+
+            // Auto-refresh conversations every 30s as backup
+            setInterval(() => {
+                if (currentTab === 'conversations') {
+                    loadConversations();
+                }
+            }, 30000);
+
+            console.log('💎 Admin Panel ready with alerts');
+        })();
+    </script>
+
+</body>
+</html>
