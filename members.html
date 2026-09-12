@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title>Members | ClassyDate</title>
-    <meta name="description" content="Browse ClassyDate members and find meaningful connections.">
+    <title>Members | Pro Love Hub</title>
+    <meta name="description" content="Browse Pro Love Hub members and find meaningful connections.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -672,7 +672,7 @@
     <header class="cb-shell-header" role="banner">
         <div class="cb-shell-header__inner">
             <a class="cb-shell-brand" href="index.html">
-                Classy<span>Date</span><span class="heart">❤️</span>
+                Pro<span>Love</span><span class="heart">❤️</span>
             </a>
             <div class="menu-container">
                 <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</button>
@@ -736,8 +736,8 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        const SUPABASE_URL = 'https://eswlfgrzdmdwmfqncpew.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_oeCfBt8Ci0xQ4mg6o2mnnA_mbgnwRVS';
+        const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -747,7 +747,7 @@
         let isLoading = true;
 
         // Persist like counts per session
-        const likeCounts = JSON.parse(sessionStorage.getItem('classydate_likes') || '{}');
+        const likeCounts = JSON.parse(sessionStorage.getItem('prolovehub_likes') || '{}');
 
         const grid = document.getElementById('members-grid');
         const totalCount = document.getElementById('total-count');
@@ -820,7 +820,7 @@
 
         window.logoutUser = async function() {
             try { await supabase.auth.signOut(); } catch (e) {}
-            sessionStorage.removeItem('classydate_likes');
+            sessionStorage.removeItem('prolovehub_likes');
             window.location.href = 'index.html';
         }
 
@@ -864,7 +864,7 @@
         }
 
         function saveLikes() {
-            try { sessionStorage.setItem('classydate_likes', JSON.stringify(likeCounts)); } catch (e) {}
+            try { sessionStorage.setItem('prolovehub_likes', JSON.stringify(likeCounts)); } catch (e) {}
         }
 
         // ============================================================
@@ -1034,7 +1034,7 @@
             if (!member) return;
             const name = member.name || 'Member';
             const url = `${window.location.origin}/profile.html?id=${member.id}`;
-            const msg = `Check out ${name} on ClassyDate! 💎\n${url}`;
+            const msg = `Check out ${name} on Pro Love Hub! 💎\n${url}`;
 
             if (navigator.share) {
                 navigator.share({ title: name, text: msg, url }).catch(() => {});
@@ -1068,7 +1068,7 @@
         // Save likes on unload
         window.addEventListener('beforeunload', saveLikes);
 
-        console.log('💎 ClassyDate — Bento Box Members (Mobile-First)');
+        console.log('💎 Pro Love Hub — Bento Box Members (Mobile-First)');
         console.log('✅ Connect → profile.html?id=X');
         console.log('✅ Support float + ticker + real auth');
     </script>
