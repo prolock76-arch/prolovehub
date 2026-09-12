@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Members | ClassyDate</title>
+    <meta name="description" content="Browse ClassyDate members and find meaningful connections.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f3e8ff;
+            color: #1a0533;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ============================================================ */
+        /* HEADER                                                       */
+        /* ============================================================ */
+        .cb-shell-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(108, 60, 179, 0.12);
+        }
+
+        .cb-shell-header__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 12px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cb-shell-brand {
+            display: flex;
+            align-items: center;
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a0533;
+        }
+
+        .cb-shell-brand .heart { color: #ff0000; display: inline-block; }
+        .cb-shell-brand span {
+            font-family: "Inter", sans-serif;
+            font-weight: 300;
+            color: #6c3cb3;
+        }
+
+        .menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px 10px;
+            font-size: 24px;
+            color: #1a0533;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        .menu-btn:hover { background: rgba(108, 60, 179, 0.08); }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 44px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(16px);
+            min-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            z-index: 200;
+        }
+
+        .menu-dropdown.show {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            color: #1a0533;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(108, 60, 179, 0.06);
+        }
+        .menu-dropdown a:last-child { border-bottom: none; }
+        .menu-dropdown a:hover { background: rgba(108, 60, 179, 0.06); }
+
+        .menu-dropdown .logout-btn { color: #dc3545; font-weight: 600; }
+        .menu-dropdown .logout-btn:hover { background: rgba(220, 53, 69, 0.06); }
+
+        .menu-dropdown .menu-divider {
+            height: 1px;
+            background: rgba(108, 60, 179, 0.06);
+            margin: 4px 0;
+        }
+
+        /* ============================================================ */
+        /* TICKER                                                       */
+        /* ============================================================ */
+        .activity-ticker {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            padding: 8px 0;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(108, 60, 179, 0.3);
+        }
+
+        .ticker-content {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: ticker-scroll 35s linear infinite;
+            gap: 40px;
+            padding: 0 16px;
+        }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .ticker-item .live-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            animation: live-pulse 1s infinite;
+        }
+
+        @keyframes live-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .ticker-item .name-hl { color: #ffdd57; font-weight: 700; }
+        .ticker-item .name-hl2 { color: #ff9ff3; font-weight: 700; }
+        .ticker-item .sep { color: rgba(255, 255, 255, 0.4); font-weight: 400; }
+
+        .ticker-item .time-badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1px 8px;
+            border-radius: 50px;
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .activity-ticker:hover .ticker-content { animation-play-state: paused; }
+
+        /* ============================================================ */
+        /* MEMBERS WRAPPER                                              */
+        /* ============================================================ */
+        .members-wrapper {
+            flex: 1;
+            padding: 108px 8px 80px;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .members-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+
+        .members-header h1 {
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 20px;
+            color: #1a0533;
+            font-weight: 700;
+        }
+
+        .members-header .member-count {
+            color: rgba(26, 5, 51, 0.5);
+            font-size: 12px;
+        }
+
+        .members-header .member-count strong {
+            color: #1a0533;
+            font-weight: 700;
+        }
+
+        /* ============================================================ */
+        /* BENTO GRID - MOBILE-FIRST                                   */
+        /* ============================================================ */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            width: 100%;
+        }
+
+        /* Tile spans - Mobile */
+        .bento-tile--big  { grid-column: span 2; grid-row: span 2; }
+        .bento-tile--med  { grid-column: span 1; grid-row: span 1; }
+        .bento-tile--small { grid-column: span 1; grid-row: span 1; }
+        .bento-tile--wide { grid-column: span 2; grid-row: span 1; }
+
+        /* ============================================================ */
+        /* CARD (shared for all tiles)                                  */
+        /* ============================================================ */
+        .member-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            border: 1px solid rgba(108, 60, 179, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .member-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(108, 60, 179, 0.3);
+            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.15);
+        }
+
+        .member-card:active { transform: scale(0.98); }
+
+        /* ============================================================ */
+        /* IMAGE WRAPPER                                               */
+        /* ============================================================ */
+        .member-card__image-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            background: #e8d5f5;
+            flex-shrink: 0;
+        }
+
+        /* Square photo for small/med tiles */
+        .bento-tile--med .member-card__image-wrapper,
+        .bento-tile--small .member-card__image-wrapper {
+            aspect-ratio: 1/1;
+        }
+
+        /* Bigger photo for hero tile */
+        .bento-tile--big .member-card__image-wrapper {
+            aspect-ratio: 1/1;
+            max-height: 340px;
+        }
+
+        /* Wide tile: photo left */
+        .bento-tile--wide .member-card {
+            flex-direction: row;
+        }
+        .bento-tile--wide .member-card__image-wrapper {
+            width: 40%;
+            aspect-ratio: 1/1;
+            max-width: 160px;
+        }
+
+        .member-card__image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .member-card:hover .member-card__image-wrapper img { transform: scale(1.05); }
+
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.6s ease;
+            height: 100%;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Online dot */
+        .online-dot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 5;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
+            animation: pulse-online 1.8s infinite;
+        }
+        .online-dot.offline { background: #adb5bd; animation: none; box-shadow: none; }
+
+        @keyframes pulse-online {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.7; }
+        }
+
+        /* Verified badge */
+        .verified-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            z-index: 5;
+            background: rgba(29, 161, 242, 0.95);
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(29, 161, 242, 0.4);
+        }
+
+        /* Like pill */
+        .like-pill {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
+            border-radius: 50px;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .like-pill .heart { font-size: 10px; }
+
+        /* ============================================================ */
+        /* CARD INFO                                                    */
+        /* ============================================================ */
+        .member-card__info {
+            padding: 8px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .member-card__name {
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a0533;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bento-tile--big .member-card__name { font-size: 17px; }
+        .bento-tile--wide .member-card__name { font-size: 15px; }
+
+        .member-card__detail {
+            font-size: 11px;
+            color: rgba(26, 5, 51, 0.6);
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bento-tile--big .member-card__detail { font-size: 12px; }
+
+        /* Hide occupation on small tiles and small screens */
+        .member-card__occupation {
+            display: none;
+            font-size: 11px;
+            color: rgba(26, 5, 51, 0.55);
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bento-tile--big .member-card__occupation,
+        .bento-tile--wide .member-card__occupation {
+            display: block;
+        }
+
+        /* Connect button */
+        .btn-connect {
+            margin-top: auto;
+            padding: 10px 12px;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 100%;
+            min-height: 40px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-connect:hover {
+            background: linear-gradient(135deg, #4a1a6b, #6c3cb3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(108, 60, 179, 0.3);
+        }
+
+        .btn-connect:active { transform: scale(0.97); }
+
+        .bento-tile--big .btn-connect { font-size: 13px; padding: 12px; }
+
+        /* ============================================================ */
+        /* EMPTY STATE                                                  */
+        /* ============================================================ */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(26, 5, 51, 0.3);
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state h3 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 20px;
+            color: #1a0533;
+            margin-bottom: 6px;
+        }
+        .empty-state p { font-size: 14px; }
+
+        /* Loading */
+        .loading-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(26, 5, 51, 0.3);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            border: 3px solid rgba(108, 60, 179, 0.15);
+            border-top-color: #6c3cb3;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ============================================================ */
+        /* TOAST                                                        */
+        /* ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 16px;
+            left: 16px;
+            padding: 12px 20px;
+            background: #1a0533;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            z-index: 999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { background: #28a745; }
+        .toast.error { background: #dc3545; }
+
+        /* ============================================================ */
+        /* FLOATING SUPPORT BUTTON                                      */
+        /* ============================================================ */
+        .support-float {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 500;
+        }
+
+        .support-float__btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: float-support 3s ease-in-out infinite;
+        }
+
+        @keyframes float-support {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .support-float__btn:active { transform: scale(0.92); }
+
+        .support-float__dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            border: 2px solid #fff;
+            animation: pulse-online 1.8s infinite;
+        }
+
+        /* ============================================================ */
+        /* TABLET + DESKTOP                                            */
+        /* ============================================================ */
+        @media (min-width: 600px) {
+            .cb-shell-header__inner { height: 60px; padding: 0 16px; }
+            .cb-shell-brand { font-size: 20px; }
+            .activity-ticker { top: 60px; padding: 10px 0; }
+            .ticker-item { font-size: 12px; gap: 7px; }
+            .ticker-item .time-badge { font-size: 10px; padding: 2px 10px; }
+
+            .members-wrapper { padding: 120px 14px 90px; }
+            .members-header h1 { font-size: 24px; }
+            .members-header .member-count { font-size: 13px; }
+
+            .bento-grid { gap: 10px; }
+
+            .member-card__name { font-size: 15px; }
+            .bento-tile--big .member-card__name { font-size: 20px; }
+
+            .member-card__detail { font-size: 12px; }
+            .member-card__occupation { font-size: 12px; }
+
+            .btn-connect { font-size: 13px; padding: 11px 14px; }
+            .bento-tile--big .btn-connect { font-size: 14px; padding: 14px; }
+
+            .online-dot { width: 14px; height: 14px; top: 8px; right: 8px; }
+            .verified-badge { width: 22px; height: 22px; font-size: 12px; top: 8px; left: 8px; }
+            .like-pill { font-size: 11px; padding: 3px 10px; bottom: 8px; left: 8px; }
+        }
+
+        /* TABLET - 3 columns */
+        @media (min-width: 768px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .bento-tile--big { grid-column: span 2; grid-row: span 2; }
+            .bento-tile--wide { grid-column: span 3; }
+        }
+
+        /* DESKTOP - 4 columns with full Bento pattern */
+        @media (min-width: 1024px) {
+            .members-wrapper { padding: 130px 20px 100px; max-width: 1200px; margin: 0 auto; }
+            .bento-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+            .bento-tile--big { grid-column: span 2; grid-row: span 2; }
+            .bento-tile--med { grid-column: span 2; grid-row: span 1; }
+            .bento-tile--small { grid-column: span 1; grid-row: span 1; }
+            .bento-tile--wide { grid-column: span 4; grid-row: span 1; }
+
+            /* Wide tile layout on desktop */
+            .bento-tile--wide .member-card { flex-direction: row; }
+            .bento-tile--wide .member-card__image-wrapper { width: 30%; aspect-ratio: 16/9; max-width: 240px; }
+            .bento-tile--wide .member-card__info { padding: 14px 18px; }
+
+            /* Med tile: bigger photo */
+            .bento-tile--med .member-card__image-wrapper { aspect-ratio: 16/10; }
+        }
+
+        /* Small phones */
+        @media (max-width: 360px) {
+            .members-header h1 { font-size: 18px; }
+            .member-card__name { font-size: 13px; }
+            .btn-connect { font-size: 11px; padding: 9px 10px; min-height: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="cb-shell-header" role="banner">
+        <div class="cb-shell-header__inner">
+            <a class="cb-shell-brand" href="index.html">
+                Classy<span>Date</span><span class="heart">❤️</span>
+            </a>
+            <div class="menu-container">
+                <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</button>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <a href="chat.html" id="menu-support-link">
+                        <span>💬</span> Chat with Support
+                    </a>
+                    <div class="menu-divider"></div>
+                    <a href="#" onclick="logoutUser()" class="logout-btn">
+                        <span>🚪</span> Log out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TICKER -->
+    <div class="activity-ticker" id="activityTicker">
+        <div class="ticker-content" id="tickerContent"></div>
+    </div>
+
+    <!-- MAIN -->
+    <main class="members-wrapper">
+        <div class="members-header">
+            <div>
+                <h1>Browse <span>Members</span></h1>
+                <span class="member-count">Showing <strong id="total-count">0</strong> members</span>
+            </div>
+        </div>
+
+        <div class="bento-grid" id="members-grid">
+            <div class="loading-state">
+                <span class="loading-spinner"></span>
+                <br><br>Loading members...
+            </div>
+        </div>
+    </main>
+
+    <!-- SUPPORT FLOAT -->
+    <div class="support-float">
+        <button class="support-float__btn" onclick="openSupport()" aria-label="Contact Support">
+            💬
+            <span class="support-float__dot"></span>
+        </button>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS                                                      -->
+    <!-- ============================================================ -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { createClient } from "@supabase/supabase-js";
+
+        const SUPABASE_URL = 'https://eswlfgrzdmdwmfqncpew.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_oeCfBt8Ci0xQ4mg6o2mnnA_mbgnwRVS';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        console.log('🔗 Supabase connected:', SUPABASE_URL);
+
+        let allMembers = [];
+        let isLoading = true;
+
+        // Persist like counts per session
+        const likeCounts = JSON.parse(sessionStorage.getItem('classydate_likes') || '{}');
+
+        const grid = document.getElementById('members-grid');
+        const totalCount = document.getElementById('total-count');
+
+        // ============================================================
+        // TICKER
+        // ============================================================
+        const firstNames = ['Mark','Judith','Sarah','James','Emma','David','Lisa','Michael','Maria','John','Anna','Chris','Jessica','Daniel','Sophie','Peter','Linda','Robert','Grace','William','Karen','Joseph','Nancy','Charles','Betty','Thomas','Helen','Christopher','Sandra','Matthew'];
+        const countries = ['USA','UK','Canada','Australia','Germany','France','Italy','Spain','Kenya','Nigeria','South Africa','Ghana','Uganda','Tanzania','Zimbabwe','Brazil','Mexico','Japan','India','Sweden','Norway','Netherlands'];
+        const timeAgo = ['2 mins ago','5 mins ago','15 mins ago','30 mins ago','1 hour ago','2 hours ago','4 hours ago','8 hours ago','12 hours ago','1 day ago','2 days ago','3 days ago','1 week ago'];
+
+        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function generateTickerItems(count = 10) {
+            const items = [];
+            const used = new Set();
+            for (let i = 0; i < count; i++) {
+                let n1, n2, key, att = 0;
+                do {
+                    n1 = getRandom(firstNames);
+                    n2 = getRandom(firstNames);
+                    key = [n1, n2].sort().join('-');
+                    att++;
+                } while ((n1 === n2 || used.has(key)) && att < 30);
+                used.add(key);
+                items.push({
+                    name1: n1, name2: n2,
+                    country1: getRandom(countries),
+                    country2: getRandom(countries),
+                    time: getRandom(timeAgo)
+                });
+            }
+            return items;
+        }
+
+        function renderTicker() {
+            const items = generateTickerItems(10);
+            const doubled = [...items, ...items];
+            document.getElementById('tickerContent').innerHTML = doubled.map(item => `
+                <div class="ticker-item">
+                    <span class="live-dot"></span>
+                    <span>✨</span>
+                    <span class="name-hl">${item.name1}</span>
+                    <span class="sep">(${item.country1})</span>
+                    <span class="sep">and</span>
+                    <span class="name-hl2">${item.name2}</span>
+                    <span class="sep">(${item.country2})</span>
+                    <span class="sep">got connected</span>
+                    <span class="time-badge">${item.time}</span>
+                    <span>❤️</span>
+                </div>
+            `).join('');
+        }
+
+        setInterval(renderTicker, 45000);
+
+        // ============================================================
+        // MENU
+        // ============================================================
+        window.toggleMenu = function() {
+            document.getElementById('menuDropdown').classList.toggle('show');
+        }
+
+        document.addEventListener('click', function(e) {
+            const c = document.querySelector('.menu-container');
+            if (c && !c.contains(e.target)) {
+                document.getElementById('menuDropdown').classList.remove('show');
+            }
+        });
+
+        window.logoutUser = async function() {
+            try { await supabase.auth.signOut(); } catch (e) {}
+            sessionStorage.removeItem('classydate_likes');
+            window.location.href = 'index.html';
+        }
+
+        // ============================================================
+        // SUPPORT FLOAT
+        // ============================================================
+        window.openSupport = async function() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html?redirect=chat.html';
+                return;
+            }
+            const { data: conv } = await supabase
+                .from('conversations')
+                .select('id')
+                .eq('user_id', session.user.id)
+                .order('updated_at', { ascending: false })
+                .limit(1)
+                .maybeSingle();
+
+            if (conv) {
+                window.location.href = `chat.html?conversation=${conv.id}`;
+            } else {
+                window.location.href = 'chat.html';
+            }
+        }
+
+        // ============================================================
+        // LIKES
+        // ============================================================
+        function seedLikeCount(memberId) {
+            if (likeCounts[memberId]) return likeCounts[memberId];
+            const r = Math.random();
+            let count;
+            if (r < 0.1) count = Math.floor(Math.random() * 200) + 200;
+            else if (r < 0.3) count = Math.floor(Math.random() * 100) + 100;
+            else if (r < 0.6) count = Math.floor(Math.random() * 70) + 30;
+            else count = Math.floor(Math.random() * 26) + 4;
+            likeCounts[memberId] = count;
+            return count;
+        }
+
+        function saveLikes() {
+            try { sessionStorage.setItem('classydate_likes', JSON.stringify(likeCounts)); } catch (e) {}
+        }
+
+        // ============================================================
+        // PHOTO URL HELPER
+        // ============================================================
+        function getPhotoUrl(fileId) {
+            if (!fileId) return null;
+            try {
+                const { data } = supabase.storage.from('member_photos').getPublicUrl(fileId);
+                return data?.publicUrl || null;
+            } catch (e) { return null; }
+        }
+
+        // ============================================================
+        // LOAD MEMBERS
+        // ============================================================
+        async function loadMembers() {
+            try {
+                const { data, error } = await supabase
+                    .from('members')
+                    .select('*')
+                    .eq('verified', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allMembers = data || [];
+                isLoading = false;
+                console.log('📊 Members loaded:', allMembers.length);
+                totalCount.textContent = allMembers.length;
+                renderMembers(allMembers);
+            } catch (err) {
+                console.error('Error loading members:', err);
+                isLoading = false;
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">⚠️</div>
+                        <h3>Could not load members</h3>
+                        <p>Please check your connection and refresh.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderMembers(members) {
+            if (isLoading) return;
+
+            if (members.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💎</div>
+                        <h3>No members yet</h3>
+                        <p>Check back soon for amazing people!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Assign tile sizes in a repeating 6-pattern
+            // Pattern: big, med, small, small, med, wide  → then repeat
+            const pattern = ['big', 'med', 'small', 'small', 'med', 'wide'];
+
+            grid.innerHTML = members.map((member, i) => {
+                const tileSize = pattern[i % pattern.length];
+                return renderMemberTile(member, tileSize);
+            }).join('');
+
+            // Setup long press for sharing
+            document.querySelectorAll('.member-card').forEach(card => setupLongPress(card));
+        }
+
+        function renderMemberTile(member, tileSize) {
+            const name = member.name || 'Member';
+            const age = member.age || '';
+            const location = member.current_location || 'Location unknown';
+            const occupation = member.occupation || '';
+            const isOnline = member.online === true;
+            const isVerified = member.verified === true;
+            const likeCount = seedLikeCount(member.id);
+
+            let photos = [];
+            if (member.photo_file_ids && member.photo_file_ids.length > 0) {
+                photos = member.photo_file_ids
+                    .map(id => getPhotoUrl(id))
+                    .filter(u => u);
+            }
+            if (photos.length === 0) {
+                photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c3cb3&color=fff&size=400`];
+            }
+
+            // Limit to 3 photos on mobile (perf)
+            if (window.innerWidth < 768 && photos.length > 3) {
+                photos = photos.slice(0, 3);
+            }
+
+            const slidesHTML = photos.map(url => `
+                <div class="carousel-slide">
+                    <img src="${url}" alt="${name}" loading="lazy"
+                         onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c3cb3&color=fff&size=400'">
+                </div>
+            `).join('');
+
+            const onlineDot = `<span class="online-dot ${isOnline ? '' : 'offline'}"></span>`;
+            const verifiedBadge = isVerified ? `<span class="verified-badge">✓</span>` : '';
+            const likePill = `<span class="like-pill"><span class="heart">❤️</span> ${likeCount}</span>`;
+
+            const tileClass = `bento-tile--${tileSize}`;
+
+            return `
+                <div class="${tileClass} member-card" data-id="${member.id}">
+                    <div class="member-card__image-wrapper" data-member="${member.id}">
+                        <div class="carousel-slides">${slidesHTML}</div>
+                        ${onlineDot}
+                        ${verifiedBadge}
+                        ${likePill}
+                    </div>
+                    <div class="member-card__info">
+                        <div class="member-card__name">${name}${age ? ', ' + age : ''}</div>
+                        <div class="member-card__detail">📍 ${location}</div>
+                        ${occupation ? `<div class="member-card__occupation">💼 ${occupation}</div>` : ''}
+                        <button class="btn-connect" onclick="connectWith(event, '${member.id}')">
+                            💬 Connect
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================================
+        // CONNECT
+        // ============================================================
+        window.connectWith = function(event, memberId) {
+            event.stopPropagation();
+            window.location.href = `profile.html?id=${memberId}`;
+        }
+
+        // ============================================================
+        // LONG PRESS TO SHARE (kept)
+        // ============================================================
+        let longPressTimer = null;
+
+        function setupLongPress(card) {
+            const memberId = card.dataset.id;
+
+            card.addEventListener('touchstart', function() {
+                longPressTimer = setTimeout(() => {
+                    shareMember(memberId);
+                }, 600);
+            });
+            card.addEventListener('touchend', () => clearTimeout(longPressTimer));
+            card.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+
+            card.addEventListener('mousedown', function() {
+                longPressTimer = setTimeout(() => {
+                    shareMember(memberId);
+                }, 800);
+            });
+            card.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+            card.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+        }
+
+        function shareMember(memberId) {
+            const member = allMembers.find(m => m.id === memberId);
+            if (!member) return;
+            const name = member.name || 'Member';
+            const url = `${window.location.origin}/profile.html?id=${member.id}`;
+            const msg = `Check out ${name} on ClassyDate! 💎\n${url}`;
+
+            if (navigator.share) {
+                navigator.share({ title: name, text: msg, url }).catch(() => {});
+            } else {
+                const wa = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+                window.open(wa, '_blank');
+            }
+            if (navigator.vibrate) navigator.vibrate(30);
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        let toastTimeout;
+        function showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type;
+            t.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        renderTicker();
+        loadMembers();
+        saveLikes();
+
+        // Save likes on unload
+        window.addEventListener('beforeunload', saveLikes);
+
+        console.log('💎 ClassyDate — Bento Box Members (Mobile-First)');
+        console.log('✅ Connect → profile.html?id=X');
+        console.log('✅ Support float + ticker + real auth');
+    </script>
+
+</body>
+</html>
