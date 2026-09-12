@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title>Profile | ClassyDate</title>
+    <title>Profile | Pro Love Hub</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -652,7 +652,7 @@
     <header class="profile-header">
         <button class="header-btn" onclick="goBack()" aria-label="Back">←</button>
         <a class="brand" href="index.html">
-            Classy<span>Date</span><span class="heart">❤️</span>
+            Pro<span>Love</span><span class="heart">❤️</span>
         </a>
         <div class="header-actions">
             <button class="header-btn" onclick="shareProfile()" aria-label="Share">↗</button>
@@ -807,8 +807,8 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        const SUPABASE_URL = 'https://eswlfgrzdmdwmfqncpew.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_oeCfBt8Ci0xQ4mg6o2mnnA_mbgnwRVS';
+        const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -940,7 +940,7 @@
 
             renderCollage(photos, name);
 
-            document.title = `${name} | ClassyDate`;
+            document.title = `${name} | Pro Love Hub`;
         }
 
         function renderCollage(photos, memberName) {
@@ -1009,7 +1009,7 @@
 👤 *${name}*
 📍 ${location}
 🌍 From ${origin}
-💎 Check them out on ClassyDate:
+💎 Check them out on Pro Love Hub:
 ${url}
             `.trim();
 
@@ -1050,7 +1050,7 @@ ${url}
 
         window.logoutUser = async function() {
             try { await supabase.auth.signOut(); } catch (e) {}
-            sessionStorage.removeItem('classydate_likes');
+            sessionStorage.removeItem('prolovehub_likes');
             window.location.href = 'index.html';
         }
 
