@@ -7,7 +7,7 @@
     <meta name="description" content="Pro Love Hub helps people find meaningful relationships. Real members, serious connections, and trusted matchmaking.">
     <meta name="keywords" content="dating, dating site, premium dating, singles, serious relationships, Pro Love Hub, meaningful connections">
     <meta name="author" content="Pro Love Hub">
-    <meta name="theme-color" content="#6c3cb3">
+    <meta name="theme-color" content="#0a0410">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
     <link rel="canonical" href="https://prolovehub.com/">
@@ -46,7 +46,7 @@
         h1, h2, h3, .cb-hero-title, .how-it-works-section h2,
         .match-preview-section h2, .trust-signals-section h2,
         .video-section h2, .stacked-cards-copy h2,
-        .cta-content h2, .app-section h2, .cb-shell-brand {
+        .cta-content h2, .app-section h2 {
             font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
             font-weight: 700;
         }
@@ -73,9 +73,39 @@
             font-weight: 400;
         }
 
-        .cb-shell-brand span {
-            font-family: "Inter", sans-serif;
-            font-weight: 300;
+        /* ============================================================ */
+        /* BRAND LOGO — ProLoveHub orange badge                         */
+        /* ============================================================ */
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 18px;
+            background: #FF9900;
+            color: #ffffff;
+            border-radius: 10px;
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            line-height: 1;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(255, 153, 0, 0.3);
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .brand-logo:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.45);
+        }
+
+        @media (max-width: 480px) {
+            .brand-logo {
+                font-size: 16px;
+                padding: 6px 14px;
+                border-radius: 9px;
+            }
         }
 
         /* THEME */
@@ -181,7 +211,27 @@
         }
         .social-proof strong { color: #1a0533; }
 
-        /* Hero Backdrop */
+        /* ============================================================ */
+        /* HERO — DARK LUXURY                                           */
+        /* ============================================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 64px;
+            overflow: hidden;
+            background: #0a0410;
+        }
+
+        .hero__grid {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
         .hero__backdrop {
             position: absolute;
             top: 0;
@@ -192,47 +242,242 @@
             z-index: 0;
             background-size: cover;
             background-position: center;
+            filter: brightness(0.35) saturate(0.9);
         }
         .hero__backdrop::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(108, 60, 179, 0.35) 0%, rgba(74, 26, 107, 0.20) 40%, rgba(243, 232, 255, 0.10) 60%, rgba(108, 60, 179, 0.25) 100%);
+            background:
+                radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.35) 0%, transparent 55%),
+                radial-gradient(circle at 80% 70%, rgba(108, 60, 179, 0.30) 0%, transparent 55%),
+                linear-gradient(135deg, rgba(10, 4, 16, 0.92) 0%, rgba(26, 5, 51, 0.88) 40%, rgba(10, 4, 16, 0.94) 100%);
             z-index: 1;
         }
 
-        .how-it-works-card:hover,
-        .match-card:hover,
-        .stacked-card:hover,
-        .card-2up:hover {
-            box-shadow: 0 15px 50px rgba(108, 60, 179, 0.25) !important;
-            border-color: rgba(108, 60, 179, 0.3) !important;
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1.5px 1.5px at 80% 20%, rgba(196, 132, 252, 0.7), transparent),
+                radial-gradient(1px 1px at 35% 80%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(1.5px 1.5px at 90% 50%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 10% 60%, rgba(196, 132, 252, 0.5), transparent);
+            background-size: 400px 400px;
+            background-repeat: repeat;
+            z-index: 1;
+            animation: starDrift 60s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes starDrift {
+            from { background-position: 0 0; }
+            to { background-position: 400px 400px; }
         }
 
-        .match-card {
+        .cb-hero-box {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 44px 32px 36px;
+            background: rgba(26, 5, 51, 0.55);
+            backdrop-filter: blur(24px) saturate(1.2);
+            border-radius: 26px;
+            border: 1px solid rgba(196, 132, 252, 0.25);
+            box-shadow:
+                0 0 0 1px rgba(196, 132, 252, 0.08) inset,
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(108, 60, 179, 0.25);
             position: relative;
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b, #b896f0, #6c3cb3);
-            background-size: 300% 300%;
-            animation: gradientBorder 4s ease infinite;
-            padding: 3px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: transform 0.4s ease;
         }
-        .match-card:hover { transform: translateY(-8px); }
-        .match-card > * { border-radius: 14px; }
-        @keyframes gradientBorder {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .cb-hero-box::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 26px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(196, 132, 252, 0.5), transparent 40%, transparent 60%, rgba(108, 60, 179, 0.4));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
-        .stat-card__value {
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+        .hero .hot-badge {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(108, 60, 179, 0.15));
+            border: 1px solid rgba(196, 132, 252, 0.4);
+            color: #e9d5ff;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3), inset 0 0 20px rgba(168, 85, 247, 0.1);
+            text-shadow: 0 0 12px rgba(196, 132, 252, 0.8);
+            animation: badgePulseDark 2.5s infinite;
+        }
+        @keyframes badgePulseDark {
+            0%, 100% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.3), inset 0 0 20px rgba(168, 85, 247, 0.1); }
+            50% { box-shadow: 0 0 50px rgba(168, 85, 247, 0.55), inset 0 0 30px rgba(168, 85, 247, 0.2); }
+        }
+
+        .cb-hero-title {
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 52px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.12;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.5), 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .cb-hero-title em {
+            color: #ffffff;
+            font-style: normal;
+            display: block;
+            text-shadow: 0 0 30px rgba(196, 132, 252, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 2px;
+        }
+        .cb-hero-title .gradient-text {
+            background: linear-gradient(135deg, #c484fc 0%, #e9d5ff 50%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(196, 132, 252, 0.6));
         }
+
+        .hero .hero-subtitle {
+            color: rgba(233, 213, 255, 0.85);
+            font-size: 16.5px;
+            text-shadow: none;
+            max-width: 420px;
+        }
+
+        .hero-safety-menu {
+            background: rgba(10, 4, 16, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin: 20px 0 26px;
+            border: 1px solid rgba(196, 132, 252, 0.2);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .hero-safety-menu:hover {
+            border-color: rgba(196, 132, 252, 0.4);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+        }
+        .hero-safety-menu summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #e9d5ff;
+            list-style: none;
+            font-size: 15px;
+            font-family: "Inter", sans-serif;
+        }
+        .hero-safety-menu summary::-webkit-details-marker { display: none; }
+        .hero-safety-menu ul {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(196, 132, 252, 0.15);
+            display: grid;
+            gap: 8px;
+        }
+        .hero-safety-menu ul li {
+            color: rgba(233, 213, 255, 0.75);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: "Inter", sans-serif;
+        }
+
+        .hero .cb-btn {
+            display: block;
+            padding: 17px 22px;
+            border-radius: 14px;
+            text-align: center;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Inter", sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero .cb-btn:hover { transform: translateY(-3px); }
+
+        .hero .cb-btn-male {
+            background: linear-gradient(135deg, #6c3cb3 0%, #4a1a6b 50%, #2d0a4e 100%);
+            color: #fff;
+            border: 1px solid rgba(196, 132, 252, 0.35);
+            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.35), inset 0 1px 0 rgba(196, 132, 252, 0.2);
+            animation: none;
+        }
+        .hero .cb-btn-male:hover {
+            box-shadow: 0 12px 50px rgba(168, 85, 247, 0.55), inset 0 1px 0 rgba(196, 132, 252, 0.3);
+            border-color: rgba(196, 132, 252, 0.55);
+        }
+
+        .hero .cb-btn-female {
+            background: rgba(196, 132, 252, 0.05);
+            color: #e9d5ff;
+            border: 1px solid rgba(196, 132, 252, 0.35);
+            box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.05);
+            animation: none;
+        }
+        .hero .cb-btn-female:hover {
+            background: rgba(196, 132, 252, 0.12);
+            border-color: rgba(196, 132, 252, 0.6);
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.25), inset 0 0 30px rgba(168, 85, 247, 0.1);
+        }
+
+        .hero .cb-line1 {
+            font-size: 17px;
+            font-weight: 700;
+            display: block;
+            font-family: "Inter", sans-serif;
+            letter-spacing: 0.2px;
+        }
+        .hero .cb-line2 {
+            font-size: 13px;
+            opacity: 0.75;
+            display: block;
+            margin-top: 3px;
+            font-family: "Inter", sans-serif;
+        }
+        .hero .cb-action {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            opacity: 0.95;
+            font-family: "Inter", sans-serif;
+            color: #e9d5ff;
+        }
+
+        .hero .pulse-glow { animation: none !important; }
+
+        .hero .social-proof {
+            background: rgba(10, 4, 16, 0.5);
+            border: 1px solid rgba(196, 132, 252, 0.2);
+            backdrop-filter: blur(12px);
+            margin-top: 26px;
+        }
+        .hero .social-proof__avatars img {
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+        }
+        .hero .social-proof__count {
+            background: linear-gradient(135deg, #a855f7, #6c3cb3);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+        }
+        .hero .social-proof p { color: rgba(233, 213, 255, 0.7); }
+        .hero .social-proof strong { color: #ffffff; }
+
+        .hero .heart { filter: drop-shadow(0 0 8px rgba(196, 132, 252, 0.6)); }
 
         /* BUTTONS */
         .btn-primary {
@@ -317,26 +562,6 @@
             gap: 10px;
         }
 
-        .cb-shell-brand {
-            display: flex;
-            align-items: center;
-            gap: 0px;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a0533;
-            margin-left: -4px;
-        }
-        .cb-shell-brand .heart {
-            color: #ff0000;
-            display: inline-block;
-        }
-        .cb-shell-brand span {
-            font-family: "Inter", sans-serif;
-            font-weight: 300;
-            color: #6c3cb3;
-        }
-
         .cb-shell-actions {
             display: flex;
             align-items: center;
@@ -401,139 +626,6 @@
             font-size: 22px;
             cursor: pointer;
             padding: 4px 8px;
-        }
-
-        /* HERO */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-top: 64px;
-            overflow: hidden;
-        }
-
-        .hero__grid {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-        }
-
-        .cb-hero-box {
-            max-width: 560px;
-            margin: 0 auto;
-            padding: 35px 28px;
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.30);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .cb-hero-title {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 46px;
-            font-weight: 700;
-            color: #1a0533;
-            line-height: 1.15;
-            margin-bottom: 12px;
-            text-shadow: 0 2px 20px rgba(255, 255, 255, 0.3);
-        }
-        .cb-hero-title em {
-            color: #1a0533;
-            font-style: normal;
-            display: block;
-            text-shadow: 0 2px 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-safety-menu {
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(12px);
-            border-radius: 14px;
-            padding: 14px 18px;
-            margin: 16px 0 24px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            text-align: left;
-            cursor: pointer;
-        }
-        .hero-safety-menu summary {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: #1a0533;
-            list-style: none;
-            font-size: 15px;
-            font-family: "Inter", sans-serif;
-        }
-        .hero-safety-menu summary::-webkit-details-marker { display: none; }
-        .hero-safety-menu ul {
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(108, 60, 179, 0.1);
-            display: grid;
-            gap: 8px;
-        }
-        .hero-safety-menu ul li {
-            color: rgba(26, 5, 51, 0.8);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: "Inter", sans-serif;
-        }
-
-        .cb-btn {
-            display: block;
-            padding: 16px 20px;
-            border-radius: 14px;
-            text-align: center;
-            transition: all 0.3s ease;
-            margin-bottom: 10px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            font-family: "Inter", sans-serif;
-        }
-        .cb-btn:hover { transform: translateY(-3px); }
-
-        .cb-btn-male {
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
-            color: #fff;
-        }
-        .cb-btn-male:hover { box-shadow: 0 8px 40px rgba(108, 60, 179, 0.35); }
-
-        .cb-btn-female {
-            background: rgba(255, 255, 255, 0.35);
-            color: #1a0533;
-            border: 1px solid rgba(108, 60, 179, 0.2);
-        }
-        .cb-btn-female:hover { background: rgba(255, 255, 255, 0.55); }
-
-        .cb-line1 {
-            font-size: 17px;
-            font-weight: 700;
-            display: block;
-            font-family: "Inter", sans-serif;
-        }
-        .cb-line2 {
-            font-size: 13px;
-            opacity: 0.8;
-            display: block;
-            margin-top: 2px;
-            font-family: "Inter", sans-serif;
-        }
-        .cb-action {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 6px;
-            opacity: 0.9;
-            font-family: "Inter", sans-serif;
         }
 
         /* HOW IT WORKS */
@@ -602,7 +694,7 @@
             font-family: "Inter", sans-serif;
         }
 
-        /* MATCH PREVIEW (Featured Members) */
+        /* MATCH PREVIEW */
         .match-preview-section {
             padding: 80px 20px;
             background: #f3e8ff;
@@ -639,6 +731,18 @@
             background-color: #fff;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             transition: all 0.4s ease;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b, #b896f0, #6c3cb3);
+            background-size: 300% 300%;
+            animation: gradientBorder 4s ease infinite;
+            padding: 3px;
+            cursor: pointer;
+        }
+        .match-card:hover { transform: translateY(-8px); }
+        .match-card > * { border-radius: 14px; }
+        @keyframes gradientBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .match-card img {
             width: 100%;
@@ -649,14 +753,15 @@
         .match-card:hover img { transform: scale(1.08); }
         .match-card-overlay {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(26, 5, 51, 0.85) 0%, rgba(26, 5, 51, 0) 50%);
+            inset: 3px;
+            background: linear-gradient(to top, rgba(26, 5, 51, 0.9) 0%, rgba(26, 5, 51, 0) 55%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
             color: #fff;
             text-align: left;
+            border-radius: 14px;
         }
         .match-card-overlay h3 {
             font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
@@ -672,8 +777,8 @@
         }
         .badge-online {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             background: #28a745;
             color: #fff;
             padding: 4px 10px;
@@ -682,11 +787,12 @@
             font-weight: 600;
             font-family: "Inter", sans-serif;
             box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
+            z-index: 2;
         }
         .badge-verified {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 12px;
+            left: 12px;
             background: rgba(255, 255, 255, 0.9);
             color: #6c3cb3;
             padding: 3px 10px;
@@ -695,6 +801,7 @@
             font-weight: 700;
             font-family: "Inter", sans-serif;
             backdrop-filter: blur(4px);
+            z-index: 2;
         }
 
         .members-loading {
@@ -1012,6 +1119,10 @@
             font-size: 40px;
             font-weight: 700;
             font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .stat-card h3 {
             font-size: 18px;
@@ -1235,15 +1346,6 @@
             font-family: "Inter", sans-serif;
         }
 
-        .cb-shell-footer__brand div {
-            color: #b896f0 !important;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-        }
-        .cb-shell-footer__brand div span {
-            color: #fff !important;
-            font-family: "Inter", sans-serif;
-        }
-
         .cb-shell-footer__group h2 {
             font-size: 13px;
             font-weight: 600;
@@ -1442,22 +1544,21 @@
 
         @media (max-width: 768px) {
             .cb-shell-header__inner { height: 60px; padding: 0 12px; }
-            .cb-shell-brand { font-size: 18px; }
             .cb-shell-actions { display: none; }
             .cb-shell-mobile-btns { display: flex; }
             .mobile-menu-btn { display: block; }
 
-            .cb-hero-title { font-size: 32px; }
-            .cb-hero-box { padding: 20px 16px; margin: 0 12px; }
+            .cb-hero-title { font-size: 36px; }
+            .cb-hero-box { padding: 30px 22px 26px; margin: 0 12px; }
 
             .hero-safety-menu { padding: 12px 14px; margin: 12px 0 18px; }
             .hero-safety-menu summary { font-size: 14px; }
             .hero-safety-menu ul li { font-size: 12px; }
 
-            .cb-btn { padding: 14px 16px; border-radius: 12px; }
-            .cb-line1 { font-size: 15px; }
-            .cb-line2 { font-size: 12px; }
-            .cb-action { font-size: 10px; }
+            .hero .cb-btn { padding: 14px 16px; border-radius: 12px; }
+            .hero .cb-line1 { font-size: 15px; }
+            .hero .cb-line2 { font-size: 12px; }
+            .hero .cb-action { font-size: 10px; }
 
             .stats__grid { grid-template-columns: 1fr; }
             .stacked-cards-grid { flex-wrap: wrap; justify-content: center; }
@@ -1481,8 +1582,8 @@
         }
 
         @media (max-width: 480px) {
-            .cb-hero-title { font-size: 28px; }
-            .cb-shell-brand { font-size: 16px; }
+            .cb-hero-title { font-size: 30px; }
+            .hero .hero-subtitle { font-size: 14px; }
 
             .stacked-card { width: 100px; }
             .stacked-card img { height: 120px; }
@@ -1519,8 +1620,8 @@
     <header class="cb-shell-header" role="banner">
         <div class="cb-shell-header__inner">
             <div class="cb-shell-brand-group">
-                <a class="cb-shell-brand" href="/" aria-label="Pro Love Hub">
-                    Pro<span>Love</span><span class="heart">❤️</span>
+                <a class="brand-logo" href="/" aria-label="ProLoveHub">
+                    ProLoveHub
                 </a>
             </div>
 
@@ -1537,7 +1638,7 @@
         </div>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO (DARK LUXURY) -->
     <section class="hero">
         <div class="hero__backdrop"></div>
 
@@ -1580,13 +1681,13 @@
                     </ul>
                 </details>
 
-                <a class="cb-btn cb-btn-male pulse-glow" href="signup.html">
+                <a class="cb-btn cb-btn-male" href="signup.html">
                     <span class="cb-line1">👨 I am a Man</span>
                     <span class="cb-line2">Here to Meet Amazing Women</span>
                     <span class="cb-action">⚡ JOIN FREE — LIMITED SPOTS</span>
                 </a>
 
-                <a class="cb-btn cb-btn-female pulse-glow" href="signup.html">
+                <a class="cb-btn cb-btn-female" href="signup.html">
                     <span class="cb-line1">👩 I am a Woman</span>
                     <span class="cb-line2">Looking for Real Love &amp; Marriage</span>
                     <span class="cb-action">💎 JOIN FREE — ALWAYS FREE</span>
@@ -1611,7 +1712,7 @@
     <section class="how-it-works-section">
         <div class="shell">
             <p class="section-kicker">Our Process</p>
-            <h2>How Pro Love Hub Works</h2>
+            <h2>How ProLoveHub Works</h2>
             <div class="how-it-works-grid">
                 <div class="how-it-works-card">
                     <span class="step-num">1</span>
@@ -1635,12 +1736,12 @@
         </div>
     </section>
 
-    <!-- FEATURED MEMBERS (Live from Supabase) -->
+    <!-- FEATURED MEMBERS -->
     <section class="match-preview-section">
         <div class="shell">
             <p class="section-kicker">🔥 Exclusive Sneak Peek</p>
             <h2>Meet Our Featured Members</h2>
-            <p class="subtitle">Discover a glimpse of the discerning singles waiting for you on Pro Love Hub. Our community is built on quality, not quantity.</p>
+            <p class="subtitle">Discover a glimpse of the discerning singles waiting for you on ProLoveHub. Our community is built on quality, not quantity.</p>
             <div class="match-preview-grid" id="featured-members">
                 <div class="members-loading">
                     <span class="loading-spinner"></span>
@@ -1684,9 +1785,9 @@
     <section class="video-section">
         <div class="shell">
             <p class="section-kicker">❤️ Real Love Stories</p>
-            <h2>Watch How Pro Love Hub Changed Their Lives</h2>
+            <h2>Watch How ProLoveHub Changed Their Lives</h2>
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/8KkKuTCFvzI" title="Pro Love Hub Success Stories" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                <iframe src="https://www.youtube.com/embed/8KkKuTCFvzI" title="ProLoveHub Success Stories" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
             </div>
             <p class="video-subtitle">⭐ Real members. Real connections. Real love.</p>
         </div>
@@ -1724,12 +1825,12 @@
             <div class="cta-content">
                 <p class="section-kicker">Platform Overview</p>
                 <h2>Share your ideas &amp; shape our future.</h2>
-                <p>Help shape the future of Pro Love Hub by joining our Member Circle. This select community of Members shares ideas directly with our team through chats, discussions, and product tests.</p>
-                <p>Participants get early access to new features, sneak peeks at upcoming campaigns, and the chance to help make Pro Love Hub even better for everyone.</p>
+                <p>Help shape the future of ProLoveHub by joining our Member Circle. This select community of Members shares ideas directly with our team through chats, discussions, and product tests.</p>
+                <p>Participants get early access to new features, sneak peeks at upcoming campaigns, and the chance to help make ProLoveHub even better for everyone.</p>
                 <a href="signup.html" class="btn-cta">Sign up</a>
             </div>
             <div class="cta-image">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="People enjoying connections on Pro Love Hub" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="People enjoying connections on ProLoveHub" loading="lazy">
             </div>
         </div>
     </section>
@@ -1759,18 +1860,18 @@
     <section class="cards-2up">
         <div class="cards-2up-grid">
             <div class="card-2up">
-                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="Pro Love Hub Date" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="ProLoveHub Date" loading="lazy">
                 <div class="card-body">
-                    <h3>💕 Pro Love Hub Date</h3>
-                    <p>Whether you're new to dating or ready to try again, Pro Love Hub Date is built to bring you closer to love safely and meaningfully.</p>
+                    <h3>💕 ProLoveHub Date</h3>
+                    <p>Whether you're new to dating or ready to try again, ProLoveHub Date is built to bring you closer to love safely and meaningfully.</p>
                     <a href="members.html" class="card-link">Find your person →</a>
                 </div>
             </div>
             <div class="card-2up">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80" alt="Pro Love Hub BFF" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80" alt="ProLoveHub BFF" loading="lazy">
                 <div class="card-body">
-                    <h3>🤝 Pro Love Hub BFF</h3>
-                    <p>Whether you've moved to a new city or just want to expand your circle, Pro Love Hub BFF makes it easy to meet like-minded people who match your vibe.</p>
+                    <h3>🤝 ProLoveHub BFF</h3>
+                    <p>Whether you've moved to a new city or just want to expand your circle, ProLoveHub BFF makes it easy to meet like-minded people who match your vibe.</p>
                     <a href="members.html" class="card-link">Find your people →</a>
                 </div>
             </div>
@@ -1806,8 +1907,8 @@
     <footer class="cb-shell-footer" role="contentinfo">
         <div class="cb-shell-footer__inner">
             <div class="cb-shell-footer__brand">
-                <div style="display:flex;align-items:center;gap:10px;font-size:24px;font-weight:700;margin-bottom:10px;color:#b896f0;">
-                    Pro<span style="font-weight:300;color:#fff;">Love</span><span style="color:#ff0000;">❤️</span>
+                <div style="margin-bottom:14px;">
+                    <span class="brand-logo" style="font-size:22px;">ProLoveHub</span>
                 </div>
                 <p>Built around trust, culture, and genuine connection.</p>
                 <div class="cb-shell-socials">
@@ -1826,7 +1927,7 @@
                 <a href="members.html">Members</a>
                 <a href="#">Testimonials</a>
                 <a href="#">Locations</a>
-                <a href="signup.html">Join Pro Love Hub</a>
+                <a href="signup.html">Join ProLoveHub</a>
             </div>
 
             <div class="cb-shell-footer__group">
@@ -1842,14 +1943,14 @@
                 <a href="#">Terms of Use</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Child Safety</a>
-                <p class="cb-shell-footer__meta">© 2026 Pro Love Hub®</p>
+                <p class="cb-shell-footer__meta">© 2026 ProLoveHub®</p>
             </div>
         </div>
     </footer>
 
     <!-- FLOATING SUPPORT BUTTON -->
     <div class="support-float">
-        <span class="support-float__label">💬 Chat with Pro Love Hub Support</span>
+        <span class="support-float__label">💬 Chat with ProLoveHub Support</span>
         <button class="support-float__btn" onclick="openSupport()" aria-label="Contact Support">
             💬
             <span class="support-float__dot"></span>
@@ -1937,7 +2038,6 @@
             const isOnline = member.online;
             const isVerified = member.verified;
 
-            // Get photo URL from first file_id in member_photos bucket
             let photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=6c3cb3&color=fff&size=400`;
             if (member.photo_file_ids && member.photo_file_ids.length > 0) {
                 const { data } = supabase.storage
@@ -1970,16 +2070,13 @@
         // FLOATING SUPPORT BUTTON
         // ============================================================
         window.openSupport = async function() {
-            // Check if user is logged in
             const { data: { session } } = await supabase.auth.getSession();
 
             if (!session) {
-                // Not logged in — send them to login
                 window.location.href = 'login.html';
                 return;
             }
 
-            // Logged in — find their conversation
             const { data: conv, error } = await supabase
                 .from('conversations')
                 .select('id')
@@ -1989,8 +2086,6 @@
                 .maybeSingle();
 
             if (error || !conv) {
-                // No conversation yet — send to login/signup flow
-                // (they can reach support from any member's profile "Connect" button)
                 window.location.href = 'members.html';
                 return;
             }
@@ -2069,7 +2164,7 @@
         // ============================================================
         loadFeaturedMembers();
 
-        console.log('💎 Pro Love Hub❤️ Homepage updated');
+        console.log('💎 ProLoveHub❤️ Homepage updated');
         console.log('✅ Featured Members pull from Supabase');
         console.log('✅ Support button ready');
         console.log('✅ All links updated');
