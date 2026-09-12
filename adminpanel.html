@@ -1251,13 +1251,14 @@
         // Request permission + enable alerts
         window.enableNotifications = async function() {
             try {
-                // Check if browser supports notifications
                 if (!('Notification' in window)) {
                     showToast('⚠️ Notifications not supported on this browser', 'error');
                     return;
                 }
 
-                // Request permission
+                // Unlock audio the moment they click enable
+                unlockAudio();
+
                 const permission = await Notification.requestPermission();
                 const prefs = getAlertPrefs();
 
@@ -1268,7 +1269,9 @@
                     dismissNotifBanner();
                     showToast('🔔 Alerts enabled! You will be notified of new messages.', 'success');
 
-                    // Send a test notification to confirm
+                    // Play a test ping so the admin knows what it sounds like
+                    setTimeout(() => playPing(), 400);
+
                     try {
                         new Notification('🎉 Pro Love Hub Admin Alerts ON', {
                             body: 'You will now receive alerts for new messages.',
@@ -1300,43 +1303,72 @@
             }
         }
 
-        // Play a soft ping using Web Audio API
+        // ============================================================
+        // AUDIO — shared context, unlocked on first user gesture
+        // ============================================================
+        let audioCtx = null;
+
+        function unlockAudio() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume().then(() => {
+                        console.log('🔊 Audio context unlocked');
+                    }).catch(() => {});
+                } else {
+                    console.log('🔊 Audio context already running');
+                }
+            } catch (err) {
+                console.warn('Audio unlock failed:', err);
+            }
+        }
+
+        // Unlock audio on first user gesture anywhere
+        ['click', 'touchstart', 'keydown'].forEach(evt => {
+            document.addEventListener(evt, unlockAudio, { once: true, passive: true });
+        });
+
+        // Play a soft ping using the SHARED audio context
         function playPing() {
             try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume().catch(() => {});
+                }
 
+                const now = audioCtx.currentTime;
+
+                // First ping — A5 (880 Hz)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
                 osc.connect(gain);
-                gain.connect(ctx.destination);
-
+                gain.connect(audioCtx.destination);
                 osc.type = 'sine';
-                osc.frequency.value = 880; // A5
+                osc.frequency.value = 880;
+                gain.gain.setValueAtTime(0, now);
+                gain.gain.linearRampToValueAtTime(0.2, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.42);
 
-                gain.gain.setValueAtTime(0, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.02);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+                // Second ping — E6 (1320 Hz), slightly delayed
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.type = 'sine';
+                osc2.frequency.value = 1320;
+                gain2.gain.setValueAtTime(0, now + 0.15);
+                gain2.gain.linearRampToValueAtTime(0.18, now + 0.17);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+                osc2.start(now + 0.15);
+                osc2.stop(now + 0.55);
 
-                osc.start(ctx.currentTime);
-                osc.stop(ctx.currentTime + 0.4);
-
-                // Second higher ping
-                setTimeout(() => {
-                    try {
-                        const ctx2 = new (window.AudioContext || window.webkitAudioContext)();
-                        const osc2 = ctx2.createOscillator();
-                        const gain2 = ctx2.createGain();
-                        osc2.connect(gain2);
-                        gain2.connect(ctx2.destination);
-                        osc2.type = 'sine';
-                        osc2.frequency.value = 1320; // E6
-                        gain2.gain.setValueAtTime(0, ctx2.currentTime);
-                        gain2.gain.linearRampToValueAtTime(0.12, ctx2.currentTime + 0.02);
-                        gain2.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 0.3);
-                        osc2.start(ctx2.currentTime);
-                        osc2.stop(ctx2.currentTime + 0.35);
-                    } catch (e) {}
-                }, 150);
+                console.log('🔊 Ping played');
             } catch (err) {
                 console.warn('Sound play failed:', err);
             }
@@ -1420,7 +1452,6 @@
 
                     const newMsg = payload.new;
 
-                    // Get conversation details for notification
                     let userName = 'User';
                     try {
                         const { data: conv } = await supabase
@@ -1431,13 +1462,11 @@
                         if (conv?.full_name) userName = conv.full_name;
                     } catch (e) {}
 
-                    // Trigger all alerts
                     vibrate();
                     playPing();
                     showBrowserNotification(userName, newMsg.text);
                     flashTitle(`💬 New message from ${userName}`);
 
-                    // Update conversation list
                     await loadConversations();
                 })
                 .subscribe((status) => {
@@ -1445,7 +1474,6 @@
                 });
         }
 
-        // Stop flashing title when user focuses the page
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
                 stopFlashTitle();
@@ -1628,7 +1656,6 @@
 
             document.getElementById('tab-conv-unread').style.display = unread > 0 ? 'block' : 'none';
 
-            // Update favicon
             setFaviconWithBadge(unread > 0);
         }
 
@@ -2115,14 +2142,12 @@
 
             startHeartbeat();
 
-            // Check notification permission status
             const prefs = getAlertPrefs();
             if (!('Notification' in window)) {
                 document.getElementById('notif-menu-text').textContent = 'Alerts not supported';
             } else if (Notification.permission === 'granted') {
                 document.getElementById('notif-menu-text').textContent = 'Alerts Enabled ✅';
             } else {
-                // Show the enable banner if not dismissed
                 const dismissed = localStorage.getItem('prolovehub_notif_banner_dismissed');
                 if (!dismissed && Notification.permission !== 'denied') {
                     setTimeout(() => {
@@ -2135,10 +2160,8 @@
             await loadConversations();
             showTab('members');
 
-            // Subscribe to new user messages for alerts
             subscribeToNewMessages();
 
-            // Auto-refresh conversations every 30s as backup
             setInterval(() => {
                 if (currentTab === 'conversations') {
                     loadConversations();
@@ -2146,6 +2169,7 @@
             }, 30000);
 
             console.log('💎 Admin Panel ready with alerts');
+            console.log('🔊 Audio will unlock on first click');
         })();
     </script>
 
