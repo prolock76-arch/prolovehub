@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title>Admin Panel | ClassyDate</title>
-    <meta name="description" content="Admin dashboard for managing ClassyDate members.">
+    <title>Admin Panel | Pro Love Hub</title>
+    <meta name="description" content="Admin dashboard for managing Pro Love Hub members.">
     <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -933,7 +933,7 @@
     <header class="cb-shell-header">
         <div class="cb-shell-header__inner">
             <a class="cb-shell-brand" href="index.html">
-                Classy<span>Date</span><span class="heart">❤️</span>
+                Pro<span>Love</span><span class="heart">❤️</span>
             </a>
             <div class="header-right">
                 <span class="heartbeat-badge" id="heartbeat-badge" title="Admin online">
@@ -1169,8 +1169,8 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        const SUPABASE_URL = 'https://eswlfgrzdmdwmfqncpew.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_oeCfBt8Ci0xQ4mg6o2mnnA_mbgnwRVS';
+        const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -1236,7 +1236,7 @@
         // ============================================================
         // 🔔 NOTIFICATION SYSTEM
         // ============================================================
-        const ALERT_PREFS_KEY = 'classydate_admin_alert_prefs';
+        const ALERT_PREFS_KEY = 'prolovehub_admin_alert_prefs';
 
         function getAlertPrefs() {
             try {
@@ -1270,7 +1270,7 @@
 
                     // Send a test notification to confirm
                     try {
-                        new Notification('🎉 ClassyDate Admin Alerts ON', {
+                        new Notification('🎉 Pro Love Hub Admin Alerts ON', {
                             body: 'You will now receive alerts for new messages.',
                             icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>"
                         });
@@ -1288,7 +1288,7 @@
 
         function dismissNotifBanner() {
             document.getElementById('notif-banner').classList.remove('show');
-            localStorage.setItem('classydate_notif_banner_dismissed', 'true');
+            localStorage.setItem('prolovehub_notif_banner_dismissed', 'true');
         }
 
         // Vibrate (Android only — silently no-ops elsewhere)
@@ -1347,7 +1347,7 @@
         function flashTitle(message) {
             if (titleFlashInterval) return;
             let showOriginal = false;
-            const original = 'Admin Panel | ClassyDate';
+            const original = 'Admin Panel | Pro Love Hub';
             document.title = message;
             titleFlashInterval = setInterval(() => {
                 document.title = showOriginal ? message : original;
@@ -1359,7 +1359,7 @@
             if (titleFlashInterval) {
                 clearInterval(titleFlashInterval);
                 titleFlashInterval = null;
-                document.title = 'Admin Panel | ClassyDate';
+                document.title = 'Admin Panel | Pro Love Hub';
             }
         }
 
@@ -1375,7 +1375,7 @@
                     body: messageText || '📸 Photo',
                     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>",
                     badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>",
-                    tag: 'classydate-message',
+                    tag: 'prolovehub-message',
                     renotify: true,
                     requireInteraction: false
                 });
@@ -1955,7 +1955,7 @@
 
             const data = {
                 name,
-                email: `${name.toLowerCase().replace(/\s/g, '.')}_${Date.now()}@classydate.com`,
+                email: `${name.toLowerCase().replace(/\s/g, '.')}_${Date.now()}@prolovehub.com`,
                 age: parseInt(document.getElementById('form-age').value),
                 gender: document.getElementById('form-gender').value,
                 current_location: document.getElementById('form-current-location').value.trim(),
@@ -2123,7 +2123,7 @@
                 document.getElementById('notif-menu-text').textContent = 'Alerts Enabled ✅';
             } else {
                 // Show the enable banner if not dismissed
-                const dismissed = localStorage.getItem('classydate_notif_banner_dismissed');
+                const dismissed = localStorage.getItem('prolovehub_notif_banner_dismissed');
                 if (!dismissed && Notification.permission !== 'denied') {
                     setTimeout(() => {
                         document.getElementById('notif-banner').classList.add('show');
