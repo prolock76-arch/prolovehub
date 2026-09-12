@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Profile | ClassyDate</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f3e8ff;
+            color: #1a0533;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .profile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(108, 60, 179, 0.12);
+            padding: 0 12px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .header-btn {
+            background: rgba(108, 60, 179, 0.08);
+            border: none;
+            color: #1a0533;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            flex-shrink: 0;
+        }
+        .header-btn:hover { background: rgba(108, 60, 179, 0.15); }
+
+        .brand {
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a0533;
+            text-align: center;
+            flex: 1;
+        }
+        .brand .heart { color: #ff0000; display: inline-block; }
+        .brand span {
+            font-family: "Inter", sans-serif;
+            font-weight: 300;
+            color: #6c3cb3;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .menu-container { position: relative; }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 46px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(16px);
+            min-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(108, 60, 179, 0.1);
+            overflow: hidden;
+            z-index: 200;
+        }
+        .menu-dropdown.show {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 18px;
+            color: #1a0533;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(108, 60, 179, 0.06);
+        }
+        .menu-dropdown a:last-child { border-bottom: none; }
+        .menu-dropdown a:hover { background: rgba(108, 60, 179, 0.06); }
+        .menu-dropdown .logout-btn { color: #dc3545; font-weight: 600; }
+        .menu-dropdown .menu-divider {
+            height: 1px;
+            background: rgba(108, 60, 179, 0.06);
+            margin: 4px 0;
+        }
+
+        .profile-wrapper {
+            flex: 1;
+            padding: 68px 0 90px;
+            width: 100%;
+            background: #f3e8ff;
+        }
+
+        .profile-container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px 4px 24px;
+        }
+
+        .profile-avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 20px rgba(108, 60, 179, 0.2);
+            display: block;
+        }
+
+        .status-ring {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: #28a745;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.5);
+            animation: pulse-ring 2s infinite;
+        }
+        .status-ring.offline {
+            background: #adb5bd;
+            animation: none;
+            box-shadow: none;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.7; }
+        }
+
+        .profile-top-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .profile-name {
+            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a0533;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #1DA1F2;
+            color: #fff;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            font-weight: 700;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 4px rgba(29, 161, 242, 0.4);
+            flex-shrink: 0;
+        }
+
+        .profile-status-line {
+            font-size: 13px;
+            color: rgba(26, 5, 51, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .profile-status-line .online-text { color: #28a745; }
+        .profile-status-line .offline-text { color: rgba(26, 5, 51, 0.4); }
+
+        .profile-location-line {
+            font-size: 13px;
+            color: rgba(26, 5, 51, 0.55);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .mag-section {
+            padding: 22px 0 24px;
+            border-top: 1px solid rgba(108, 60, 179, 0.12);
+        }
+
+        .mag-section:first-of-type {
+            border-top: 2px solid rgba(108, 60, 179, 0.2);
+        }
+
+        .mag-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .mag-number {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #6c3cb3;
+            background: rgba(108, 60, 179, 0.08);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mag-title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a0533;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex: 1;
+        }
+
+        .mag-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, rgba(108, 60, 179, 0.25), transparent);
+        }
+
+        .about-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .about-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            color: #1a0533;
+            line-height: 1.4;
+        }
+
+        .about-item .icon {
+            font-size: 15px;
+            width: 22px;
+            flex-shrink: 0;
+            text-align: center;
+            padding-top: 1px;
+        }
+
+        .about-item .text {
+            font-weight: 500;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .about-item .text .label {
+            font-weight: 700;
+            color: rgba(26, 5, 51, 0.55);
+        }
+
+        .about-bio {
+            font-size: 14px;
+            color: rgba(26, 5, 51, 0.85);
+            line-height: 1.65;
+            font-family: "Inter", sans-serif;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .about-bio.empty {
+            color: rgba(26, 5, 51, 0.35);
+            font-style: italic;
+        }
+
+        .looking-text {
+            font-size: 14px;
+            color: #1a0533;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .looking-text.empty {
+            color: rgba(26, 5, 51, 0.35);
+            font-style: italic;
+        }
+
+        .tags-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(108, 60, 179, 0.1);
+            border-radius: 50px;
+            font-size: 12px;
+            color: #6c3cb3;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: rgba(108, 60, 179, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .tags-empty {
+            color: rgba(26, 5, 51, 0.35);
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .collage {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 120px;
+            gap: 6px;
+        }
+
+        .collage-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #e8d5f5;
+            transition: all 0.3s ease;
+        }
+
+        .collage-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(108, 60, 179, 0.2);
+            z-index: 2;
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .collage-item:hover img { transform: scale(1.05); }
+
+        .collage-item.p1 { grid-column: span 2; grid-row: span 2; }
+        .collage-item.p2 { grid-column: span 1; grid-row: span 1; }
+        .collage-item.p3 { grid-column: span 1; grid-row: span 1; }
+        .collage-item.p4 { grid-column: span 1; grid-row: span 1; }
+        .collage-item.p5 { grid-column: span 2; grid-row: span 1; }
+
+        .collage-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: rgba(26, 5, 51, 0.35);
+            font-style: italic;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            border: 1px dashed rgba(108, 60, 179, 0.15);
+        }
+
+        /* ============================================================ */
+        /* CTA                                                          */
+        /* ============================================================ */
+        .profile-cta {
+            padding: 22px 0 8px;
+            border-top: 2px solid rgba(108, 60, 179, 0.2);
+            margin-top: 22px;
+        }
+
+        /* ⭐ NEW: PRICE BADGE */
+        .price-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(108, 60, 179, 0.08), rgba(74, 26, 107, 0.06));
+            border: 1px solid rgba(108, 60, 179, 0.15);
+            border-radius: 50px;
+            padding: 8px 18px;
+            margin: 0 auto 12px;
+            width: fit-content;
+            font-size: 13px;
+            font-weight: 700;
+            color: #4a1a6b;
+            letter-spacing: 0.2px;
+        }
+        .price-badge .price-icon {
+            font-size: 15px;
+        }
+        .price-badge .price-amount {
+            color: #6c3cb3;
+            font-weight: 800;
+        }
+
+        .btn-connect-big {
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.3);
+            animation: pulse-btn 2.5s infinite;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 8px 30px rgba(108, 60, 179, 0.3); }
+            50% { box-shadow: 0 12px 40px rgba(108, 60, 179, 0.5); }
+        }
+
+        .btn-connect-big:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #4a1a6b, #6c3cb3);
+            box-shadow: 0 12px 40px rgba(108, 60, 179, 0.5);
+        }
+
+        .btn-connect-big:active { transform: scale(0.98); }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: zoom-out;
+            animation: fadeIn 0.2s ease;
+        }
+        .lightbox.show { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
+
+        .support-float {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 500;
+        }
+
+        .support-float__btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: float-support 3s ease-in-out infinite;
+        }
+
+        @keyframes float-support {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .support-float__btn:active { transform: scale(0.92); }
+
+        .support-float__dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            border: 2px solid #fff;
+            animation: pulse-ring 1.8s infinite;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 16px;
+            left: 16px;
+            padding: 12px 20px;
+            background: #1a0533;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            z-index: 999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { background: #28a745; }
+        .toast.error { background: #dc3545; }
+
+        @media (min-width: 600px) {
+            .profile-header { height: 60px; padding: 0 16px; }
+            .brand { font-size: 20px; }
+            .profile-wrapper { padding: 76px 0 100px; }
+            .profile-container { padding: 0 20px; }
+
+            .profile-avatar { width: 110px; height: 110px; }
+            .profile-name { font-size: 26px; }
+            .profile-status-line { font-size: 14px; }
+            .profile-location-line { font-size: 14px; }
+
+            .mag-section { padding: 26px 0 28px; }
+            .mag-number { width: 36px; height: 36px; font-size: 16px; }
+            .mag-title { font-size: 16px; }
+
+            .about-item { font-size: 15px; }
+            .about-bio { font-size: 15px; }
+            .looking-text { font-size: 15px; }
+
+            .collage { grid-auto-rows: 160px; gap: 8px; }
+
+            .price-badge { font-size: 14px; padding: 9px 22px; }
+            .price-badge .price-icon { font-size: 16px; }
+
+            .btn-connect-big { font-size: 18px; padding: 18px 24px; }
+        }
+
+        @media (min-width: 900px) {
+            .profile-avatar { width: 130px; height: 130px; }
+            .profile-name { font-size: 30px; }
+            .collage { grid-auto-rows: 190px; gap: 10px; }
+        }
+
+        @media (max-width: 360px) {
+            .profile-avatar { width: 76px; height: 76px; }
+            .profile-name { font-size: 19px; }
+            .collage { grid-auto-rows: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="profile-header">
+        <button class="header-btn" onclick="goBack()" aria-label="Back">←</button>
+        <a class="brand" href="index.html">
+            Classy<span>Date</span><span class="heart">❤️</span>
+        </a>
+        <div class="header-actions">
+            <button class="header-btn" onclick="shareProfile()" aria-label="Share">↗</button>
+            <div class="menu-container">
+                <button class="header-btn" onclick="toggleMenu()" aria-label="Menu">☰</button>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <a href="chat.html" onclick="openSupport(event)">
+                        <span>💬</span> Chat with Support
+                    </a>
+                    <div class="menu-divider"></div>
+                    <a href="#" onclick="logoutUser(); return false;" class="logout-btn">
+                        <span>🚪</span> Log out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="profile-wrapper">
+        <div class="profile-container">
+
+            <!-- TOP — AVATAR + NAME -->
+            <section class="profile-top">
+                <div class="profile-avatar-wrap">
+                    <img class="profile-avatar" id="profile-avatar" src="" alt="Profile">
+                    <div class="status-ring" id="status-ring"></div>
+                </div>
+                <div class="profile-top-info">
+                    <h1 class="profile-name" id="profile-name">
+                        Loading...
+                    </h1>
+                    <div class="profile-status-line" id="profile-status-line">
+                        <span class="online-text">Online</span>
+                    </div>
+                    <div class="profile-location-line" id="profile-location-line">
+                        📍 Loading...
+                    </div>
+                </div>
+            </section>
+
+            <!-- 01 · ABOUT -->
+            <section class="mag-section">
+                <div class="mag-header">
+                    <span class="mag-number">01</span>
+                    <span class="mag-title">About</span>
+                    <span class="mag-line"></span>
+                </div>
+                <div class="about-list">
+                    <div class="about-item">
+                        <span class="icon">📍</span>
+                        <span class="text"><span class="label">Current Location:</span> <span id="info-location">—</span></span>
+                    </div>
+                    <div class="about-item">
+                        <span class="icon">🌍</span>
+                        <span class="text"><span class="label">Origin Country:</span> <span id="info-origin">—</span></span>
+                    </div>
+                    <div class="about-item">
+                        <span class="icon">🎂</span>
+                        <span class="text"><span class="label">Age:</span> <span id="info-age">—</span></span>
+                    </div>
+                    <div class="about-item">
+                        <span class="icon">👤</span>
+                        <span class="text"><span class="label">Gender:</span> <span id="info-gender">—</span></span>
+                    </div>
+                    <div class="about-item">
+                        <span class="icon">💼</span>
+                        <span class="text"><span class="label">Occupation:</span> <span id="info-occupation">—</span></span>
+                    </div>
+                </div>
+                <p class="about-bio" id="info-bio">No bio available.</p>
+            </section>
+
+            <!-- 02 · LOOKING FOR -->
+            <section class="mag-section">
+                <div class="mag-header">
+                    <span class="mag-number">02</span>
+                    <span class="mag-title">Looking For</span>
+                    <span class="mag-line"></span>
+                </div>
+                <p class="looking-text" id="info-looking">Not specified</p>
+            </section>
+
+            <!-- 03 · INTERESTS -->
+            <section class="mag-section">
+                <div class="mag-header">
+                    <span class="mag-number">03</span>
+                    <span class="mag-title">Interests</span>
+                    <span class="mag-line"></span>
+                </div>
+                <div class="tags-wrap" id="info-interests">
+                    <span class="tags-empty">No interests listed</span>
+                </div>
+            </section>
+
+            <!-- 04 · PHOTOS -->
+            <section class="mag-section">
+                <div class="mag-header">
+                    <span class="mag-number">04</span>
+                    <span class="mag-title">Photos</span>
+                    <span class="mag-line"></span>
+                </div>
+                <div class="collage" id="collage">
+                    <div class="collage-empty" style="grid-column: 1 / -1;">Loading photos...</div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <div class="profile-cta">
+                <!-- ⭐ NEW: PRICE BADGE -->
+                <div class="price-badge">
+                    <span class="price-icon">💎</span>
+                    <span>Only <span class="price-amount">$13</span> to get connected</span>
+                </div>
+
+                <button class="btn-connect-big" id="connect-btn" onclick="connectWith()">
+                    💬 Connect with <span id="cta-name">this member</span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SUPPORT FLOAT -->
+    <div class="support-float">
+        <button class="support-float__btn" onclick="openSupport(event)" aria-label="Support">
+            💬
+            <span class="support-float__dot"></span>
+        </button>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+        <img id="lightbox-img" src="" alt="Photo">
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS                                                      -->
+    <!-- ============================================================ -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { createClient } from "@supabase/supabase-js";
+
+        const SUPABASE_URL = 'https://eswlfgrzdmdwmfqncpew.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_oeCfBt8Ci0xQ4mg6o2mnnA_mbgnwRVS';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        console.log('🔗 Supabase connected:', SUPABASE_URL);
+
+        let memberData = null;
+        let profilePhotos = [];
+
+        function getMemberIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        function getPhotoUrl(fileId) {
+            if (!fileId) return null;
+            try {
+                const { data } = supabase.storage.from('member_photos').getPublicUrl(fileId);
+                return data?.publicUrl || null;
+            } catch (err) { return null; }
+        }
+
+        async function loadProfile() {
+            const memberId = getMemberIdFromURL();
+            if (!memberId) {
+                showToast('❌ No member specified', 'error');
+                setTimeout(() => { window.location.href = 'members.html'; }, 1500);
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('members')
+                    .select('*')
+                    .eq('id', memberId)
+                    .maybeSingle();
+
+                if (error) throw error;
+                if (!data) {
+                    showToast('❌ Member not found', 'error');
+                    setTimeout(() => { window.location.href = 'members.html'; }, 1500);
+                    return;
+                }
+
+                memberData = data;
+                console.log('📊 Member loaded:', memberData);
+                renderProfile(memberData);
+            } catch (err) {
+                console.error('Error loading profile:', err);
+                showToast('Error loading profile: ' + err.message, 'error');
+            }
+        }
+
+        function renderProfile(member) {
+            const name = member.name || 'Member';
+            const age = member.age || '';
+            const location = member.current_location || member.location || 'Location unknown';
+            const origin = member.home_country || member.origin || 'Not specified';
+            const occupation = member.occupation || 'Not specified';
+            const gender = member.gender || 'Not specified';
+            const isOnline = member.online === true;
+            const isVerified = member.verified === true;
+
+            let photos = [];
+            if (member.photo_file_ids && member.photo_file_ids.length > 0) {
+                photos = member.photo_file_ids
+                    .map(id => getPhotoUrl(id))
+                    .filter(u => u);
+            }
+            if (photos.length === 0) {
+                photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c3cb3&color=fff&size=400`];
+            }
+            profilePhotos = photos;
+
+            const avatarImg = document.getElementById('profile-avatar');
+            avatarImg.src = photos[0];
+            avatarImg.onerror = function() {
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c3cb3&color=fff&size=400`;
+            };
+
+            const ring = document.getElementById('status-ring');
+            ring.className = 'status-ring' + (isOnline ? '' : ' offline');
+
+            const nameEl = document.getElementById('profile-name');
+            nameEl.innerHTML = `✨ ${name}${age ? ', ' + age : ''}` +
+                (isVerified ? ' <span class="verified-badge">✓</span>' : '');
+
+            const statusLine = document.getElementById('profile-status-line');
+            statusLine.innerHTML = isOnline
+                ? '<span class="online-text">🟢 Online</span>'
+                : '<span class="offline-text">⚪ Offline</span>';
+
+            document.getElementById('profile-location-line').textContent = `📍 ${location}`;
+
+            document.getElementById('info-location').textContent = location;
+            document.getElementById('info-origin').textContent = origin;
+            document.getElementById('info-age').textContent = age || '—';
+            document.getElementById('info-gender').textContent = gender;
+            document.getElementById('info-occupation').textContent = occupation;
+
+            const bio = member.about_me || member.bio || '';
+            const bioEl = document.getElementById('info-bio');
+            if (bio) {
+                bioEl.textContent = bio;
+                bioEl.classList.remove('empty');
+            } else {
+                bioEl.textContent = 'No bio available.';
+                bioEl.classList.add('empty');
+            }
+
+            const looking = member.looking_for || '';
+            const lookingEl = document.getElementById('info-looking');
+            if (looking) {
+                lookingEl.textContent = looking;
+                lookingEl.classList.remove('empty');
+            } else {
+                lookingEl.textContent = 'Not specified';
+                lookingEl.classList.add('empty');
+            }
+
+            const interestsEl = document.getElementById('info-interests');
+            if (member.interests && member.interests.length > 0) {
+                interestsEl.innerHTML = member.interests
+                    .map(i => `<span class="tag">#${i}</span>`).join('');
+            } else {
+                interestsEl.innerHTML = '<span class="tags-empty">No interests listed</span>';
+            }
+
+            document.getElementById('cta-name').textContent = name;
+
+            renderCollage(photos, name);
+
+            document.title = `${name} | ClassyDate`;
+        }
+
+        function renderCollage(photos, memberName) {
+            const collage = document.getElementById('collage');
+
+            if (!photos || photos.length === 0) {
+                collage.innerHTML = '<div class="collage-empty" style="grid-column: 1 / -1;">No photos available</div>';
+                return;
+            }
+
+            const patternClasses = ['p1', 'p2', 'p3', 'p4', 'p5'];
+
+            const html = photos.map((url, i) => {
+                const pattern = patternClasses[i % 5];
+                return `
+                    <div class="collage-item ${pattern}" onclick="openLightbox('${url}')">
+                        <img src="${url}" alt="${memberName} photo ${i + 1}" loading="lazy"
+                             onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=6c3cb3&color=fff&size=400'">
+                    </div>
+                `;
+            }).join('');
+
+            collage.innerHTML = html;
+        }
+
+        window.openLightbox = function(url) {
+            document.getElementById('lightbox-img').src = url;
+            document.getElementById('lightbox').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeLightbox = function(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('lightbox').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        window.toggleMenu = function() {
+            document.getElementById('menuDropdown').classList.toggle('show');
+        }
+
+        document.addEventListener('click', function(e) {
+            const c = document.querySelector('.menu-container');
+            if (c && !c.contains(e.target)) {
+                document.getElementById('menuDropdown').classList.remove('show');
+            }
+        });
+
+        window.connectWith = function() {
+            if (!memberData) return;
+            window.location.href = `connect.html?member=${memberData.id}`;
+        }
+
+        window.shareProfile = async function() {
+            if (!memberData) return;
+            const name = memberData.name || 'Member';
+            const location = memberData.current_location || memberData.location || 'Unknown';
+            const origin = memberData.home_country || memberData.origin || 'Not specified';
+            const url = window.location.href;
+
+            const msg = `
+👤 *${name}*
+📍 ${location}
+🌍 From ${origin}
+💎 Check them out on ClassyDate:
+${url}
+            `.trim();
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: name, text: msg, url });
+                } catch (e) {}
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+            }
+        }
+
+        window.openSupport = async function(event) {
+            if (event) event.preventDefault();
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) {
+                    window.location.href = 'login.html?redirect=chat.html';
+                    return;
+                }
+                const { data: conv } = await supabase
+                    .from('conversations')
+                    .select('id')
+                    .eq('user_id', session.user.id)
+                    .order('updated_at', { ascending: false })
+                    .limit(1)
+                    .maybeSingle();
+
+                if (conv) {
+                    window.location.href = `chat.html?conversation=${conv.id}`;
+                } else {
+                    window.location.href = 'chat.html';
+                }
+            } catch (e) {
+                window.location.href = 'chat.html';
+            }
+        }
+
+        window.logoutUser = async function() {
+            try { await supabase.auth.signOut(); } catch (e) {}
+            sessionStorage.removeItem('classydate_likes');
+            window.location.href = 'index.html';
+        }
+
+        window.goBack = function() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'members.html';
+            }
+        }
+
+        let toastTimeout;
+        function showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast ' + type;
+            t.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        loadProfile();
+
+        console.log('💎 Profile — Magazine format + Collage photos');
+        console.log('✅ $13 price badge added above CTA');
+    </script>
+
+</body>
+</html>
