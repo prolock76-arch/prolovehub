@@ -186,9 +186,17 @@
         .status-text--offline { color: rgba(26, 5, 51, 0.4); }
 
         /* ============================================================ */
-        /* USER DETAILS PANEL — ADMIN ONLY                              */
-        /* Hidden by default. Only visible when <body class="is-admin">  */
-        /* is set (from detectRole) AND the panel has .show.             */
+        /* USER DETAILS PANEL — HARD-LOCKED TO ADMIN                    */
+        /*                                                              */
+        /* Two-layer lock:                                              */
+        /*   1. Default: display none (blocked)                         */
+        /*   2. Only unlocks when <body class="is-admin"> is present    */
+        /*   3. Plus a data attribute on the panel itself               */
+        /*                                                              */
+        /* A user can NEVER see this panel because:                     */
+        /*   - They never get body.is-admin                             */
+        /*   - The panel's data-admin-only flag is only honored when    */
+        /*     body.is-admin is set                                     */
         /* ============================================================ */
         .user-details-panel {
             display: none !important;
@@ -201,7 +209,7 @@
             flex-shrink: 0;
         }
 
-        body.is-admin .user-details-panel.show {
+        body.is-admin .user-details-panel[data-admin-only="true"] {
             display: block !important;
         }
 
@@ -689,7 +697,12 @@
             </div>
         </div>
 
-        <div class="user-details-panel" id="user-details-panel">
+        <!-- ============================================================ -->
+        <!-- ADMIN-ONLY PANEL — data-admin-only="true"                    -->
+        <!-- The CSS rule body.is-admin [data-admin-only="true"] is       -->
+        <!-- the ONLY way this panel can display. Never shows for users.  -->
+        <!-- ============================================================ -->
+        <div class="user-details-panel" id="user-details-panel" data-admin-only="true">
             <div class="top-row">
                 <div class="user-name" id="ud-name">Loading...</div>
                 <span class="badge-open" id="ud-status">🟢 Open</span>
@@ -798,8 +811,9 @@
 
         // ============================================================
         // ROLE DETECTION
-        // Adds body.is-admin ONLY for real admins.
-        // CSS gate means the details panel cannot render for users.
+        // Only adds body.is-admin for real admins.
+        // For everyone else the panel is wiped from the DOM AND
+        // display:none is force-applied — two layers of protection.
         // ============================================================
         async function detectRole() {
             try {
@@ -813,22 +827,23 @@
                     isAdmin = true;
                     document.body.classList.add('is-admin');
                     roleBadge.style.display = 'inline-block';
-                    userDetailsPanel.classList.add('show');
                     console.log('🔑 Role: ADMIN — details panel enabled');
                 } else {
-                    isAdmin = false;
-                    document.body.classList.remove('is-admin');
-                    userDetailsPanel.classList.remove('show');
-                    userDetailsPanel.style.display = 'none';
-                    userDetailsPanel.innerHTML = '';
+                    lockDetailsPanelForUser();
                     console.log('👤 Role: USER — details panel locked off');
                 }
             } catch (err) {
                 console.warn('Role detection failed:', err);
-                isAdmin = false;
-                document.body.classList.remove('is-admin');
-                userDetailsPanel.classList.remove('show');
-                userDetailsPanel.style.display = 'none';
+                lockDetailsPanelForUser();
+            }
+        }
+
+        function lockDetailsPanelForUser() {
+            isAdmin = false;
+            document.body.classList.remove('is-admin');
+            if (userDetailsPanel) {
+                userDetailsPanel.setAttribute('data-admin-only', 'false');
+                userDetailsPanel.style.setProperty('display', 'none', 'important');
                 userDetailsPanel.innerHTML = '';
             }
         }
@@ -877,6 +892,7 @@
             if (!conversation) return;
 
             if (isAdmin) {
+                // ---- ADMIN VIEW ----
                 document.getElementById('chat-name').textContent = conversation.full_name || 'User';
                 document.getElementById('chat-subtext').innerHTML = `
                     <span>💎 Wants to connect with <strong>${conversation.member_name || 'Unknown'}</strong></span>
@@ -918,6 +934,7 @@
 
                 chatHeaderStatus.style.display = 'none';
             } else {
+                // ---- USER VIEW ----
                 document.getElementById('chat-name').textContent = 'Pro Love Hub Support Team';
                 document.getElementById('chat-subtext').innerHTML = `
                     <span>📧 support@prolovehub.com</span>
@@ -926,9 +943,8 @@
                 chatHeaderStatus.style.display = 'flex';
                 checkAdminOnlineStatus();
 
-                userDetailsPanel.classList.remove('show');
-                userDetailsPanel.style.display = 'none';
-                userDetailsPanel.innerHTML = '';
+                // Triple-lock: user view guarantees panel is gone
+                lockDetailsPanelForUser();
             }
         }
 
