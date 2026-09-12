@@ -187,8 +187,8 @@
 
         /* ============================================================ */
         /* USER DETAILS PANEL — ADMIN ONLY                              */
-        /* Hidden by default. Can only be shown when <body> has          */
-        /* the .is-admin class, which is set in detectRole().           */
+        /* Hidden by default. Only visible when <body class="is-admin">  */
+        /* is set (from detectRole) AND the panel has .show.             */
         /* ============================================================ */
         .user-details-panel {
             display: none !important;
@@ -201,7 +201,6 @@
             flex-shrink: 0;
         }
 
-        /* Show ONLY when body has .is-admin AND panel has .show */
         body.is-admin .user-details-panel.show {
             display: block !important;
         }
@@ -799,9 +798,8 @@
 
         // ============================================================
         // ROLE DETECTION
-        // Sets body.is-admin for admins. Users never get the class.
-        // The CSS rule body.is-admin .user-details-panel.show controls
-        // visibility — so the panel is impossible to show for a user.
+        // Adds body.is-admin ONLY for real admins.
+        // CSS gate means the details panel cannot render for users.
         // ============================================================
         async function detectRole() {
             try {
@@ -822,7 +820,7 @@
                     document.body.classList.remove('is-admin');
                     userDetailsPanel.classList.remove('show');
                     userDetailsPanel.style.display = 'none';
-                    userDetailsPanel.innerHTML = ''; // hard wipe for users
+                    userDetailsPanel.innerHTML = '';
                     console.log('👤 Role: USER — details panel locked off');
                 }
             } catch (err) {
@@ -928,7 +926,6 @@
                 chatHeaderStatus.style.display = 'flex';
                 checkAdminOnlineStatus();
 
-                // Extra safety: for users, ensure panel is gone
                 userDetailsPanel.classList.remove('show');
                 userDetailsPanel.style.display = 'none';
                 userDetailsPanel.innerHTML = '';
