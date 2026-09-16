@@ -187,16 +187,6 @@
 
         /* ============================================================ */
         /* USER DETAILS PANEL — HARD-LOCKED TO ADMIN                    */
-        /*                                                              */
-        /* Two-layer lock:                                              */
-        /*   1. Default: display none (blocked)                         */
-        /*   2. Only unlocks when <body class="is-admin"> is present    */
-        /*   3. Plus a data attribute on the panel itself               */
-        /*                                                              */
-        /* A user can NEVER see this panel because:                     */
-        /*   - They never get body.is-admin                             */
-        /*   - The panel's data-admin-only flag is only honored when    */
-        /*     body.is-admin is set                                     */
         /* ============================================================ */
         .user-details-panel {
             display: none !important;
@@ -413,6 +403,54 @@
         }
         .message--sent .message__bubble.photo-only {
             background: #d1e7dd;
+        }
+
+        /* ============================================================ */
+        /* WHATSAPP BOOKING BUTTON (user-side only, appears on admin    */
+        /* replies)                                                      */
+        /* ============================================================ */
+        .wa-book-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #ffffff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 6px;
+            max-width: 78%;
+        }
+        .wa-book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5);
+        }
+        .wa-book-btn:active { transform: scale(0.98); }
+        .wa-book-btn .wa-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .wa-book-btn .wa-label {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .wa-book-btn .wa-label strong {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .wa-book-btn .wa-label small {
+            font-size: 11px;
+            opacity: 0.85;
+            font-weight: 500;
+            margin-top: 2px;
         }
 
         .date-separator {
@@ -646,6 +684,9 @@
             .admin-badge { font-size: 10px; padding: 4px 10px; }
             .toast { bottom: 20px; right: 20px; left: 20px; text-align: center; }
             .user-details-panel .info-grid { grid-template-columns: 1fr; }
+            .wa-book-btn { font-size: 13px; padding: 10px 14px; }
+            .wa-book-btn .wa-label strong { font-size: 13px; }
+            .wa-book-btn .wa-label small { font-size: 10px; }
         }
 
         @media (max-width: 480px) {
@@ -660,6 +701,10 @@
             .icon-btn { padding: 6px 8px; font-size: 17px; min-height: 34px; min-width: 34px; }
             .cb-shell-header__inner { height: 54px; padding: 0 10px; }
             .user-details-panel .photos-row img { width: 42px; height: 42px; }
+            .wa-book-btn { font-size: 12px; padding: 9px 12px; max-width: 88%; }
+            .wa-book-btn .wa-label strong { font-size: 12px; }
+            .wa-book-btn .wa-label small { font-size: 9.5px; }
+            .wa-book-btn .wa-icon { font-size: 16px; }
         }
     </style>
 </head>
@@ -697,11 +742,6 @@
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- ADMIN-ONLY PANEL — data-admin-only="true"                    -->
-        <!-- The CSS rule body.is-admin [data-admin-only="true"] is       -->
-        <!-- the ONLY way this panel can display. Never shows for users.  -->
-        <!-- ============================================================ -->
         <div class="user-details-panel" id="user-details-panel" data-admin-only="true">
             <div class="top-row">
                 <div class="user-name" id="ud-name">Loading...</div>
@@ -758,6 +798,12 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
+        // ============================================================
+        // WHATSAPP BOOKING CONFIG
+        // ============================================================
+        const WHATSAPP_NUMBER = '254117044510';
+        const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. i am ready with the required fee";
+
         let currentUser = null;
         let isAdmin = false;
         let conversationId = null;
@@ -809,12 +855,6 @@
             return true;
         }
 
-        // ============================================================
-        // ROLE DETECTION
-        // Only adds body.is-admin for real admins.
-        // For everyone else the panel is wiped from the DOM AND
-        // display:none is force-applied — two layers of protection.
-        // ============================================================
         async function detectRole() {
             try {
                 const { data: adminRow } = await supabase
@@ -892,7 +932,6 @@
             if (!conversation) return;
 
             if (isAdmin) {
-                // ---- ADMIN VIEW ----
                 document.getElementById('chat-name').textContent = conversation.full_name || 'User';
                 document.getElementById('chat-subtext').innerHTML = `
                     <span>💎 Wants to connect with <strong>${conversation.member_name || 'Unknown'}</strong></span>
@@ -934,7 +973,6 @@
 
                 chatHeaderStatus.style.display = 'none';
             } else {
-                // ---- USER VIEW ----
                 document.getElementById('chat-name').textContent = 'Pro Love Hub Support Team';
                 document.getElementById('chat-subtext').innerHTML = `
                     <span>📧 support@prolovehub.com</span>
@@ -943,7 +981,6 @@
                 chatHeaderStatus.style.display = 'flex';
                 checkAdminOnlineStatus();
 
-                // Triple-lock: user view guarantees panel is gone
                 lockDetailsPanelForUser();
             }
         }
@@ -1025,6 +1062,15 @@
             }
         }
 
+        // ============================================================
+        // BUILD WHATSAPP LINK
+        // ============================================================
+        function buildWhatsAppLink() {
+            const phone = String(WHATSAPP_NUMBER).replace(/\D/g, '');
+            const text = encodeURIComponent(WHATSAPP_MESSAGE);
+            return `https://wa.me/${phone}?text=${text}`;
+        }
+
         function renderMessages() {
             if (messages.length === 0) {
                 messagesContainer.innerHTML = `
@@ -1091,6 +1137,24 @@
                         </div>
                     </div>
                 `;
+
+                // ============================================================
+                // WHATSAPP BOOKING BUTTON
+                // Shown ONLY to the user, on EVERY admin message that has text
+                // ============================================================
+                if (!isAdmin && msg.sender_type === 'admin' && msg.text && msg.text.trim()) {
+                    html += `
+                        <div class="message message--received">
+                            <a class="wa-book-btn" href="${buildWhatsAppLink()}" target="_blank" rel="noopener">
+                                <span class="wa-icon">💬</span>
+                                <span class="wa-label">
+                                    <strong>Book Private Connection</strong>
+                                    <small>Tap to open WhatsApp</small>
+                                </span>
+                            </a>
+                        </div>
+                    `;
+                }
 
                 lastSenderType = msg.sender_type;
             });
@@ -1318,6 +1382,7 @@
             console.log('💬 Chat ready');
             console.log('Role:', isAdmin ? 'ADMIN' : 'USER');
             console.log('Details panel:', isAdmin ? 'VISIBLE (admin)' : 'HIDDEN (user)');
+            console.log('WhatsApp bookings →', 'wa.me/' + WHATSAPP_NUMBER);
         })();
     </script>
 
