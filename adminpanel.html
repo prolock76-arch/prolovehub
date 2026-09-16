@@ -1055,7 +1055,6 @@
     <!-- MAIN -->
     <main class="admin-wrapper">
 
-        <!-- NOTIFICATION PERMISSION BANNER -->
         <div class="notif-banner" id="notif-banner">
             <span style="font-size:22px;">🔔</span>
             <div class="notif-text">
@@ -1065,7 +1064,6 @@
             <button class="notif-dismiss" onclick="dismissNotifBanner()">✕</button>
         </div>
 
-        <!-- STATS ROW -->
         <div class="stats-row">
             <div class="stat-card" onclick="showTab('members')" style="cursor:pointer;">
                 <span class="stat-icon">👥</span>
@@ -1089,7 +1087,6 @@
             </div>
         </div>
 
-        <!-- TABS -->
         <div class="tabs-row">
             <button class="tab-btn active" id="tab-btn-members" onclick="showTab('members')">
                 👥 Members
@@ -1102,7 +1099,6 @@
             </button>
         </div>
 
-        <!-- MEMBERS TAB -->
         <div id="tab-content-members">
             <div class="filter-row">
                 <input type="text" class="search-input" id="search-members" placeholder="🔍 Search members..." oninput="filterMembers()">
@@ -1121,7 +1117,6 @@
             <div class="pagination-bar" id="members-pagination"></div>
         </div>
 
-        <!-- CONVERSATIONS TAB -->
         <div id="tab-content-conversations" style="display:none;">
             <div class="filter-row">
                 <input type="text" class="search-input" id="search-conv" placeholder="🔍 Search conversations..." oninput="filterConversations()">
@@ -1244,12 +1239,8 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- ============================================================ -->
-    <!-- SCRIPTS -->
-    <!-- ============================================================ -->
     <script type="importmap">
         {
             "imports": {
@@ -1988,6 +1979,20 @@
             renderUploadedImages();
         }
 
+        // ============================================================
+        // SLUG GENERATOR
+        // ============================================================
+        function slugify(str) {
+            return String(str || 'member')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-') || 'member';
+        }
+
         window.saveMember = async (event) => {
             event.preventDefault();
             const id = document.getElementById('edit-id').value;
@@ -2015,6 +2020,16 @@
                 online: existing?.online || false,
                 created_at: existing?.created_at || new Date().toISOString()
             };
+
+            // ---- Auto-generate slug for new members
+            if (!isEdit) {
+                const base = slugify(name);
+                const suffix = Math.random().toString(36).substring(2, 8);
+                data.slug = `${base}-${suffix}`;
+            } else {
+                // Preserve existing slug on edit
+                if (existing?.slug) data.slug = existing.slug;
+            }
 
             if (!data.name || !data.age || !data.gender) {
                 showToast('Please fill in required fields', 'error');
@@ -2169,6 +2184,7 @@
             }, 30000);
 
             console.log('💎 Pro Love Hub Admin Panel — pink + blue palette');
+            console.log('✅ Auto-generates slug for new members');
             console.log('🔊 Audio will unlock on first click');
         })();
     </script>
