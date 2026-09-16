@@ -12,11 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -29,9 +25,6 @@
 
         a { text-decoration: none; color: inherit; }
 
-        /* ============================================================ */
-        /* BRAND LOGO                                                   */
-        /* ============================================================ */
         .brand-logo {
             display: inline-flex;
             align-items: flex-end;
@@ -132,9 +125,6 @@
             .brand-logo__hearts::after { font-size: 5px; top: 0; left: 14px; }
         }
 
-        /* ============================================================ */
-        /* HEADER                                                       */
-        /* ============================================================ */
         .profile-header {
             position: fixed;
             top: 0;
@@ -222,9 +212,6 @@
             margin: 4px 0;
         }
 
-        /* ============================================================ */
-        /* WRAPPER                                                      */
-        /* ============================================================ */
         .profile-wrapper {
             flex: 1;
             padding: 68px 0 90px;
@@ -238,7 +225,7 @@
         }
 
         /* ============================================================ */
-        /* HERO — BIG PROFILE PHOTO                                     */
+        /* HERO — BIG PROFILE PHOTO + SCROLL CUE                        */
         /* ============================================================ */
         .hero-photo-wrap {
             position: relative;
@@ -306,6 +293,67 @@
         }
 
         /* ============================================================ */
+        /* SCROLL INDICATOR — bouncing arrow at bottom of hero          */
+        /* ============================================================ */
+        .scroll-cue {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(247, 38, 109, 0.2);
+            border-radius: 50px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease;
+            box-shadow: 0 8px 24px rgba(247, 38, 109, 0.2);
+            animation: scrollCueFloat 2.2s ease-in-out infinite;
+            font-family: "Inter", sans-serif;
+        }
+
+        .scroll-cue:hover {
+            background: rgba(255, 255, 255, 1);
+            animation-play-state: paused;
+        }
+
+        .scroll-cue.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(20px);
+        }
+
+        .scroll-cue__text {
+            font-size: 11px;
+            font-weight: 700;
+            color: #F7266D;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .scroll-cue__arrow {
+            font-size: 16px;
+            color: #F7266D;
+            animation: scrollArrowBounce 1.6s ease-in-out infinite;
+        }
+
+        @keyframes scrollCueFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        @keyframes scrollArrowBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+
+        /* ============================================================ */
         /* NAME / STATUS BLOCK                                          */
         /* ============================================================ */
         .profile-name-block {
@@ -354,9 +402,6 @@
 
         .profile-meta-line.muted { color: rgba(26, 10, 20, 0.55); }
 
-        /* ============================================================ */
-        /* SECTION                                                      */
-        /* ============================================================ */
         .mag-section {
             padding: 22px 0 24px;
             border-top: 1px solid rgba(247, 38, 109, 0.12);
@@ -404,9 +449,6 @@
             background: linear-gradient(to right, rgba(247, 38, 109, 0.25), transparent);
         }
 
-        /* ============================================================ */
-        /* ABOUT — KEY-VALUE ROWS                                       */
-        /* ============================================================ */
         .about-list {
             display: flex;
             flex-direction: column;
@@ -490,9 +532,6 @@
         .read-more-btn.show { display: inline-block; }
         .read-more-btn:hover { color: #C41E56; text-decoration: underline; }
 
-        /* ============================================================ */
-        /* LOOKING FOR — ICON LIST                                      */
-        /* ============================================================ */
         .looking-list {
             display: flex;
             flex-direction: column;
@@ -524,9 +563,6 @@
             padding: 8px 0;
         }
 
-        /* ============================================================ */
-        /* INTERESTS — ICON CHIPS                                       */
-        /* ============================================================ */
         .interests-grid {
             display: flex;
             flex-wrap: wrap;
@@ -562,9 +598,6 @@
             font-size: 13.5px;
         }
 
-        /* ============================================================ */
-        /* PHOTO MOSAIC — 2 columns mixed sizes                         */
-        /* ============================================================ */
         .photo-mosaic {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -610,9 +643,6 @@
             border: 1px dashed rgba(247, 38, 109, 0.15);
         }
 
-        /* ============================================================ */
-        /* VERIFICATION STRIP                                           */
-        /* ============================================================ */
         .verify-strip {
             display: flex;
             flex-direction: column;
@@ -638,9 +668,6 @@
 
         .verify-strip-item .icon.lock { color: #1E88E5; }
 
-        /* ============================================================ */
-        /* CTA                                                          */
-        /* ============================================================ */
         .profile-cta {
             padding: 22px 0 8px;
         }
@@ -661,13 +688,8 @@
             color: #C41E56;
             letter-spacing: 0.2px;
         }
-        .price-badge .price-icon {
-            font-size: 16px;
-        }
-        .price-badge .price-amount {
-            color: #F7266D;
-            font-weight: 800;
-        }
+        .price-badge .price-icon { font-size: 16px; }
+        .price-badge .price-amount { color: #F7266D; font-weight: 800; }
 
         .price-subtitle {
             text-align: center;
@@ -712,9 +734,6 @@
 
         .btn-connect-big:active { transform: scale(0.98); }
 
-        /* ============================================================ */
-        /* SHARE / COPY LINK BUTTON                                     */
-        /* ============================================================ */
         .share-link-row {
             display: flex;
             align-items: center;
@@ -759,9 +778,6 @@
         .share-link-row .copy-btn:hover { background: rgba(247, 38, 109, 0.18); }
         .share-link-row .copy-btn.copied { background: #28a745; color: #fff; }
 
-        /* ============================================================ */
-        /* LIGHTBOX                                                     */
-        /* ============================================================ */
         .lightbox {
             display: none;
             position: fixed;
@@ -803,9 +819,6 @@
         }
         .lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
 
-        /* ============================================================ */
-        /* SUPPORT FLOAT                                                */
-        /* ============================================================ */
         .support-float {
             position: fixed;
             bottom: 16px;
@@ -850,9 +863,6 @@
             animation: pulse-ring 1.8s infinite;
         }
 
-        /* ============================================================ */
-        /* TOAST                                                        */
-        /* ============================================================ */
         .toast {
             position: fixed;
             bottom: 80px;
@@ -877,9 +887,6 @@
         .toast.success { background: #28a745; }
         .toast.error { background: #dc3545; }
 
-        /* ============================================================ */
-        /* RESPONSIVE                                                   */
-        /* ============================================================ */
         @media (min-width: 600px) {
             .profile-header { height: 60px; padding: 0 16px; }
             .profile-wrapper { padding: 76px 0 100px; }
@@ -910,6 +917,9 @@
             .mag-title { font-size: 13.5px; }
             .about-item { font-size: 13.5px; }
             .about-item .label { min-width: 80px; }
+            .scroll-cue { padding: 8px 14px; bottom: 16px; }
+            .scroll-cue__text { font-size: 10px; }
+            .scroll-cue__arrow { font-size: 14px; }
         }
     </style>
 </head>
@@ -956,6 +966,12 @@
                     💎 Verified
                 </div>
                 <div class="hero-online-ring" id="hero-online-ring"></div>
+
+                <!-- SCROLL CUE -->
+                <button class="scroll-cue" id="scroll-cue" onclick="scrollToContent()" aria-label="Scroll to content">
+                    <span class="scroll-cue__text">Scroll to see more</span>
+                    <span class="scroll-cue__arrow">↓</span>
+                </button>
             </section>
 
             <!-- NAME / META -->
@@ -1125,11 +1141,7 @@
         let profilePhotos = [];
         let shortUrl = '';
 
-        // ============================================================
-        // EMOJI MAP for interests & looking-for items
-        // ============================================================
         const EMOJI_MAP = {
-            // Looking for
             'serious relationship': '❤️',
             'serious': '❤️',
             'relationship': '❤️',
@@ -1145,8 +1157,6 @@
             'dating': '💕',
             'love': '❤️',
             'travel partner': '✈️',
-
-            // Interests
             'beach': '🏖️',
             'fishing': '🎣',
             'travel': '✈️',
@@ -1225,35 +1235,42 @@
         function emojiFor(text) {
             const key = String(text).toLowerCase().trim();
             if (EMOJI_MAP[key]) return EMOJI_MAP[key];
-            // Try partial match
             for (const k in EMOJI_MAP) {
                 if (key.includes(k)) return EMOJI_MAP[k];
             }
             return '✨';
         }
 
-        // ============================================================
-        // SLUG for shareable URL
-        // ============================================================
         function slugify(name, age) {
             let slug = String(name || 'member')
                 .toLowerCase()
                 .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '') // strip accents
-                .replace(/[^a-z0-9\s-]/g, '')    // keep only letters, numbers, spaces, hyphens
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9\s-]/g, '')
                 .trim()
-                .replace(/\s+/g, '-')            // spaces → hyphens
-                .replace(/-+/g, '-');            // collapse hyphens
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
             if (age) slug = `${slug}-${age}`;
             return slug || 'member';
         }
 
         // ============================================================
-        // URL PARAM
+        // URL PARAMS — accepts ?id=, ?slug=, or /u/slug
         // ============================================================
-        function getMemberIdFromURL() {
+        function getURLParams() {
             const params = new URLSearchParams(window.location.search);
-            return params.get('id');
+
+            let id = params.get('id');
+            let slug = params.get('slug');
+
+            // Support /u/slug path if host rewrites aren't set up
+            if (!id && !slug) {
+                const path = window.location.pathname;
+                const match = path.match(/\/u\/([^/?#]+)/);
+                if (match) slug = decodeURIComponent(match[1]);
+            }
+
+            return { id, slug };
         }
 
         function getPhotoUrl(fileId) {
@@ -1265,22 +1282,27 @@
         }
 
         // ============================================================
-        // LOAD PROFILE
+        // LOAD PROFILE — accepts id OR slug
         // ============================================================
         async function loadProfile() {
-            const memberId = getMemberIdFromURL();
-            if (!memberId) {
+            const { id, slug } = getURLParams();
+
+            if (!id && !slug) {
                 showToast('❌ No member specified', 'error');
                 setTimeout(() => { window.location.href = 'members.html'; }, 1500);
                 return;
             }
 
             try {
-                const { data, error } = await supabase
-                    .from('members')
-                    .select('*')
-                    .eq('id', memberId)
-                    .maybeSingle();
+                let query = supabase.from('members').select('*');
+
+                if (id) {
+                    query = query.eq('id', id);
+                } else if (slug) {
+                    query = query.eq('slug', slug);
+                }
+
+                const { data, error } = await query.maybeSingle();
 
                 if (error) throw error;
                 if (!data) {
@@ -1298,9 +1320,6 @@
             }
         }
 
-        // ============================================================
-        // RENDER PROFILE
-        // ============================================================
         function renderProfile(member) {
             const name = member.name || 'Member';
             const age = member.age || '';
@@ -1311,7 +1330,6 @@
             const isOnline = member.online === true;
             const isVerified = member.verified === true;
 
-            // Photos
             let photos = [];
             if (member.photo_file_ids && member.photo_file_ids.length > 0) {
                 photos = member.photo_file_ids
@@ -1323,37 +1341,30 @@
             }
             profilePhotos = photos;
 
-            // Hero photo
             const heroImg = document.getElementById('hero-photo');
             heroImg.src = photos[0];
             heroImg.onerror = function() {
                 this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=600`;
             };
 
-            // Verified badge overlay
             document.getElementById('hero-verified-badge').style.display = isVerified ? 'flex' : 'none';
 
-            // Online ring
             const ring = document.getElementById('hero-online-ring');
             ring.className = 'hero-online-ring' + (isOnline ? '' : ' offline');
 
-            // Name
             const nameEl = document.getElementById('profile-name');
             nameEl.innerHTML = `${name}${age ? ', ' + age : ''}` +
                 (isVerified ? ' <span class="name-verified">✓</span>' : '');
 
-            // Meta lines
             document.getElementById('profile-location-line').textContent = `📍 ${location}`;
             document.getElementById('profile-occupation-line').textContent = `💼 ${occupation}`;
 
-            // About list
             document.getElementById('info-location').textContent = location;
             document.getElementById('info-origin').textContent = origin;
             document.getElementById('info-age').textContent = age || '—';
             document.getElementById('info-gender').textContent = capitalize(gender);
             document.getElementById('info-occupation').textContent = occupation;
 
-            // Bio
             const bio = member.about_me || member.bio || '';
             const bioEl = document.getElementById('info-bio');
             const readMoreBtn = document.getElementById('read-more-btn');
@@ -1362,7 +1373,6 @@
                 bioEl.textContent = bio;
                 bioEl.classList.remove('empty');
 
-                // Check if bio needs collapsing
                 requestAnimationFrame(() => {
                     if (bioEl.scrollHeight > bioEl.clientHeight + 4) {
                         readMoreBtn.classList.add('show');
@@ -1379,21 +1389,16 @@
                 readMoreBtn.classList.remove('show');
             }
 
-            // Looking for
             renderLookingFor(member.looking_for);
-
-            // Interests
             renderInterests(member.interests);
-
-            // Photo mosaic
             renderPhotoMosaic(photos, name);
 
-            // Shareable URL
-            shortUrl = `${window.location.origin}/u/${slugify(name, age)}`;
+            // ---- Shareable URL — uses DB slug if present, else generates one
+            const slug = member.slug || slugify(name, age);
+            shortUrl = `${window.location.origin}/u/${slug}`;
             document.getElementById('share-link-text').textContent = shortUrl.replace(/^https?:\/\//, '');
             document.getElementById('share-link-row').style.display = 'flex';
 
-            // Document title
             document.title = `${name} | Pro Love Hub`;
         }
 
@@ -1402,9 +1407,6 @@
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         }
 
-        // ============================================================
-        // LOOKING FOR — parse into icon rows
-        // ============================================================
         function renderLookingFor(text) {
             const el = document.getElementById('info-looking');
             if (!text || !text.trim()) {
@@ -1412,7 +1414,6 @@
                 return;
             }
 
-            // Split on commas, semicolons, "and", "&", newlines
             const items = String(text)
                 .split(/[,;&\n]|\band\b/gi)
                 .map(s => s.trim())
@@ -1434,9 +1435,6 @@
             }).join('');
         }
 
-        // ============================================================
-        // INTERESTS — icon chips
-        // ============================================================
         function renderInterests(interests) {
             const el = document.getElementById('info-interests');
             if (!interests || interests.length === 0) {
@@ -1455,9 +1453,6 @@
             }).join('');
         }
 
-        // ============================================================
-        // PHOTO MOSAIC — 2-column mixed sizes
-        // ============================================================
         function renderPhotoMosaic(photos, memberName) {
             const mosaic = document.getElementById('photo-mosaic');
 
@@ -1466,9 +1461,7 @@
                 return;
             }
 
-            // Pattern: alternate square / tall
             const html = photos.map((url, i) => {
-                // Make every 3rd item tall for visual rhythm
                 const tall = (i % 3 === 2);
                 const cls = tall ? 'photo-mosaic-item tall' : 'photo-mosaic-item';
                 return `
@@ -1483,8 +1476,34 @@
         }
 
         // ============================================================
-        // BIO READ MORE TOGGLE
+        // SCROLL CUE
         // ============================================================
+        window.scrollToContent = function() {
+            const target = document.querySelector('.profile-name-block');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        (function setupScrollCue() {
+            const cue = document.getElementById('scroll-cue');
+            if (!cue) return;
+
+            const onScroll = () => {
+                const heroWrap = document.querySelector('.hero-photo-wrap');
+                if (!heroWrap) return;
+                const heroBottom = heroWrap.getBoundingClientRect().bottom;
+                if (heroBottom < 80) {
+                    cue.classList.add('hidden');
+                } else {
+                    cue.classList.remove('hidden');
+                }
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
         window.toggleBio = function() {
             const bioEl = document.getElementById('info-bio');
             const btn = document.getElementById('read-more-btn');
@@ -1498,9 +1517,6 @@
             }
         }
 
-        // ============================================================
-        // COPY SHARE LINK
-        // ============================================================
         window.copyProfileLink = async function() {
             if (!shortUrl) return;
             const btn = document.getElementById('copy-link-btn');
@@ -1516,7 +1532,6 @@
                     btn.classList.remove('copied');
                 }, 2000);
             } catch (err) {
-                // Fallback
                 const ta = document.createElement('textarea');
                 ta.value = shortUrl;
                 document.body.appendChild(ta);
@@ -1537,9 +1552,6 @@
             }
         }
 
-        // ============================================================
-        // LIGHTBOX
-        // ============================================================
         window.openLightbox = function(url) {
             document.getElementById('lightbox-img').src = url;
             document.getElementById('lightbox').classList.add('show');
@@ -1556,9 +1568,6 @@
             if (e.key === 'Escape') closeLightbox();
         });
 
-        // ============================================================
-        // MENU
-        // ============================================================
         window.toggleMenu = function() {
             document.getElementById('menuDropdown').classList.toggle('show');
         }
@@ -1570,17 +1579,11 @@
             }
         });
 
-        // ============================================================
-        // CONNECT
-        // ============================================================
         window.connectWith = function() {
             if (!memberData) return;
             window.location.href = `connect.html?member=${memberData.id}`;
         }
 
-        // ============================================================
-        // SHARE
-        // ============================================================
         window.shareProfile = async function() {
             if (!memberData) return;
             const name = memberData.name || 'Member';
@@ -1605,9 +1608,6 @@ ${shareUrl}
             }
         }
 
-        // ============================================================
-        // SUPPORT
-        // ============================================================
         window.openSupport = async function(event) {
             if (event) event.preventDefault();
             try {
@@ -1634,18 +1634,12 @@ ${shareUrl}
             }
         }
 
-        // ============================================================
-        // LOGOUT
-        // ============================================================
         window.logoutUser = async function() {
             try { await supabase.auth.signOut(); } catch (e) {}
             sessionStorage.removeItem('prolovehub_likes');
             window.location.href = 'index.html';
         }
 
-        // ============================================================
-        // BACK
-        // ============================================================
         window.goBack = function() {
             if (window.history.length > 1) {
                 window.history.back();
@@ -1654,9 +1648,6 @@ ${shareUrl}
             }
         }
 
-        // ============================================================
-        // TOAST
-        // ============================================================
         let toastTimeout;
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
@@ -1667,9 +1658,6 @@ ${shareUrl}
             toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
         }
 
-        // ============================================================
-        // HELPERS
-        // ============================================================
         function escapeHtml(str) {
             if (!str) return '';
             return String(str)
@@ -1680,15 +1668,11 @@ ${shareUrl}
                 .replace(/'/g, '&#039;');
         }
 
-        // ============================================================
-        // INIT
-        // ============================================================
         loadProfile();
 
-        console.log('💎 Pro Love Hub Profile — editorial layout');
-        console.log('✅ Auto-emoji for interests & looking-for');
-        console.log('✅ Shareable short URL displayed');
-        console.log('✅ $14.99 matching fee');
+        console.log('💎 Pro Love Hub Profile — pink + blue palette');
+        console.log('✅ Accepts ?id=, ?slug=, or /u/slug');
+        console.log('✅ Scroll cue with auto-hide');
     </script>
 
 </body>
