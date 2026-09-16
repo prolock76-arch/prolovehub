@@ -30,7 +30,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* ============================================================ */
-        /* BRAND LOGO — compact version (fits 56px header)              */
+        /* BRAND LOGO                                                   */
         /* ============================================================ */
         .brand-logo {
             display: inline-flex;
@@ -132,6 +132,9 @@
             .brand-logo__hearts::after { font-size: 5px; top: 0; left: 14px; }
         }
 
+        /* ============================================================ */
+        /* HEADER                                                       */
+        /* ============================================================ */
         .profile-header {
             position: fixed;
             top: 0;
@@ -219,57 +222,82 @@
             margin: 4px 0;
         }
 
+        /* ============================================================ */
+        /* WRAPPER                                                      */
+        /* ============================================================ */
         .profile-wrapper {
             flex: 1;
             padding: 68px 0 90px;
             width: 100%;
-            background: #FFF5F8;
         }
 
         .profile-container {
             max-width: 640px;
             margin: 0 auto;
-            padding: 0 14px;
+            padding: 0 16px;
         }
 
-        .profile-top {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 20px 4px 24px;
-        }
-
-        .profile-avatar-wrap {
+        /* ============================================================ */
+        /* HERO — BIG PROFILE PHOTO                                     */
+        /* ============================================================ */
+        .hero-photo-wrap {
             position: relative;
-            flex-shrink: 0;
+            width: 100%;
+            aspect-ratio: 4/5;
+            max-height: 520px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #ffe0eb;
+            box-shadow: 0 12px 40px rgba(247, 38, 109, 0.15);
+            margin-top: 8px;
         }
 
-        .profile-avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
+        .hero-photo-wrap img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 20px rgba(247, 38, 109, 0.2);
             display: block;
+            cursor: zoom-in;
+            transition: transform 0.6s ease;
         }
 
-        .status-ring {
+        .hero-photo-wrap:hover img { transform: scale(1.03); }
+
+        .hero-photo-wrap .hero-online-ring {
             position: absolute;
-            bottom: 4px;
-            right: 4px;
-            width: 20px;
-            height: 20px;
+            top: 14px;
+            right: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            border: 3px solid #fff;
             background: #28a745;
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.5);
+            border: 3px solid #fff;
+            box-shadow: 0 0 12px rgba(40, 167, 69, 0.6);
             animation: pulse-ring 2s infinite;
+            z-index: 3;
         }
-        .status-ring.offline {
+        .hero-photo-wrap .hero-online-ring.offline {
             background: #adb5bd;
             animation: none;
             box-shadow: none;
+        }
+
+        .hero-photo-wrap .hero-verified-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(30, 136, 229, 0.95);
+            color: #fff;
+            padding: 4px 10px 4px 8px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+            z-index: 3;
         }
 
         @keyframes pulse-ring {
@@ -277,62 +305,58 @@
             50% { transform: scale(1.15); opacity: 0.7; }
         }
 
-        .profile-top-info {
-            flex: 1;
-            min-width: 0;
+        /* ============================================================ */
+        /* NAME / STATUS BLOCK                                          */
+        /* ============================================================ */
+        .profile-name-block {
+            padding: 20px 4px 22px;
+            text-align: left;
         }
 
         .profile-name {
             font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 700;
             color: #1a0a14;
+            line-height: 1.2;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
-            line-height: 1.2;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
-        .verified-badge {
+        .profile-name .name-verified {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #1DA1F2;
+            background: #1E88E5;
             color: #fff;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
             font-weight: 700;
             border: 2px solid #fff;
-            box-shadow: 0 1px 4px rgba(29, 161, 242, 0.4);
+            box-shadow: 0 1px 4px rgba(30, 136, 229, 0.4);
             flex-shrink: 0;
         }
 
-        .profile-status-line {
-            font-size: 13px;
-            color: rgba(26, 10, 20, 0.6);
+        .profile-meta-line {
+            font-size: 14px;
+            color: rgba(26, 10, 20, 0.7);
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             margin-bottom: 2px;
-            font-weight: 600;
-        }
-
-        .profile-status-line .online-text { color: #28a745; }
-        .profile-status-line .offline-text { color: rgba(26, 10, 20, 0.4); }
-
-        .profile-location-line {
-            font-size: 13px;
-            color: rgba(26, 10, 20, 0.55);
-            display: flex;
-            align-items: center;
-            gap: 4px;
             font-weight: 500;
         }
 
+        .profile-meta-line.muted { color: rgba(26, 10, 20, 0.55); }
+
+        /* ============================================================ */
+        /* SECTION                                                      */
+        /* ============================================================ */
         .mag-section {
             padding: 22px 0 24px;
             border-top: 1px solid rgba(247, 38, 109, 0.12);
@@ -346,7 +370,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
 
         .mag-number {
@@ -380,48 +404,70 @@
             background: linear-gradient(to right, rgba(247, 38, 109, 0.25), transparent);
         }
 
+        /* ============================================================ */
+        /* ABOUT — KEY-VALUE ROWS                                       */
+        /* ============================================================ */
         .about-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .about-item {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 10px;
-            font-size: 14px;
+            font-size: 14.5px;
             color: #1a0a14;
             line-height: 1.4;
         }
 
         .about-item .icon {
-            font-size: 15px;
-            width: 22px;
+            font-size: 16px;
+            width: 24px;
             flex-shrink: 0;
             text-align: center;
-            padding-top: 1px;
         }
 
-        .about-item .text {
+        .about-item .label {
             font-weight: 500;
+            color: rgba(26, 10, 20, 0.55);
+            min-width: 90px;
+            flex-shrink: 0;
+        }
+
+        .about-item .value {
+            font-weight: 600;
+            color: #1a0a14;
             flex: 1;
             min-width: 0;
         }
 
-        .about-item .text .label {
+        .about-subheading {
+            font-size: 13px;
             font-weight: 700;
-            color: rgba(26, 10, 20, 0.55);
+            color: rgba(26, 10, 20, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            margin-top: 4px;
         }
 
         .about-bio {
-            font-size: 14px;
+            font-size: 14.5px;
             color: rgba(26, 10, 20, 0.85);
-            line-height: 1.65;
+            line-height: 1.7;
             font-family: "Inter", sans-serif;
             font-weight: 400;
-            margin-top: 4px;
+            position: relative;
+        }
+
+        .about-bio.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .about-bio.empty {
@@ -429,98 +475,174 @@
             font-style: italic;
         }
 
-        .looking-text {
-            font-size: 14px;
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: #F7266D;
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            padding: 6px 0 0;
+            font-family: "Inter", sans-serif;
+            transition: color 0.2s ease;
+            display: none;
+        }
+        .read-more-btn.show { display: inline-block; }
+        .read-more-btn:hover { color: #C41E56; text-decoration: underline; }
+
+        /* ============================================================ */
+        /* LOOKING FOR — ICON LIST                                      */
+        /* ============================================================ */
+        .looking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .looking-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(247, 38, 109, 0.06);
+            border: 1px solid rgba(247, 38, 109, 0.12);
+            border-radius: 12px;
+            font-size: 14.5px;
+            font-weight: 600;
             color: #1a0a14;
-            line-height: 1.6;
-            font-weight: 500;
         }
 
-        .looking-text.empty {
-            color: rgba(26, 10, 20, 0.35);
+        .looking-item .icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .looking-empty {
+            color: rgba(26, 10, 20, 0.4);
             font-style: italic;
+            font-size: 14px;
+            padding: 8px 0;
         }
 
-        .tags-wrap {
+        /* ============================================================ */
+        /* INTERESTS — ICON CHIPS                                       */
+        /* ============================================================ */
+        .interests-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .tag {
-            display: inline-block;
-            padding: 5px 12px;
-            background: rgba(247, 38, 109, 0.1);
+        .interest-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(247, 38, 109, 0.08);
+            border: 1px solid rgba(247, 38, 109, 0.15);
             border-radius: 50px;
-            font-size: 12px;
-            color: #F7266D;
+            font-size: 13px;
             font-weight: 600;
+            color: #C41E56;
             transition: all 0.2s ease;
         }
 
-        .tag:hover {
-            background: rgba(247, 38, 109, 0.18);
+        .interest-chip:hover {
+            background: rgba(247, 38, 109, 0.15);
             transform: translateY(-1px);
         }
 
-        .tags-empty {
+        .interest-chip .icon {
+            font-size: 15px;
+        }
+
+        .interests-empty {
             color: rgba(26, 10, 20, 0.35);
             font-style: italic;
-            font-size: 13px;
+            font-size: 13.5px;
         }
 
-        .collage {
+        /* ============================================================ */
+        /* PHOTO MOSAIC — 2 columns mixed sizes                         */
+        /* ============================================================ */
+        .photo-mosaic {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-auto-rows: 120px;
-            gap: 6px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
         }
 
-        .collage-item {
+        .photo-mosaic-item {
             position: relative;
             overflow: hidden;
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 12px;
+            cursor: zoom-in;
             background: #ffe0eb;
             transition: all 0.3s ease;
+            aspect-ratio: 1/1;
         }
 
-        .collage-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 24px rgba(247, 38, 109, 0.2);
+        .photo-mosaic-item.tall { aspect-ratio: 4/5; }
+
+        .photo-mosaic-item:hover {
+            box-shadow: 0 12px 32px rgba(247, 38, 109, 0.2);
             z-index: 2;
         }
 
-        .collage-item img {
+        .photo-mosaic-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
+            display: block;
         }
 
-        .collage-item:hover img { transform: scale(1.05); }
+        .photo-mosaic-item:hover img { transform: scale(1.05); }
 
-        .collage-item.p1 { grid-column: span 2; grid-row: span 2; }
-        .collage-item.p2 { grid-column: span 1; grid-row: span 1; }
-        .collage-item.p3 { grid-column: span 1; grid-row: span 1; }
-        .collage-item.p4 { grid-column: span 1; grid-row: span 1; }
-        .collage-item.p5 { grid-column: span 2; grid-row: span 1; }
-
-        .collage-empty {
+        .photo-mosaic-empty {
+            grid-column: 1 / -1;
             padding: 40px 20px;
             text-align: center;
             color: rgba(26, 10, 20, 0.35);
             font-style: italic;
-            font-size: 13px;
-            background: rgba(255, 255, 255, 0.3);
+            font-size: 13.5px;
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 12px;
             border: 1px dashed rgba(247, 38, 109, 0.15);
         }
 
-        .profile-cta {
-            padding: 22px 0 8px;
+        /* ============================================================ */
+        /* VERIFICATION STRIP                                           */
+        /* ============================================================ */
+        .verify-strip {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 20px 4px 4px;
             border-top: 2px solid rgba(247, 38, 109, 0.2);
             margin-top: 22px;
+        }
+
+        .verify-strip-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1a0a14;
+        }
+
+        .verify-strip-item .icon {
+            font-size: 16px;
+            color: #28a745;
+        }
+
+        .verify-strip-item .icon.lock { color: #1E88E5; }
+
+        /* ============================================================ */
+        /* CTA                                                          */
+        /* ============================================================ */
+        .profile-cta {
+            padding: 22px 0 8px;
         }
 
         .price-badge {
@@ -531,25 +653,33 @@
             background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(196, 30, 86, 0.06));
             border: 1px solid rgba(247, 38, 109, 0.15);
             border-radius: 50px;
-            padding: 8px 18px;
-            margin: 0 auto 12px;
+            padding: 10px 20px;
+            margin: 0 auto 10px;
             width: fit-content;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
             color: #C41E56;
             letter-spacing: 0.2px;
         }
         .price-badge .price-icon {
-            font-size: 15px;
+            font-size: 16px;
         }
         .price-badge .price-amount {
             color: #F7266D;
             font-weight: 800;
         }
 
+        .price-subtitle {
+            text-align: center;
+            font-size: 12.5px;
+            color: rgba(26, 10, 20, 0.55);
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
         .btn-connect-big {
             width: 100%;
-            padding: 16px 20px;
+            padding: 18px 20px;
             background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             border: none;
@@ -566,6 +696,7 @@
             gap: 8px;
             box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3);
             animation: pulse-btn 2.5s infinite;
+            text-transform: uppercase;
         }
 
         @keyframes pulse-btn {
@@ -581,6 +712,56 @@
 
         .btn-connect-big:active { transform: scale(0.98); }
 
+        /* ============================================================ */
+        /* SHARE / COPY LINK BUTTON                                     */
+        /* ============================================================ */
+        .share-link-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(247, 38, 109, 0.12);
+            border-radius: 12px;
+            font-size: 12.5px;
+            color: rgba(26, 10, 20, 0.65);
+        }
+
+        .share-link-row .link-icon {
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .share-link-row .link-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: "Inter", monospace;
+            color: #F7266D;
+            font-weight: 600;
+        }
+
+        .share-link-row .copy-btn {
+            padding: 6px 12px;
+            background: rgba(247, 38, 109, 0.08);
+            color: #F7266D;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 11.5px;
+            cursor: pointer;
+            font-family: "Inter", sans-serif;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .share-link-row .copy-btn:hover { background: rgba(247, 38, 109, 0.18); }
+        .share-link-row .copy-btn.copied { background: #28a745; color: #fff; }
+
+        /* ============================================================ */
+        /* LIGHTBOX                                                     */
+        /* ============================================================ */
         .lightbox {
             display: none;
             position: fixed;
@@ -622,6 +803,9 @@
         }
         .lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
 
+        /* ============================================================ */
+        /* SUPPORT FLOAT                                                */
+        /* ============================================================ */
         .support-float {
             position: fixed;
             bottom: 16px;
@@ -666,6 +850,9 @@
             animation: pulse-ring 1.8s infinite;
         }
 
+        /* ============================================================ */
+        /* TOAST                                                        */
+        /* ============================================================ */
         .toast {
             position: fixed;
             bottom: 80px;
@@ -690,42 +877,39 @@
         .toast.success { background: #28a745; }
         .toast.error { background: #dc3545; }
 
+        /* ============================================================ */
+        /* RESPONSIVE                                                   */
+        /* ============================================================ */
         @media (min-width: 600px) {
             .profile-header { height: 60px; padding: 0 16px; }
             .profile-wrapper { padding: 76px 0 100px; }
             .profile-container { padding: 0 20px; }
 
-            .profile-avatar { width: 110px; height: 110px; }
-            .profile-name { font-size: 26px; }
-            .profile-status-line { font-size: 14px; }
-            .profile-location-line { font-size: 14px; }
+            .profile-name { font-size: 30px; }
+            .profile-name .name-verified { width: 22px; height: 22px; font-size: 12px; }
+            .profile-meta-line { font-size: 15px; }
 
             .mag-section { padding: 26px 0 28px; }
             .mag-number { width: 36px; height: 36px; font-size: 16px; }
             .mag-title { font-size: 16px; }
 
-            .about-item { font-size: 15px; }
-            .about-bio { font-size: 15px; }
-            .looking-text { font-size: 15px; }
+            .about-item { font-size: 15.5px; }
+            .about-bio { font-size: 15.5px; }
 
-            .collage { grid-auto-rows: 160px; gap: 8px; }
+            .photo-mosaic { gap: 10px; }
 
-            .price-badge { font-size: 14px; padding: 9px 22px; }
-            .price-badge .price-icon { font-size: 16px; }
+            .price-badge { font-size: 14.5px; padding: 11px 24px; }
+            .price-badge .price-icon { font-size: 17px; }
 
-            .btn-connect-big { font-size: 18px; padding: 18px 24px; }
+            .btn-connect-big { font-size: 17px; padding: 20px 24px; }
         }
 
-        @media (min-width: 900px) {
-            .profile-avatar { width: 130px; height: 130px; }
-            .profile-name { font-size: 30px; }
-            .collage { grid-auto-rows: 190px; gap: 10px; }
-        }
-
-        @media (max-width: 360px) {
-            .profile-avatar { width: 76px; height: 76px; }
-            .profile-name { font-size: 19px; }
-            .collage { grid-auto-rows: 100px; }
+        @media (max-width: 400px) {
+            .profile-name { font-size: 22px; }
+            .mag-number { width: 28px; height: 28px; font-size: 13px; }
+            .mag-title { font-size: 13.5px; }
+            .about-item { font-size: 13.5px; }
+            .about-item .label { min-width: 80px; }
         }
     </style>
 </head>
@@ -765,22 +949,25 @@
     <main class="profile-wrapper">
         <div class="profile-container">
 
-            <!-- TOP — AVATAR + NAME -->
-            <section class="profile-top">
-                <div class="profile-avatar-wrap">
-                    <img class="profile-avatar" id="profile-avatar" src="" alt="Profile">
-                    <div class="status-ring" id="status-ring"></div>
+            <!-- HERO — BIG PROFILE PHOTO -->
+            <section class="hero-photo-wrap" id="hero-photo-wrap">
+                <img id="hero-photo" src="" alt="Profile" onclick="openLightbox(this.src)">
+                <div class="hero-verified-badge" id="hero-verified-badge" style="display:none;">
+                    💎 Verified
                 </div>
-                <div class="profile-top-info">
-                    <h1 class="profile-name" id="profile-name">
-                        Loading...
-                    </h1>
-                    <div class="profile-status-line" id="profile-status-line">
-                        <span class="online-text">Online</span>
-                    </div>
-                    <div class="profile-location-line" id="profile-location-line">
-                        📍 Loading...
-                    </div>
+                <div class="hero-online-ring" id="hero-online-ring"></div>
+            </section>
+
+            <!-- NAME / META -->
+            <section class="profile-name-block">
+                <h1 class="profile-name" id="profile-name">
+                    Loading...
+                </h1>
+                <div class="profile-meta-line" id="profile-location-line">
+                    📍 Loading...
+                </div>
+                <div class="profile-meta-line muted" id="profile-occupation-line">
+                    💼 Loading...
                 </div>
             </section>
 
@@ -791,29 +978,38 @@
                     <span class="mag-title">About</span>
                     <span class="mag-line"></span>
                 </div>
+
                 <div class="about-list">
                     <div class="about-item">
                         <span class="icon">📍</span>
-                        <span class="text"><span class="label">Current Location:</span> <span id="info-location">—</span></span>
+                        <span class="label">Location</span>
+                        <span class="value" id="info-location">—</span>
                     </div>
                     <div class="about-item">
-                        <span class="icon">🌍</span>
-                        <span class="text"><span class="label">Origin Country:</span> <span id="info-origin">—</span></span>
+                        <span class="icon">🌎</span>
+                        <span class="label">Country</span>
+                        <span class="value" id="info-origin">—</span>
                     </div>
                     <div class="about-item">
                         <span class="icon">🎂</span>
-                        <span class="text"><span class="label">Age:</span> <span id="info-age">—</span></span>
+                        <span class="label">Age</span>
+                        <span class="value" id="info-age">—</span>
                     </div>
                     <div class="about-item">
                         <span class="icon">👤</span>
-                        <span class="text"><span class="label">Gender:</span> <span id="info-gender">—</span></span>
+                        <span class="label">Gender</span>
+                        <span class="value" id="info-gender">—</span>
                     </div>
                     <div class="about-item">
                         <span class="icon">💼</span>
-                        <span class="text"><span class="label">Occupation:</span> <span id="info-occupation">—</span></span>
+                        <span class="label">Occupation</span>
+                        <span class="value" id="info-occupation">—</span>
                     </div>
                 </div>
-                <p class="about-bio" id="info-bio">No bio available.</p>
+
+                <div class="about-subheading">About me</div>
+                <p class="about-bio collapsed" id="info-bio">No bio available.</p>
+                <button class="read-more-btn" id="read-more-btn" onclick="toggleBio()">[Read more]</button>
             </section>
 
             <!-- 02 · LOOKING FOR -->
@@ -823,7 +1019,9 @@
                     <span class="mag-title">Looking For</span>
                     <span class="mag-line"></span>
                 </div>
-                <p class="looking-text" id="info-looking">Not specified</p>
+                <div class="looking-list" id="info-looking">
+                    <span class="looking-empty">Not specified</span>
+                </div>
             </section>
 
             <!-- 03 · INTERESTS -->
@@ -833,8 +1031,8 @@
                     <span class="mag-title">Interests</span>
                     <span class="mag-line"></span>
                 </div>
-                <div class="tags-wrap" id="info-interests">
-                    <span class="tags-empty">No interests listed</span>
+                <div class="interests-grid" id="info-interests">
+                    <span class="interests-empty">No interests listed</span>
                 </div>
             </section>
 
@@ -845,21 +1043,41 @@
                     <span class="mag-title">Photos</span>
                     <span class="mag-line"></span>
                 </div>
-                <div class="collage" id="collage">
-                    <div class="collage-empty" style="grid-column: 1 / -1;">Loading photos...</div>
+                <div class="photo-mosaic" id="photo-mosaic">
+                    <div class="photo-mosaic-empty" style="grid-column: 1 / -1;">Loading photos...</div>
                 </div>
             </section>
+
+            <!-- VERIFICATION STRIP -->
+            <div class="verify-strip">
+                <div class="verify-strip-item">
+                    <span class="icon">✓</span>
+                    <span>Profile Verified</span>
+                </div>
+                <div class="verify-strip-item">
+                    <span class="icon lock">🔒</span>
+                    <span>Privacy Protected</span>
+                </div>
+            </div>
 
             <!-- CTA -->
             <div class="profile-cta">
                 <div class="price-badge">
                     <span class="price-icon">💎</span>
-                    <span>Only <span class="price-amount">$13</span> to get connected</span>
+                    <span>Matching Fee: <span class="price-amount">$14.99</span></span>
                 </div>
+                <p class="price-subtitle">Secure connection request</p>
 
                 <button class="btn-connect-big" id="connect-btn" onclick="connectWith()">
-                    💬 Connect with <span id="cta-name">this member</span>
+                    💬 Request Connection
                 </button>
+
+                <!-- Shareable short URL -->
+                <div class="share-link-row" id="share-link-row" style="display:none;">
+                    <span class="link-icon">🔗</span>
+                    <span class="link-text" id="share-link-text">prolovehub.com/u/...</span>
+                    <button class="copy-btn" id="copy-link-btn" onclick="copyProfileLink()">Copy</button>
+                </div>
             </div>
 
         </div>
@@ -905,7 +1123,134 @@
 
         let memberData = null;
         let profilePhotos = [];
+        let shortUrl = '';
 
+        // ============================================================
+        // EMOJI MAP for interests & looking-for items
+        // ============================================================
+        const EMOJI_MAP = {
+            // Looking for
+            'serious relationship': '❤️',
+            'serious': '❤️',
+            'relationship': '❤️',
+            'marriage': '💍',
+            'married': '💍',
+            'friendship': '🤝',
+            'friends': '🤝',
+            'casual': '😎',
+            'long term': '❤️',
+            'long-term': '❤️',
+            'life partner': '💞',
+            'companionship': '👫',
+            'dating': '💕',
+            'love': '❤️',
+            'travel partner': '✈️',
+
+            // Interests
+            'beach': '🏖️',
+            'fishing': '🎣',
+            'travel': '✈️',
+            'traveling': '✈️',
+            'family': '👨‍👩‍👧',
+            'business': '💼',
+            'reading': '📚',
+            'books': '📚',
+            'music': '🎵',
+            'singing': '🎤',
+            'dancing': '💃',
+            'cooking': '🍳',
+            'food': '🍔',
+            'gym': '💪',
+            'fitness': '💪',
+            'running': '🏃',
+            'sports': '⚽',
+            'football': '⚽',
+            'soccer': '⚽',
+            'basketball': '🏀',
+            'tennis': '🎾',
+            'swimming': '🏊',
+            'hiking': '🥾',
+            'camping': '⛺',
+            'outdoors': '🌿',
+            'nature': '🌳',
+            'photography': '📷',
+            'art': '🎨',
+            'painting': '🎨',
+            'movies': '🎬',
+            'cinema': '🎬',
+            'gaming': '🎮',
+            'games': '🎮',
+            'technology': '💻',
+            'tech': '💻',
+            'coding': '💻',
+            'programming': '💻',
+            'fashion': '👗',
+            'shopping': '🛍️',
+            'pets': '🐶',
+            'dogs': '🐶',
+            'dog': '🐶',
+            'cats': '🐱',
+            'cat': '🐱',
+            'coffee': '☕',
+            'wine': '🍷',
+            'beer': '🍺',
+            'party': '🎉',
+            'partying': '🎉',
+            'church': '⛪',
+            'god': '🙏',
+            'faith': '🙏',
+            'yoga': '🧘',
+            'meditation': '🧘',
+            'writing': '✍️',
+            'gardening': '🌱',
+            'cars': '🚗',
+            'bikes': '🏍️',
+            'motorcycles': '🏍️',
+            'yachting': '🛥️',
+            'boats': '⛵',
+            'sailing': '⛵',
+            'horses': '🐴',
+            'animals': '🐾',
+            'volunteering': '🤲',
+            'charity': '🤲',
+            'crypto': '🪙',
+            'investing': '📈',
+            'stocks': '📈',
+            'real estate': '🏠',
+            'science': '🔬',
+            'history': '📜',
+            'languages': '🗣️'
+        };
+
+        function emojiFor(text) {
+            const key = String(text).toLowerCase().trim();
+            if (EMOJI_MAP[key]) return EMOJI_MAP[key];
+            // Try partial match
+            for (const k in EMOJI_MAP) {
+                if (key.includes(k)) return EMOJI_MAP[k];
+            }
+            return '✨';
+        }
+
+        // ============================================================
+        // SLUG for shareable URL
+        // ============================================================
+        function slugify(name, age) {
+            let slug = String(name || 'member')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '') // strip accents
+                .replace(/[^a-z0-9\s-]/g, '')    // keep only letters, numbers, spaces, hyphens
+                .trim()
+                .replace(/\s+/g, '-')            // spaces → hyphens
+                .replace(/-+/g, '-');            // collapse hyphens
+            if (age) slug = `${slug}-${age}`;
+            return slug || 'member';
+        }
+
+        // ============================================================
+        // URL PARAM
+        // ============================================================
         function getMemberIdFromURL() {
             const params = new URLSearchParams(window.location.search);
             return params.get('id');
@@ -919,6 +1264,9 @@
             } catch (err) { return null; }
         }
 
+        // ============================================================
+        // LOAD PROFILE
+        // ============================================================
         async function loadProfile() {
             const memberId = getMemberIdFromURL();
             if (!memberId) {
@@ -950,6 +1298,9 @@
             }
         }
 
+        // ============================================================
+        // RENDER PROFILE
+        // ============================================================
         function renderProfile(member) {
             const name = member.name || 'Member';
             const age = member.age || '';
@@ -960,6 +1311,7 @@
             const isOnline = member.online === true;
             const isVerified = member.verified === true;
 
+            // Photos
             let photos = [];
             if (member.photo_file_ids && member.photo_file_ids.length > 0) {
                 photos = member.photo_file_ids
@@ -967,94 +1319,227 @@
                     .filter(u => u);
             }
             if (photos.length === 0) {
-                photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`];
+                photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=600`];
             }
             profilePhotos = photos;
 
-            const avatarImg = document.getElementById('profile-avatar');
-            avatarImg.src = photos[0];
-            avatarImg.onerror = function() {
-                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`;
+            // Hero photo
+            const heroImg = document.getElementById('hero-photo');
+            heroImg.src = photos[0];
+            heroImg.onerror = function() {
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=600`;
             };
 
-            const ring = document.getElementById('status-ring');
-            ring.className = 'status-ring' + (isOnline ? '' : ' offline');
+            // Verified badge overlay
+            document.getElementById('hero-verified-badge').style.display = isVerified ? 'flex' : 'none';
 
+            // Online ring
+            const ring = document.getElementById('hero-online-ring');
+            ring.className = 'hero-online-ring' + (isOnline ? '' : ' offline');
+
+            // Name
             const nameEl = document.getElementById('profile-name');
-            nameEl.innerHTML = `✨ ${name}${age ? ', ' + age : ''}` +
-                (isVerified ? ' <span class="verified-badge">✓</span>' : '');
+            nameEl.innerHTML = `${name}${age ? ', ' + age : ''}` +
+                (isVerified ? ' <span class="name-verified">✓</span>' : '');
 
-            const statusLine = document.getElementById('profile-status-line');
-            statusLine.innerHTML = isOnline
-                ? '<span class="online-text">🟢 Online</span>'
-                : '<span class="offline-text">⚪ Offline</span>';
-
+            // Meta lines
             document.getElementById('profile-location-line').textContent = `📍 ${location}`;
+            document.getElementById('profile-occupation-line').textContent = `💼 ${occupation}`;
 
+            // About list
             document.getElementById('info-location').textContent = location;
             document.getElementById('info-origin').textContent = origin;
             document.getElementById('info-age').textContent = age || '—';
-            document.getElementById('info-gender').textContent = gender;
+            document.getElementById('info-gender').textContent = capitalize(gender);
             document.getElementById('info-occupation').textContent = occupation;
 
+            // Bio
             const bio = member.about_me || member.bio || '';
             const bioEl = document.getElementById('info-bio');
+            const readMoreBtn = document.getElementById('read-more-btn');
+
             if (bio) {
                 bioEl.textContent = bio;
                 bioEl.classList.remove('empty');
+
+                // Check if bio needs collapsing
+                requestAnimationFrame(() => {
+                    if (bioEl.scrollHeight > bioEl.clientHeight + 4) {
+                        readMoreBtn.classList.add('show');
+                        readMoreBtn.textContent = '[Read more]';
+                        bioEl.classList.add('collapsed');
+                    } else {
+                        readMoreBtn.classList.remove('show');
+                        bioEl.classList.remove('collapsed');
+                    }
+                });
             } else {
                 bioEl.textContent = 'No bio available.';
                 bioEl.classList.add('empty');
+                readMoreBtn.classList.remove('show');
             }
 
-            const looking = member.looking_for || '';
-            const lookingEl = document.getElementById('info-looking');
-            if (looking) {
-                lookingEl.textContent = looking;
-                lookingEl.classList.remove('empty');
-            } else {
-                lookingEl.textContent = 'Not specified';
-                lookingEl.classList.add('empty');
-            }
+            // Looking for
+            renderLookingFor(member.looking_for);
 
-            const interestsEl = document.getElementById('info-interests');
-            if (member.interests && member.interests.length > 0) {
-                interestsEl.innerHTML = member.interests
-                    .map(i => `<span class="tag">#${i}</span>`).join('');
-            } else {
-                interestsEl.innerHTML = '<span class="tags-empty">No interests listed</span>';
-            }
+            // Interests
+            renderInterests(member.interests);
 
-            document.getElementById('cta-name').textContent = name;
+            // Photo mosaic
+            renderPhotoMosaic(photos, name);
 
-            renderCollage(photos, name);
+            // Shareable URL
+            shortUrl = `${window.location.origin}/u/${slugify(name, age)}`;
+            document.getElementById('share-link-text').textContent = shortUrl.replace(/^https?:\/\//, '');
+            document.getElementById('share-link-row').style.display = 'flex';
 
+            // Document title
             document.title = `${name} | Pro Love Hub`;
         }
 
-        function renderCollage(photos, memberName) {
-            const collage = document.getElementById('collage');
+        function capitalize(str) {
+            if (!str) return '';
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
 
-            if (!photos || photos.length === 0) {
-                collage.innerHTML = '<div class="collage-empty" style="grid-column: 1 / -1;">No photos available</div>';
+        // ============================================================
+        // LOOKING FOR — parse into icon rows
+        // ============================================================
+        function renderLookingFor(text) {
+            const el = document.getElementById('info-looking');
+            if (!text || !text.trim()) {
+                el.innerHTML = '<span class="looking-empty">Not specified</span>';
                 return;
             }
 
-            const patternClasses = ['p1', 'p2', 'p3', 'p4', 'p5'];
+            // Split on commas, semicolons, "and", "&", newlines
+            const items = String(text)
+                .split(/[,;&\n]|\band\b/gi)
+                .map(s => s.trim())
+                .filter(Boolean);
 
-            const html = photos.map((url, i) => {
-                const pattern = patternClasses[i % 5];
+            if (items.length === 0) {
+                el.innerHTML = '<span class="looking-empty">Not specified</span>';
+                return;
+            }
+
+            el.innerHTML = items.map(item => {
+                const emoji = emojiFor(item);
                 return `
-                    <div class="collage-item ${pattern}" onclick="openLightbox('${url}')">
-                        <img src="${url}" alt="${memberName} photo ${i + 1}" loading="lazy"
+                    <div class="looking-item">
+                        <span class="icon">${emoji}</span>
+                        <span>${escapeHtml(item)}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // INTERESTS — icon chips
+        // ============================================================
+        function renderInterests(interests) {
+            const el = document.getElementById('info-interests');
+            if (!interests || interests.length === 0) {
+                el.innerHTML = '<span class="interests-empty">No interests listed</span>';
+                return;
+            }
+
+            el.innerHTML = interests.map(i => {
+                const emoji = emojiFor(i);
+                return `
+                    <span class="interest-chip">
+                        <span class="icon">${emoji}</span>
+                        <span>${escapeHtml(i)}</span>
+                    </span>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // PHOTO MOSAIC — 2-column mixed sizes
+        // ============================================================
+        function renderPhotoMosaic(photos, memberName) {
+            const mosaic = document.getElementById('photo-mosaic');
+
+            if (!photos || photos.length === 0) {
+                mosaic.innerHTML = '<div class="photo-mosaic-empty" style="grid-column: 1 / -1;">No photos available</div>';
+                return;
+            }
+
+            // Pattern: alternate square / tall
+            const html = photos.map((url, i) => {
+                // Make every 3rd item tall for visual rhythm
+                const tall = (i % 3 === 2);
+                const cls = tall ? 'photo-mosaic-item tall' : 'photo-mosaic-item';
+                return `
+                    <div class="${cls}" onclick="openLightbox('${url}')">
+                        <img src="${url}" alt="${escapeHtml(memberName)} photo ${i + 1}" loading="lazy"
                              onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=F7266D&color=fff&size=400'">
                     </div>
                 `;
             }).join('');
 
-            collage.innerHTML = html;
+            mosaic.innerHTML = html;
         }
 
+        // ============================================================
+        // BIO READ MORE TOGGLE
+        // ============================================================
+        window.toggleBio = function() {
+            const bioEl = document.getElementById('info-bio');
+            const btn = document.getElementById('read-more-btn');
+
+            if (bioEl.classList.contains('collapsed')) {
+                bioEl.classList.remove('collapsed');
+                btn.textContent = '[Read less]';
+            } else {
+                bioEl.classList.add('collapsed');
+                btn.textContent = '[Read more]';
+            }
+        }
+
+        // ============================================================
+        // COPY SHARE LINK
+        // ============================================================
+        window.copyProfileLink = async function() {
+            if (!shortUrl) return;
+            const btn = document.getElementById('copy-link-btn');
+
+            try {
+                await navigator.clipboard.writeText(shortUrl);
+                btn.textContent = '✓ Copied';
+                btn.classList.add('copied');
+                showToast('🔗 Profile link copied!', 'success');
+
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = shortUrl;
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    btn.textContent = '✓ Copied';
+                    btn.classList.add('copied');
+                    showToast('🔗 Profile link copied!', 'success');
+                    setTimeout(() => {
+                        btn.textContent = 'Copy';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                } catch (e) {
+                    showToast('Could not copy link', 'error');
+                }
+                document.body.removeChild(ta);
+            }
+        }
+
+        // ============================================================
+        // LIGHTBOX
+        // ============================================================
         window.openLightbox = function(url) {
             document.getElementById('lightbox-img').src = url;
             document.getElementById('lightbox').classList.add('show');
@@ -1071,6 +1556,9 @@
             if (e.key === 'Escape') closeLightbox();
         });
 
+        // ============================================================
+        // MENU
+        // ============================================================
         window.toggleMenu = function() {
             document.getElementById('menuDropdown').classList.toggle('show');
         }
@@ -1082,35 +1570,44 @@
             }
         });
 
+        // ============================================================
+        // CONNECT
+        // ============================================================
         window.connectWith = function() {
             if (!memberData) return;
             window.location.href = `connect.html?member=${memberData.id}`;
         }
 
+        // ============================================================
+        // SHARE
+        // ============================================================
         window.shareProfile = async function() {
             if (!memberData) return;
             const name = memberData.name || 'Member';
             const location = memberData.current_location || memberData.location || 'Unknown';
             const origin = memberData.home_country || memberData.origin || 'Not specified';
-            const url = window.location.href;
+            const shareUrl = shortUrl || window.location.href;
 
             const msg = `
 👤 *${name}*
 📍 ${location}
 🌍 From ${origin}
 💎 Check them out on Pro Love Hub:
-${url}
+${shareUrl}
             `.trim();
 
             if (navigator.share) {
                 try {
-                    await navigator.share({ title: name, text: msg, url });
+                    await navigator.share({ title: name, text: msg, url: shareUrl });
                 } catch (e) {}
             } else {
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             }
         }
 
+        // ============================================================
+        // SUPPORT
+        // ============================================================
         window.openSupport = async function(event) {
             if (event) event.preventDefault();
             try {
@@ -1137,12 +1634,18 @@ ${url}
             }
         }
 
+        // ============================================================
+        // LOGOUT
+        // ============================================================
         window.logoutUser = async function() {
             try { await supabase.auth.signOut(); } catch (e) {}
             sessionStorage.removeItem('prolovehub_likes');
             window.location.href = 'index.html';
         }
 
+        // ============================================================
+        // BACK
+        // ============================================================
         window.goBack = function() {
             if (window.history.length > 1) {
                 window.history.back();
@@ -1151,6 +1654,9 @@ ${url}
             }
         }
 
+        // ============================================================
+        // TOAST
+        // ============================================================
         let toastTimeout;
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
@@ -1161,10 +1667,28 @@ ${url}
             toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
         }
 
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
         loadProfile();
 
-        console.log('💎 Pro Love Hub Profile — pink + blue palette');
-        console.log('✅ $13 price badge above CTA');
+        console.log('💎 Pro Love Hub Profile — editorial layout');
+        console.log('✅ Auto-emoji for interests & looking-for');
+        console.log('✅ Shareable short URL displayed');
+        console.log('✅ $14.99 matching fee');
     </script>
 
 </body>
