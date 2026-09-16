@@ -185,9 +185,6 @@
         .status-text--online { color: #28a745; }
         .status-text--offline { color: rgba(26, 5, 51, 0.4); }
 
-        /* ============================================================ */
-        /* USER DETAILS PANEL — HARD-LOCKED TO ADMIN                    */
-        /* ============================================================ */
         .user-details-panel {
             display: none !important;
             background: rgba(255, 255, 255, 0.55);
@@ -405,10 +402,6 @@
             background: #d1e7dd;
         }
 
-        /* ============================================================ */
-        /* WHATSAPP BOOKING BUTTON (user-side only, appears on admin    */
-        /* replies)                                                      */
-        /* ============================================================ */
         .wa-book-btn {
             display: inline-flex;
             align-items: center;
@@ -799,10 +792,14 @@
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
         // ============================================================
-        // WHATSAPP BOOKING CONFIG
+        // CONFIG
         // ============================================================
         const WHATSAPP_NUMBER = '254117044510';
         const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. i am ready with the required fee";
+
+        // Auto-reply text — sent by admin automatically after the
+        // user's FIRST message in a conversation.
+        const ADMIN_AUTO_REPLY = "Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap Book Private Connection below to continue on WhatsApp. Our team is standing by. 💎";
 
         let currentUser = null;
         let isAdmin = false;
@@ -812,6 +809,7 @@
         let realtimeChannel = null;
         let adminStatusInterval = null;
         let readPollingInterval = null;
+        let autoReplyInFlight = false;
 
         const messagesContainer = document.getElementById('messages-container');
         const messageInput = document.getElementById('message-input');
@@ -857,8 +855,7 @@
 
         async function detectRole() {
             try {
-                const { data: adminRow } = await supabase
-                    .from('admins')
+                const { data: adminRow } = await supabase                    .from('admins')
                     .select('id, email')
                     .eq('id', currentUser.id)
                     .maybeSingle();
@@ -1036,6 +1033,10 @@
 
             messages = data || [];
             renderMessages();
+
+            // After loading, check if the user has sent a message but
+            // the auto-reply hasn't been inserted yet.
+            maybeSendAutoReply();
         }
 
         async function markMessagesAsRead() {
@@ -1063,8 +1064,55 @@
         }
 
         // ============================================================
-        // BUILD WHATSAPP LINK
+        // AUTO-REPLY FROM ADMIN
+        // Triggered once — after the user's first message exists AND
+        // there is no admin reply yet in the conversation.
         // ============================================================
+        async function maybeSendAutoReply() {
+            if (autoReplyInFlight) return;
+            if (!messages || messages.length === 0) return;
+            if (!conversationId || !currentUser) return;
+
+            const hasUserMsg = messages.some(m => m.sender_type === 'user');
+            const hasAdminMsg = messages.some(m => m.sender_type === 'admin');
+
+            if (!hasUserMsg) return;
+            if (hasAdminMsg) return;
+
+            autoReplyInFlight = true;
+
+            try {
+                console.log('🤖 Auto-reply firing — no admin reply yet');
+
+                const { error } = await supabase
+                    .from('messages')
+                    .insert([{
+                        conversation_id: conversationId,
+                        sender_type: 'admin',
+                        sender_id: null,
+                        text: ADMIN_AUTO_REPLY,
+                        read_by_admin: true,
+                        read_by_user: false
+                    }]);
+
+                if (error) throw error;
+
+                // Bump conversation updated_at
+                await supabase
+                    .from('conversations')
+                    .update({ updated_at: new Date().toISOString() })
+                    .eq('id', conversationId);
+
+                console.log('✅ Auto-reply inserted');
+
+                // Reload messages so the user sees it appear
+                await loadMessages();
+            } catch (err) {
+                console.error('Auto-reply failed:', err);
+                autoReplyInFlight = false;
+            }
+        }
+
         function buildWhatsAppLink() {
             const phone = String(WHATSAPP_NUMBER).replace(/\D/g, '');
             const text = encodeURIComponent(WHATSAPP_MESSAGE);
@@ -1138,10 +1186,7 @@
                     </div>
                 `;
 
-                // ============================================================
-                // WHATSAPP BOOKING BUTTON
-                // Shown ONLY to the user, on EVERY admin message that has text
-                // ============================================================
+                // WhatsApp booking button — user side only, on every admin text message
                 if (!isAdmin && msg.sender_type === 'admin' && msg.text && msg.text.trim()) {
                     html += `
                         <div class="message message--received">
