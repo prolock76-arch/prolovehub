@@ -402,6 +402,10 @@
             background: #d1e7dd;
         }
 
+        /* ============================================================ */
+        /* WHATSAPP BOOKING BUTTON — LIVELY                             */
+        /* Glow pulse + periodic shake + sheen sweep + icon bounce      */
+        /* ============================================================ */
         .wa-book-btn {
             display: inline-flex;
             align-items: center;
@@ -414,36 +418,118 @@
             font-weight: 700;
             font-size: 14px;
             text-decoration: none;
-            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
-            transition: all 0.25s ease;
             border: none;
             cursor: pointer;
             margin-top: 6px;
             max-width: 78%;
+            position: relative;
+            overflow: hidden;
+            transform-origin: center;
+            animation:
+                waGlow 2.4s ease-in-out infinite,
+                waShake 4s ease-in-out infinite;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
+        .wa-book-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.35) 50%,
+                transparent 100%
+            );
+            transform: skewX(-20deg);
+            animation: waSheen 3.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes waGlow {
+            0%, 100% {
+                box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35),
+                            0 0 0 0 rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 6px 22px rgba(37, 211, 102, 0.55),
+                            0 0 0 8px rgba(37, 211, 102, 0);
+            }
+        }
+
+        @keyframes waShake {
+            0%, 88%, 100% { transform: translateX(0) rotate(0); }
+            90% { transform: translateX(-3px) rotate(-1deg); }
+            92% { transform: translateX(3px) rotate(1deg); }
+            94% { transform: translateX(-2px) rotate(-0.5deg); }
+            96% { transform: translateX(2px) rotate(0.5deg); }
+        }
+
+        @keyframes waSheen {
+            0%, 60% { left: -120%; }
+            85%, 100% { left: 140%; }
+        }
+
         .wa-book-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6),
+                        0 0 0 4px rgba(37, 211, 102, 0.15);
         }
-        .wa-book-btn:active { transform: scale(0.98); }
+        .wa-book-btn:hover .wa-icon {
+            animation: waIconBounce 0.6s ease-in-out infinite;
+        }
+
+        .wa-book-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.5);
+        }
+
         .wa-book-btn .wa-icon {
             font-size: 18px;
             flex-shrink: 0;
+            display: inline-block;
+            transform-origin: center;
+            animation: waIconPulse 2.4s ease-in-out infinite;
         }
+
+        @keyframes waIconPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.12) rotate(-4deg); }
+        }
+
+        @keyframes waIconBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1.15); }
+            50% { transform: translateY(-3px) rotate(-8deg) scale(1.2); }
+        }
+
         .wa-book-btn .wa-label {
             display: flex;
             flex-direction: column;
             line-height: 1.2;
+            position: relative;
+            z-index: 1;
         }
         .wa-book-btn .wa-label strong {
             font-size: 14px;
             font-weight: 700;
+            letter-spacing: 0.2px;
         }
         .wa-book-btn .wa-label small {
             font-size: 11px;
-            opacity: 0.85;
+            opacity: 0.9;
             font-weight: 500;
             margin-top: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wa-book-btn,
+            .wa-book-btn::before,
+            .wa-book-btn .wa-icon {
+                animation: none !important;
+            }
         }
 
         .date-separator {
@@ -791,14 +877,9 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        // ============================================================
-        // CONFIG
-        // ============================================================
         const WHATSAPP_NUMBER = '254117044510';
         const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. i am ready with the required fee";
 
-        // Auto-reply text — sent by admin automatically after the
-        // user's FIRST message in a conversation.
         const ADMIN_AUTO_REPLY = "Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap Book Private Connection below to continue on WhatsApp. Our team is standing by. 💎";
 
         let currentUser = null;
@@ -1034,8 +1115,6 @@
             messages = data || [];
             renderMessages();
 
-            // After loading, check if the user has sent a message but
-            // the auto-reply hasn't been inserted yet.
             maybeSendAutoReply();
         }
 
@@ -1063,11 +1142,6 @@
             }
         }
 
-        // ============================================================
-        // AUTO-REPLY FROM ADMIN
-        // Triggered once — after the user's first message exists AND
-        // there is no admin reply yet in the conversation.
-        // ============================================================
         async function maybeSendAutoReply() {
             if (autoReplyInFlight) return;
             if (!messages || messages.length === 0) return;
@@ -1097,7 +1171,6 @@
 
                 if (error) throw error;
 
-                // Bump conversation updated_at
                 await supabase
                     .from('conversations')
                     .update({ updated_at: new Date().toISOString() })
@@ -1105,7 +1178,6 @@
 
                 console.log('✅ Auto-reply inserted');
 
-                // Reload messages so the user sees it appear
                 await loadMessages();
             } catch (err) {
                 console.error('Auto-reply failed:', err);
@@ -1186,7 +1258,6 @@
                     </div>
                 `;
 
-                // WhatsApp booking button — user side only, on every admin text message
                 if (!isAdmin && msg.sender_type === 'admin' && msg.text && msg.text.trim()) {
                     html += `
                         <div class="message message--received">
