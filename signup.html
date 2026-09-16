@@ -21,14 +21,117 @@
 
         body {
             font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f3e8ff;
-            color: #1a0533;
+            background: #FFF5F8;
+            color: #1a0a14;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
         a { text-decoration: none; color: inherit; }
+
+        /* ============================================================ */
+        /* BRAND LOGO — Pro + L♥ve + Hub                                 */
+        /* ============================================================ */
+        .brand-logo {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 4px;
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            padding: 8px 0 4px;
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+        .brand-logo:hover { transform: translateY(-1px); }
+        .brand-logo__pro {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: #F7266D;
+            letter-spacing: -1.3px;
+            line-height: 1;
+            position: relative;
+            top: -7px;
+        }
+        .brand-logo__stack {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 0.9;
+            margin-left: 2px;
+        }
+        .brand-logo__hearts {
+            position: absolute;
+            top: -16px;
+            left: 7px;
+            font-size: 10px;
+            color: #F7266D;
+            line-height: 1;
+            font-family: "Inter", sans-serif;
+            pointer-events: none;
+        }
+        .brand-logo__hearts::before {
+            content: '♥';
+            font-size: 13px;
+            position: absolute;
+            top: -5px;
+            left: 12px;
+        }
+        .brand-logo__hearts::after {
+            content: '♥';
+            font-size: 8px;
+            position: absolute;
+            top: 0;
+            left: 24px;
+        }
+        .brand-logo__love {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 24px;
+            font-weight: 700;
+            font-style: italic;
+            color: #1E88E5;
+            letter-spacing: -1.3px;
+            line-height: 1;
+            position: relative;
+            top: -4px;
+            display: inline-flex;
+            align-items: baseline;
+        }
+        .brand-logo__love .l { color: #1E88E5; }
+        .brand-logo__love .heart-o {
+            color: #F7266D;
+            font-style: normal;
+            font-family: "Inter", sans-serif;
+            font-size: 17px;
+            font-weight: 900;
+            display: inline-block;
+            transform: translateY(-1px) scaleX(1.1);
+            margin: 0 1px;
+            line-height: 1;
+            text-shadow: 0 0 8px rgba(247, 38, 109, 0.35);
+        }
+        .brand-logo__hub {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            font-weight: 900;
+            color: #F7266D;
+            letter-spacing: -0.7px;
+            line-height: 1;
+            margin-top: 2px;
+            margin-left: 5px;
+        }
+        @media (max-width: 480px) {
+            .brand-logo__pro { font-size: 20px; top: -5px; }
+            .brand-logo__love { font-size: 18px; top: -3px; }
+            .brand-logo__love .heart-o { font-size: 13px; }
+            .brand-logo__hub { font-size: 12px; margin-left: 4px; }
+            .brand-logo__hearts { font-size: 7px; top: -11px; left: 4px; }
+            .brand-logo__hearts::before { font-size: 10px; top: -4px; left: 9px; }
+            .brand-logo__hearts::after { font-size: 6px; top: 0; left: 18px; }
+        }
 
         /* HEADER */
         .cb-shell-header {
@@ -39,7 +142,7 @@
             z-index: 100;
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(108, 60, 179, 0.12);
+            border-bottom: 1px solid rgba(247, 38, 109, 0.12);
         }
 
         .cb-shell-header__inner {
@@ -50,25 +153,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .cb-shell-brand {
-            display: flex;
-            align-items: center;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a0533;
-            margin-left: -4px;
-        }
-        .cb-shell-brand .heart {
-            color: #ff0000;
-            display: inline-block;
-        }
-        .cb-shell-brand span {
-            font-family: "Inter", sans-serif;
-            font-weight: 300;
-            color: #6c3cb3;
         }
 
         .cb-shell-actions {
@@ -88,19 +172,19 @@
             font-family: "Inter", sans-serif;
         }
         .cb-shell-button--secondary {
-            background: rgba(108, 60, 179, 0.1);
-            color: #1a0533;
-            border: 1px solid rgba(108, 60, 179, 0.12);
+            background: rgba(247, 38, 109, 0.1);
+            color: #1a0a14;
+            border: 1px solid rgba(247, 38, 109, 0.12);
         }
         .cb-shell-button--secondary:hover {
-            background: rgba(108, 60, 179, 0.18);
+            background: rgba(247, 38, 109, 0.18);
         }
         .cb-shell-button--primary {
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
         }
         .cb-shell-button--primary:hover {
-            background: linear-gradient(135deg, #4a1a6b, #6c3cb3);
+            background: linear-gradient(135deg, #C41E56, #F7266D);
             transform: translateY(-2px);
         }
 
@@ -113,7 +197,7 @@
             padding: 80px 16px 40px;
             min-height: 100vh;
             position: relative;
-            background: radial-gradient(ellipse at center top, rgba(108, 60, 179, 0.06), transparent 70%);
+            background: radial-gradient(ellipse at center top, rgba(247, 38, 109, 0.06), transparent 70%);
         }
 
         /* Floating hearts */
@@ -128,6 +212,7 @@
             position: absolute;
             animation: floatUp 14s infinite linear;
             opacity: 0;
+            filter: drop-shadow(0 0 6px rgba(247, 38, 109, 0.5));
         }
         @keyframes floatUp {
             0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
@@ -142,12 +227,12 @@
             width: 100%;
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             border-radius: 24px;
             padding: 40px 32px 32px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 20px 60px rgba(108, 60, 179, 0.12);
+            border: 1px solid rgba(247, 38, 109, 0.15);
+            box-shadow: 0 20px 60px rgba(247, 38, 109, 0.12);
         }
 
         .signup-card__header {
@@ -164,12 +249,12 @@
         .signup-card__header h1 {
             font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
             font-size: 28px;
-            color: #1a0533;
+            color: #1a0a14;
             font-weight: 700;
         }
 
         .signup-card__header p {
-            color: rgba(26, 5, 51, 0.55);
+            color: rgba(26, 10, 20, 0.55);
             font-size: 14px;
             margin-top: 4px;
         }
@@ -183,7 +268,7 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: rgba(26, 5, 51, 0.7);
+            color: rgba(26, 10, 20, 0.7);
             margin-bottom: 6px;
         }
 
@@ -194,10 +279,10 @@
         .form-group input {
             width: 100%;
             padding: 13px 15px;
-            background: rgba(255, 255, 255, 0.65);
-            border: 1px solid rgba(108, 60, 179, 0.15);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(247, 38, 109, 0.15);
             border-radius: 12px;
-            color: #1a0533;
+            color: #1a0a14;
             font-size: 15px;
             transition: all 0.3s ease;
             outline: none;
@@ -205,13 +290,13 @@
         }
 
         .form-group input::placeholder {
-            color: rgba(26, 5, 51, 0.3);
+            color: rgba(26, 10, 20, 0.3);
         }
 
         .form-group input:focus {
-            border-color: #6c3cb3;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 0 4px rgba(108, 60, 179, 0.1);
+            border-color: #F7266D;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 4px rgba(247, 38, 109, 0.1);
         }
 
         .form-group input.error {
@@ -232,7 +317,7 @@
         .pwd-strength {
             display: none;
             height: 4px;
-            background: rgba(108, 60, 179, 0.1);
+            background: rgba(247, 38, 109, 0.1);
             border-radius: 4px;
             margin-top: 6px;
             overflow: hidden;
@@ -253,7 +338,7 @@
         .btn-signup {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             border: none;
             border-radius: 50px;
@@ -268,8 +353,8 @@
 
         .btn-signup:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.35);
-            background: linear-gradient(135deg, #4a1a6b, #6c3cb3);
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.35);
+            background: linear-gradient(135deg, #C41E56, #F7266D);
         }
 
         .btn-signup:disabled {
@@ -323,22 +408,22 @@
             text-align: center;
             margin-top: 22px;
             padding-top: 18px;
-            border-top: 1px solid rgba(108, 60, 179, 0.08);
+            border-top: 1px solid rgba(247, 38, 109, 0.1);
         }
 
         .signup-footer p {
-            color: rgba(26, 5, 51, 0.55);
+            color: rgba(26, 10, 20, 0.55);
             font-size: 14px;
         }
 
         .signup-footer a {
-            color: #6c3cb3;
+            color: #F7266D;
             font-weight: 700;
             transition: color 0.3s ease;
         }
 
         .signup-footer a:hover {
-            color: #4a1a6b;
+            color: #C41E56;
             text-decoration: underline;
         }
 
@@ -346,13 +431,13 @@
         .terms-note {
             text-align: center;
             font-size: 11px;
-            color: rgba(26, 5, 51, 0.4);
+            color: rgba(26, 10, 20, 0.4);
             margin-top: 14px;
             line-height: 1.5;
         }
 
         .terms-note a {
-            color: #6c3cb3;
+            color: #F7266D;
             font-weight: 600;
         }
 
@@ -379,7 +464,6 @@
             .signup-card__header h1 { font-size: 24px; }
             .signup-card__header .icon { font-size: 42px; }
             .cb-shell-header__inner { height: 56px; padding: 0 12px; }
-            .cb-shell-brand { font-size: 18px; }
             .cb-shell-button { padding: 6px 14px; font-size: 12px; }
             .signup-wrapper { padding: 68px 12px 30px; }
         }
@@ -395,8 +479,15 @@
     <!-- HEADER -->
     <header class="cb-shell-header" role="banner">
         <div class="cb-shell-header__inner">
-            <a class="cb-shell-brand" href="index.html">
-                Pro<span>Love</span><span class="heart">❤️</span>
+            <a class="brand-logo" href="index.html" aria-label="Pro Love Hub">
+                <span class="brand-logo__pro">Pro</span>
+                <span class="brand-logo__stack">
+                    <span class="brand-logo__hearts">♥</span>
+                    <span class="brand-logo__love">
+                        <span class="l">L</span><span class="heart-o">♥</span><span class="l">ve</span>
+                    </span>
+                    <span class="brand-logo__hub">Hub</span>
+                </span>
             </a>
             <div class="cb-shell-actions">
                 <a href="signup.html" class="cb-shell-button cb-shell-button--secondary">Join</a>
@@ -499,9 +590,6 @@
         const passwordInput = document.getElementById('password');
         const pwdStrength = document.getElementById('pwd-strength');
 
-        // ============================================================
-        // REDIRECT TARGET
-        // ============================================================
         function getRedirectTarget() {
             const params = new URLSearchParams(window.location.search);
             const redirect = params.get('redirect');
@@ -516,9 +604,6 @@
             return 'members.html';
         }
 
-        // ============================================================
-        // CHECK EXISTING SESSION
-        // ============================================================
         (async function checkSession() {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
@@ -531,9 +616,6 @@
             }
         })();
 
-        // ============================================================
-        // PASSWORD STRENGTH INDICATOR
-        // ============================================================
         passwordInput.addEventListener('input', function() {
             const val = this.value;
             if (val.length === 0) {
@@ -557,9 +639,6 @@
             }
         });
 
-        // ============================================================
-        // CLEAR FIELD ERRORS ON INPUT
-        // ============================================================
         ['fullname', 'email', 'password', 'confirm-password'].forEach(id => {
             const el = document.getElementById(id);
             if (el) {
@@ -573,9 +652,6 @@
             }
         });
 
-        // ============================================================
-        // SHOW FIELD ERROR
-        // ============================================================
         function showFieldError(id) {
             const el = document.getElementById(id);
             const err = document.getElementById('err-' + id);
@@ -583,9 +659,6 @@
             if (err) err.classList.add('show');
         }
 
-        // ============================================================
-        // HANDLE SIGNUP
-        // ============================================================
         window.handleSignup = async function(event) {
             event.preventDefault();
 
@@ -594,7 +667,6 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
-            // Clear previous errors
             errorMessage.classList.remove('show');
             successMessage.classList.remove('show');
             ['fullname', 'email', 'password', 'confirm-password'].forEach(id => {
@@ -604,7 +676,6 @@
                 if (err) err.classList.remove('show');
             });
 
-            // Validate
             let hasError = false;
 
             if (!fullname || fullname.length < 2) {
@@ -630,14 +701,12 @@
                 return;
             }
 
-            // Disable button
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-inline"></span>Creating account...';
 
             try {
                 console.log('🔐 Creating account for:', email);
 
-                // 1. Sign up with Supabase Auth
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
@@ -679,10 +748,7 @@
 
                 console.log('✅ Account created:', data.user.email);
 
-                // 2. If session exists (email confirmation OFF), user is logged in
-                //    If no session (email confirmation ON), user needs to verify
                 if (data.session) {
-                    // Logged in immediately
                     successMessage.innerHTML = `✅ Welcome, ${fullname}! Redirecting...`;
                     successMessage.classList.add('show');
 
@@ -694,14 +760,12 @@
                         window.location.href = target;
                     }, 1200);
                 } else {
-                    // Email confirmation required
                     successMessage.innerHTML = `✅ Check your email to confirm your account!`;
                     successMessage.classList.add('show');
 
                     btn.innerHTML = '📧 Check your email';
                     btn.style.background = 'linear-gradient(135deg, #ffa500, #e67e00)';
 
-                    // Reset button after 4s
                     setTimeout(() => {
                         btn.disabled = false;
                         btn.innerHTML = '💎 Create Account';
@@ -718,7 +782,7 @@
             }
         }
 
-        console.log('💎 Sign Up Page — Supabase Auth + Purple Theme');
+        console.log('💎 Pro Love Hub Sign Up — pink + blue palette');
         console.log('✅ Real authentication via supabase.auth.signUp');
         console.log('✅ Password stored securely by Supabase');
         console.log('✅ Supports ?redirect= parameter');
