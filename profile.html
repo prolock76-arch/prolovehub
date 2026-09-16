@@ -20,14 +20,117 @@
 
         body {
             font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f3e8ff;
-            color: #1a0533;
+            background: #FFF5F8;
+            color: #1a0a14;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
         a { text-decoration: none; color: inherit; }
+
+        /* ============================================================ */
+        /* BRAND LOGO — compact version (fits 56px header)              */
+        /* ============================================================ */
+        .brand-logo {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 3px;
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            padding: 6px 0 3px;
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+        .brand-logo:hover { transform: translateY(-1px); }
+        .brand-logo__pro {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #F7266D;
+            letter-spacing: -1px;
+            line-height: 1;
+            position: relative;
+            top: -5px;
+        }
+        .brand-logo__stack {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 0.9;
+            margin-left: 1px;
+        }
+        .brand-logo__hearts {
+            position: absolute;
+            top: -12px;
+            left: 5px;
+            font-size: 8px;
+            color: #F7266D;
+            line-height: 1;
+            font-family: "Inter", sans-serif;
+            pointer-events: none;
+        }
+        .brand-logo__hearts::before {
+            content: '♥';
+            font-size: 10px;
+            position: absolute;
+            top: -4px;
+            left: 9px;
+        }
+        .brand-logo__hearts::after {
+            content: '♥';
+            font-size: 6px;
+            position: absolute;
+            top: 0;
+            left: 18px;
+        }
+        .brand-logo__love {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 18px;
+            font-weight: 700;
+            font-style: italic;
+            color: #1E88E5;
+            letter-spacing: -1px;
+            line-height: 1;
+            position: relative;
+            top: -3px;
+            display: inline-flex;
+            align-items: baseline;
+        }
+        .brand-logo__love .l { color: #1E88E5; }
+        .brand-logo__love .heart-o {
+            color: #F7266D;
+            font-style: normal;
+            font-family: "Inter", sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            display: inline-block;
+            transform: translateY(-1px) scaleX(1.1);
+            margin: 0 1px;
+            line-height: 1;
+            text-shadow: 0 0 6px rgba(247, 38, 109, 0.35);
+        }
+        .brand-logo__hub {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            color: #F7266D;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            margin-top: 2px;
+            margin-left: 4px;
+        }
+        @media (max-width: 480px) {
+            .brand-logo__pro { font-size: 17px; top: -4px; }
+            .brand-logo__love { font-size: 15px; top: -3px; }
+            .brand-logo__love .heart-o { font-size: 11px; }
+            .brand-logo__hub { font-size: 9px; }
+            .brand-logo__hearts { font-size: 6px; top: -10px; left: 4px; }
+            .brand-logo__hearts::before { font-size: 8px; top: -3px; left: 7px; }
+            .brand-logo__hearts::after { font-size: 5px; top: 0; left: 14px; }
+        }
 
         .profile-header {
             position: fixed;
@@ -37,7 +140,7 @@
             z-index: 100;
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(108, 60, 179, 0.12);
+            border-bottom: 1px solid rgba(247, 38, 109, 0.12);
             padding: 0 12px;
             height: 56px;
             display: flex;
@@ -47,9 +150,9 @@
         }
 
         .header-btn {
-            background: rgba(108, 60, 179, 0.08);
+            background: rgba(247, 38, 109, 0.08);
             border: none;
-            color: #1a0533;
+            color: #1a0a14;
             width: 38px;
             height: 38px;
             border-radius: 50%;
@@ -63,22 +166,7 @@
             font-family: "Inter", sans-serif;
             flex-shrink: 0;
         }
-        .header-btn:hover { background: rgba(108, 60, 179, 0.15); }
-
-        .brand {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a0533;
-            text-align: center;
-            flex: 1;
-        }
-        .brand .heart { color: #ff0000; display: inline-block; }
-        .brand span {
-            font-family: "Inter", sans-serif;
-            font-weight: 300;
-            color: #6c3cb3;
-        }
+        .header-btn:hover { background: rgba(247, 38, 109, 0.15); }
 
         .header-actions {
             display: flex;
@@ -98,7 +186,7 @@
             min-width: 200px;
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(108, 60, 179, 0.1);
+            border: 1px solid rgba(247, 38, 109, 0.1);
             overflow: hidden;
             z-index: 200;
         }
@@ -116,18 +204,18 @@
             align-items: center;
             gap: 10px;
             padding: 13px 18px;
-            color: #1a0533;
+            color: #1a0a14;
             font-size: 14px;
             font-weight: 500;
             transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(108, 60, 179, 0.06);
+            border-bottom: 1px solid rgba(247, 38, 109, 0.06);
         }
         .menu-dropdown a:last-child { border-bottom: none; }
-        .menu-dropdown a:hover { background: rgba(108, 60, 179, 0.06); }
+        .menu-dropdown a:hover { background: rgba(247, 38, 109, 0.06); }
         .menu-dropdown .logout-btn { color: #dc3545; font-weight: 600; }
         .menu-dropdown .menu-divider {
             height: 1px;
-            background: rgba(108, 60, 179, 0.06);
+            background: rgba(247, 38, 109, 0.06);
             margin: 4px 0;
         }
 
@@ -135,7 +223,7 @@
             flex: 1;
             padding: 68px 0 90px;
             width: 100%;
-            background: #f3e8ff;
+            background: #FFF5F8;
         }
 
         .profile-container {
@@ -162,7 +250,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #fff;
-            box-shadow: 0 4px 20px rgba(108, 60, 179, 0.2);
+            box-shadow: 0 4px 20px rgba(247, 38, 109, 0.2);
             display: block;
         }
 
@@ -198,7 +286,7 @@
             font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
             font-size: 22px;
             font-weight: 700;
-            color: #1a0533;
+            color: #1a0a14;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -225,7 +313,7 @@
 
         .profile-status-line {
             font-size: 13px;
-            color: rgba(26, 5, 51, 0.6);
+            color: rgba(26, 10, 20, 0.6);
             display: flex;
             align-items: center;
             gap: 5px;
@@ -234,11 +322,11 @@
         }
 
         .profile-status-line .online-text { color: #28a745; }
-        .profile-status-line .offline-text { color: rgba(26, 5, 51, 0.4); }
+        .profile-status-line .offline-text { color: rgba(26, 10, 20, 0.4); }
 
         .profile-location-line {
             font-size: 13px;
-            color: rgba(26, 5, 51, 0.55);
+            color: rgba(26, 10, 20, 0.55);
             display: flex;
             align-items: center;
             gap: 4px;
@@ -247,11 +335,11 @@
 
         .mag-section {
             padding: 22px 0 24px;
-            border-top: 1px solid rgba(108, 60, 179, 0.12);
+            border-top: 1px solid rgba(247, 38, 109, 0.12);
         }
 
         .mag-section:first-of-type {
-            border-top: 2px solid rgba(108, 60, 179, 0.2);
+            border-top: 2px solid rgba(247, 38, 109, 0.2);
         }
 
         .mag-header {
@@ -265,8 +353,8 @@
             font-family: "Playfair Display", Georgia, serif;
             font-size: 15px;
             font-weight: 700;
-            color: #6c3cb3;
-            background: rgba(108, 60, 179, 0.08);
+            color: #F7266D;
+            background: rgba(247, 38, 109, 0.08);
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -280,7 +368,7 @@
             font-family: "Playfair Display", Georgia, serif;
             font-size: 15px;
             font-weight: 700;
-            color: #1a0533;
+            color: #1a0a14;
             text-transform: uppercase;
             letter-spacing: 1px;
             flex: 1;
@@ -289,7 +377,7 @@
         .mag-line {
             flex: 1;
             height: 1px;
-            background: linear-gradient(to right, rgba(108, 60, 179, 0.25), transparent);
+            background: linear-gradient(to right, rgba(247, 38, 109, 0.25), transparent);
         }
 
         .about-list {
@@ -304,7 +392,7 @@
             align-items: flex-start;
             gap: 10px;
             font-size: 14px;
-            color: #1a0533;
+            color: #1a0a14;
             line-height: 1.4;
         }
 
@@ -324,12 +412,12 @@
 
         .about-item .text .label {
             font-weight: 700;
-            color: rgba(26, 5, 51, 0.55);
+            color: rgba(26, 10, 20, 0.55);
         }
 
         .about-bio {
             font-size: 14px;
-            color: rgba(26, 5, 51, 0.85);
+            color: rgba(26, 10, 20, 0.85);
             line-height: 1.65;
             font-family: "Inter", sans-serif;
             font-weight: 400;
@@ -337,19 +425,19 @@
         }
 
         .about-bio.empty {
-            color: rgba(26, 5, 51, 0.35);
+            color: rgba(26, 10, 20, 0.35);
             font-style: italic;
         }
 
         .looking-text {
             font-size: 14px;
-            color: #1a0533;
+            color: #1a0a14;
             line-height: 1.6;
             font-weight: 500;
         }
 
         .looking-text.empty {
-            color: rgba(26, 5, 51, 0.35);
+            color: rgba(26, 10, 20, 0.35);
             font-style: italic;
         }
 
@@ -362,21 +450,21 @@
         .tag {
             display: inline-block;
             padding: 5px 12px;
-            background: rgba(108, 60, 179, 0.1);
+            background: rgba(247, 38, 109, 0.1);
             border-radius: 50px;
             font-size: 12px;
-            color: #6c3cb3;
+            color: #F7266D;
             font-weight: 600;
             transition: all 0.2s ease;
         }
 
         .tag:hover {
-            background: rgba(108, 60, 179, 0.18);
+            background: rgba(247, 38, 109, 0.18);
             transform: translateY(-1px);
         }
 
         .tags-empty {
-            color: rgba(26, 5, 51, 0.35);
+            color: rgba(26, 10, 20, 0.35);
             font-style: italic;
             font-size: 13px;
         }
@@ -393,13 +481,13 @@
             overflow: hidden;
             border-radius: 10px;
             cursor: pointer;
-            background: #e8d5f5;
+            background: #ffe0eb;
             transition: all 0.3s ease;
         }
 
         .collage-item:hover {
             transform: scale(1.02);
-            box-shadow: 0 8px 24px rgba(108, 60, 179, 0.2);
+            box-shadow: 0 8px 24px rgba(247, 38, 109, 0.2);
             z-index: 2;
         }
 
@@ -421,52 +509,48 @@
         .collage-empty {
             padding: 40px 20px;
             text-align: center;
-            color: rgba(26, 5, 51, 0.35);
+            color: rgba(26, 10, 20, 0.35);
             font-style: italic;
             font-size: 13px;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 12px;
-            border: 1px dashed rgba(108, 60, 179, 0.15);
+            border: 1px dashed rgba(247, 38, 109, 0.15);
         }
 
-        /* ============================================================ */
-        /* CTA                                                          */
-        /* ============================================================ */
         .profile-cta {
             padding: 22px 0 8px;
-            border-top: 2px solid rgba(108, 60, 179, 0.2);
+            border-top: 2px solid rgba(247, 38, 109, 0.2);
             margin-top: 22px;
         }
 
-        /* ⭐ NEW: PRICE BADGE */
         .price-badge {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: linear-gradient(135deg, rgba(108, 60, 179, 0.08), rgba(74, 26, 107, 0.06));
-            border: 1px solid rgba(108, 60, 179, 0.15);
+            background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(196, 30, 86, 0.06));
+            border: 1px solid rgba(247, 38, 109, 0.15);
             border-radius: 50px;
             padding: 8px 18px;
             margin: 0 auto 12px;
             width: fit-content;
             font-size: 13px;
             font-weight: 700;
-            color: #4a1a6b;
+            color: #C41E56;
             letter-spacing: 0.2px;
         }
         .price-badge .price-icon {
             font-size: 15px;
         }
         .price-badge .price-amount {
-            color: #6c3cb3;
+            color: #F7266D;
             font-weight: 800;
         }
 
         .btn-connect-big {
             width: 100%;
             padding: 16px 20px;
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             border: none;
             border-radius: 14px;
@@ -480,19 +564,19 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.3);
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3);
             animation: pulse-btn 2.5s infinite;
         }
 
         @keyframes pulse-btn {
-            0%, 100% { box-shadow: 0 8px 30px rgba(108, 60, 179, 0.3); }
-            50% { box-shadow: 0 12px 40px rgba(108, 60, 179, 0.5); }
+            0%, 100% { box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3); }
+            50% { box-shadow: 0 12px 40px rgba(247, 38, 109, 0.5); }
         }
 
         .btn-connect-big:hover {
             transform: translateY(-2px);
-            background: linear-gradient(135deg, #4a1a6b, #6c3cb3);
-            box-shadow: 0 12px 40px rgba(108, 60, 179, 0.5);
+            background: linear-gradient(135deg, #C41E56, #F7266D);
+            box-shadow: 0 12px 40px rgba(247, 38, 109, 0.5);
         }
 
         .btn-connect-big:active { transform: scale(0.98); }
@@ -549,7 +633,7 @@
             width: 54px;
             height: 54px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6c3cb3, #4a1a6b);
+            background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             border: none;
             cursor: pointer;
@@ -557,7 +641,7 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            box-shadow: 0 8px 30px rgba(108, 60, 179, 0.4);
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.4);
             transition: all 0.3s ease;
             position: relative;
             animation: float-support 3s ease-in-out infinite;
@@ -588,7 +672,7 @@
             right: 16px;
             left: 16px;
             padding: 12px 20px;
-            background: #1a0533;
+            background: #14050f;
             color: #fff;
             border-radius: 10px;
             font-weight: 600;
@@ -608,7 +692,6 @@
 
         @media (min-width: 600px) {
             .profile-header { height: 60px; padding: 0 16px; }
-            .brand { font-size: 20px; }
             .profile-wrapper { padding: 76px 0 100px; }
             .profile-container { padding: 0 20px; }
 
@@ -651,8 +734,15 @@
     <!-- HEADER -->
     <header class="profile-header">
         <button class="header-btn" onclick="goBack()" aria-label="Back">←</button>
-        <a class="brand" href="index.html">
-            Pro<span>Love</span><span class="heart">❤️</span>
+        <a class="brand-logo" href="index.html" aria-label="Pro Love Hub">
+            <span class="brand-logo__pro">Pro</span>
+            <span class="brand-logo__stack">
+                <span class="brand-logo__hearts">♥</span>
+                <span class="brand-logo__love">
+                    <span class="l">L</span><span class="heart-o">♥</span><span class="l">ve</span>
+                </span>
+                <span class="brand-logo__hub">Hub</span>
+            </span>
         </a>
         <div class="header-actions">
             <button class="header-btn" onclick="shareProfile()" aria-label="Share">↗</button>
@@ -762,7 +852,6 @@
 
             <!-- CTA -->
             <div class="profile-cta">
-                <!-- ⭐ NEW: PRICE BADGE -->
                 <div class="price-badge">
                     <span class="price-icon">💎</span>
                     <span>Only <span class="price-amount">$13</span> to get connected</span>
@@ -878,14 +967,14 @@
                     .filter(u => u);
             }
             if (photos.length === 0) {
-                photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c3cb3&color=fff&size=400`];
+                photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`];
             }
             profilePhotos = photos;
 
             const avatarImg = document.getElementById('profile-avatar');
             avatarImg.src = photos[0];
             avatarImg.onerror = function() {
-                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c3cb3&color=fff&size=400`;
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`;
             };
 
             const ring = document.getElementById('status-ring');
@@ -958,7 +1047,7 @@
                 return `
                     <div class="collage-item ${pattern}" onclick="openLightbox('${url}')">
                         <img src="${url}" alt="${memberName} photo ${i + 1}" loading="lazy"
-                             onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=6c3cb3&color=fff&size=400'">
+                             onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=F7266D&color=fff&size=400'">
                     </div>
                 `;
             }).join('');
@@ -1074,8 +1163,8 @@ ${url}
 
         loadProfile();
 
-        console.log('💎 Profile — Magazine format + Collage photos');
-        console.log('✅ $13 price badge added above CTA');
+        console.log('💎 Pro Love Hub Profile — pink + blue palette');
+        console.log('✅ $13 price badge above CTA');
     </script>
 
 </body>
