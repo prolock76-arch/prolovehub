@@ -31,7 +31,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* ============================================================ */
-        /* BRAND LOGO — compact, fits 56px header                       */
+        /* BRAND LOGO                                                   */
         /* ============================================================ */
         .brand-logo {
             display: inline-flex;
@@ -409,25 +409,68 @@
 
         .member-card:hover .member-card__image-wrapper img { transform: scale(1.05); }
 
+        /* ============================================================ */
+        /* CAROUSEL — auto-slide, pause on hover/touch                  */
+        /* ============================================================ */
         .carousel-slides {
             display: flex;
-            transition: transform 0.6s ease;
             height: 100%;
             width: 100%;
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
+
+        /* When there's only one photo, no animation/transition */
+        .carousel-slides.single { transition: none; }
 
         .carousel-slide {
             min-width: 100%;
             height: 100%;
             overflow: hidden;
             flex-shrink: 0;
+            position: relative;
         }
 
         .carousel-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
+
+        /* Slide indicator dots */
+        .carousel-dots {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 3px;
+            z-index: 6;
+            padding: 3px 6px;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(6px);
+            border-radius: 50px;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .carousel-dots .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dots .dot.active {
+            background: #ffffff;
+            width: 12px;
+            border-radius: 50px;
+        }
+
+        /* Hide dots on single-photo cards */
+        .member-card[data-photos="1"] .carousel-dots { display: none; }
 
         /* Online dot */
         .online-dot {
@@ -473,8 +516,8 @@
         /* Like pill */
         .like-pill {
             position: absolute;
-            bottom: 6px;
-            left: 6px;
+            top: 6px;
+            right: 26px;
             z-index: 5;
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(4px);
@@ -591,7 +634,6 @@
         }
         .empty-state p { font-size: 14px; }
 
-        /* Loading */
         .loading-state {
             grid-column: 1 / -1;
             text-align: center;
@@ -710,7 +752,11 @@
 
             .online-dot { width: 14px; height: 14px; top: 8px; right: 8px; }
             .verified-badge { width: 22px; height: 22px; font-size: 12px; top: 8px; left: 8px; }
-            .like-pill { font-size: 11px; padding: 3px 10px; bottom: 8px; left: 8px; }
+            .like-pill { font-size: 11px; padding: 3px 10px; top: 8px; right: 30px; }
+
+            .carousel-dots { bottom: 8px; padding: 4px 8px; gap: 4px; }
+            .carousel-dots .dot { width: 6px; height: 6px; }
+            .carousel-dots .dot.active { width: 14px; }
         }
 
         @media (min-width: 768px) {
@@ -828,12 +874,16 @@
 
         let allMembers = [];
         let isLoading = true;
+        const carouselTimers = new Map(); // memberId -> intervalId
 
         const likeCounts = JSON.parse(sessionStorage.getItem('prolovehub_likes') || '{}');
 
         const grid = document.getElementById('members-grid');
         const totalCount = document.getElementById('total-count');
 
+        /* ============================================================ */
+        /* TICKER                                                       */
+        /* ============================================================ */
         const firstNames = ['Mark','Judith','Sarah','James','Emma','David','Lisa','Michael','Maria','John','Anna','Chris','Jessica','Daniel','Sophie','Peter','Linda','Robert','Grace','William','Karen','Joseph','Nancy','Charles','Betty','Thomas','Helen','Christopher','Sandra','Matthew'];
         const countries = ['USA','UK','Canada','Australia','Germany','France','Italy','Spain','Kenya','Nigeria','South Africa','Ghana','Uganda','Tanzania','Zimbabwe','Brazil','Mexico','Japan','India','Sweden','Norway','Netherlands'];
         const timeAgo = ['2 mins ago','5 mins ago','15 mins ago','30 mins ago','1 hour ago','2 hours ago','4 hours ago','8 hours ago','12 hours ago','1 day ago','2 days ago','3 days ago','1 week ago'];
@@ -883,6 +933,9 @@
 
         setInterval(renderTicker, 45000);
 
+        /* ============================================================ */
+        /* MENU                                                         */
+        /* ============================================================ */
         window.toggleMenu = function() {
             document.getElementById('menuDropdown').classList.toggle('show');
         }
@@ -900,6 +953,9 @@
             window.location.href = 'index.html';
         }
 
+        /* ============================================================ */
+        /* SUPPORT FLOAT                                                */
+        /* ============================================================ */
         window.openSupport = async function() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
@@ -921,6 +977,9 @@
             }
         }
 
+        /* ============================================================ */
+        /* LIKES                                                        */
+        /* ============================================================ */
         function seedLikeCount(memberId) {
             if (likeCounts[memberId]) return likeCounts[memberId];
             const r = Math.random();
@@ -937,6 +996,9 @@
             try { sessionStorage.setItem('prolovehub_likes', JSON.stringify(likeCounts)); } catch (e) {}
         }
 
+        /* ============================================================ */
+        /* PHOTO URL HELPER                                             */
+        /* ============================================================ */
         function getPhotoUrl(fileId) {
             if (!fileId) return null;
             try {
@@ -945,6 +1007,9 @@
             } catch (e) { return null; }
         }
 
+        /* ============================================================ */
+        /* LOAD MEMBERS                                                 */
+        /* ============================================================ */
         async function loadMembers() {
             try {
                 const { data, error } = await supabase
@@ -973,8 +1038,15 @@
             }
         }
 
+        /* ============================================================ */
+        /* RENDER                                                       */
+        /* ============================================================ */
         function renderMembers(members) {
             if (isLoading) return;
+
+            // Clear any existing carousel timers before re-rendering
+            carouselTimers.forEach(id => clearInterval(id));
+            carouselTimers.clear();
 
             if (members.length === 0) {
                 grid.innerHTML = `
@@ -994,7 +1066,9 @@
                 return renderMemberTile(member, tileSize);
             }).join('');
 
+            // Set up long press + carousels
             document.querySelectorAll('.member-card').forEach(card => setupLongPress(card));
+            document.querySelectorAll('.member-card').forEach(card => setupCarousel(card));
         }
 
         function renderMemberTile(member, tileSize) {
@@ -1016,8 +1090,9 @@
                 photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`];
             }
 
-            if (window.innerWidth < 768 && photos.length > 3) {
-                photos = photos.slice(0, 3);
+            // Limit to 4 photos on mobile for performance
+            if (window.innerWidth < 768 && photos.length > 4) {
+                photos = photos.slice(0, 4);
             }
 
             const slidesHTML = photos.map(url => `
@@ -1027,6 +1102,13 @@
                 </div>
             `).join('');
 
+            // Dots — one per photo (only show if more than 1 photo)
+            const dotsHTML = photos.length > 1 ? `
+                <div class="carousel-dots">
+                    ${photos.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+                </div>
+            ` : '';
+
             const onlineDot = `<span class="online-dot ${isOnline ? '' : 'offline'}"></span>`;
             const verifiedBadge = isVerified ? `<span class="verified-badge">✓</span>` : '';
             const likePill = `<span class="like-pill"><span class="heart">❤️</span> ${likeCount}</span>`;
@@ -1034,12 +1116,13 @@
             const tileClass = `bento-tile--${tileSize}`;
 
             return `
-                <div class="${tileClass} member-card" data-id="${member.id}">
+                <div class="${tileClass} member-card" data-id="${member.id}" data-photos="${photos.length}">
                     <div class="member-card__image-wrapper" data-member="${member.id}">
-                        <div class="carousel-slides">${slidesHTML}</div>
+                        <div class="carousel-slides ${photos.length === 1 ? 'single' : ''}">${slidesHTML}</div>
                         ${onlineDot}
                         ${verifiedBadge}
                         ${likePill}
+                        ${dotsHTML}
                     </div>
                     <div class="member-card__info">
                         <div class="member-card__name">${name}${age ? ', ' + age : ''}</div>
@@ -1053,11 +1136,103 @@
             `;
         }
 
+        /* ============================================================ */
+        /* CAROUSEL — auto-slide with random per-card interval          */
+        /* Pauses on hover/touch. Loops forever.                         */
+        /* ============================================================ */
+        function setupCarousel(card) {
+            const memberId = card.dataset.id;
+            const totalPhotos = parseInt(card.dataset.photos, 10);
+
+            // Nothing to do for single photos
+            if (!totalPhotos || totalPhotos <= 1) return;
+
+            const slidesEl = card.querySelector('.carousel-slides');
+            const dots = card.querySelectorAll('.carousel-dots .dot');
+            if (!slidesEl) return;
+
+            let current = 0;
+            let intervalId = null;
+            let paused = false;
+
+            function goTo(index) {
+                current = index % totalPhotos;
+                slidesEl.style.transform = `translateX(-${current * 100}%)`;
+
+                dots.forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+            }
+
+            function advance() {
+                if (paused) return;
+                goTo(current + 1);
+            }
+
+            // Random interval between 3.5s and 7s for each card
+            function scheduleNext() {
+                const delay = 3500 + Math.random() * 3500;
+
+                // Add a random starting offset so cards don't all fire at once
+                const startOffset = Math.random() * 2000;
+
+                clearTimeout(scheduleNext._t);
+                scheduleNext._t = setTimeout(() => {
+                    advance();
+                    // Recurring interval
+                    if (intervalId) clearInterval(intervalId);
+                    intervalId = setInterval(advance, delay);
+                }, startOffset + delay);
+            }
+
+            // Pause/resume handlers
+            function pause() {
+                paused = true;
+            }
+            function resume() {
+                paused = false;
+            }
+
+            card.addEventListener('mouseenter', pause);
+            card.addEventListener('mouseleave', resume);
+            card.addEventListener('focusin', pause);
+            card.addEventListener('focusout', resume);
+
+            card.addEventListener('touchstart', pause, { passive: true });
+            card.addEventListener('touchend', () => {
+                // Small delay after touch so the user can look at the photo
+                setTimeout(resume, 4000);
+            }, { passive: true });
+
+            // Pause when tab is hidden (saves CPU/battery)
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) pause();
+                else resume();
+            });
+
+            // Kick off
+            scheduleNext();
+
+            // Store interval/timer for cleanup
+            carouselTimers.set(memberId, {
+                clear: () => {
+                    if (intervalId) clearInterval(intervalId);
+                    clearTimeout(scheduleNext._t);
+                }
+            });
+        }
+
+        /* ============================================================ */
+        /* CONNECT                                                      */
+        /* ============================================================ */
         window.connectWith = function(event, memberId) {
             event.stopPropagation();
             window.location.href = `profile.html?id=${memberId}`;
         }
 
+        /* ============================================================ */
+        /* LONG PRESS TO SHARE                                          */
+        /* ============================================================ */
         let longPressTimer = null;
 
         function setupLongPress(card) {
@@ -1096,6 +1271,9 @@
             if (navigator.vibrate) navigator.vibrate(30);
         }
 
+        /* ============================================================ */
+        /* TOAST                                                        */
+        /* ============================================================ */
         let toastTimeout;
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
@@ -1106,15 +1284,21 @@
             toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
         }
 
+        /* ============================================================ */
+        /* INIT                                                         */
+        /* ============================================================ */
         renderTicker();
         loadMembers();
         saveLikes();
 
-        window.addEventListener('beforeunload', saveLikes);
+        window.addEventListener('beforeunload', () => {
+            saveLikes();
+            carouselTimers.forEach(t => { try { t.clear(); } catch (e) {} });
+        });
 
-        console.log('💎 Pro Love Hub — Bento Box Members (pink + blue)');
-        console.log('✅ Connect → profile.html?id=X');
-        console.log('✅ Support float + ticker + real auth');
+        console.log('💎 Pro Love Hub — Members (auto-sliding carousels)');
+        console.log('✅ Each card slides at its own random pace');
+        console.log('✅ Pauses on hover/touch');
     </script>
 
 </body>
