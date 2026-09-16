@@ -25,6 +25,9 @@
 
         a { text-decoration: none; color: inherit; }
 
+        /* ============================================================ */
+        /* BRAND LOGO                                                   */
+        /* ============================================================ */
         .brand-logo {
             display: inline-flex;
             align-items: flex-end;
@@ -293,7 +296,7 @@
         }
 
         /* ============================================================ */
-        /* SCROLL INDICATOR — bouncing arrow at bottom of hero          */
+        /* SCROLL INDICATOR                                             */
         /* ============================================================ */
         .scroll-cue {
             position: absolute;
@@ -402,6 +405,9 @@
 
         .profile-meta-line.muted { color: rgba(26, 10, 20, 0.55); }
 
+        /* ============================================================ */
+        /* SECTION                                                      */
+        /* ============================================================ */
         .mag-section {
             padding: 22px 0 24px;
             border-top: 1px solid rgba(247, 38, 109, 0.12);
@@ -887,6 +893,38 @@
         .toast.success { background: #28a745; }
         .toast.error { background: #dc3545; }
 
+        /* Loading / error state */
+        .page-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            min-height: 60vh;
+            color: rgba(26, 10, 20, 0.5);
+        }
+        .page-state .icon { font-size: 56px; margin-bottom: 14px; }
+        .page-state h2 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 22px;
+            color: #1a0a14;
+            margin-bottom: 8px;
+        }
+        .page-state p { font-size: 14px; max-width: 320px; }
+
+        .loading-spinner-lg {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(247, 38, 109, 0.15);
+            border-top-color: #F7266D;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin-bottom: 14px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         @media (min-width: 600px) {
             .profile-header { height: 60px; padding: 0 16px; }
             .profile-wrapper { padding: 76px 0 100px; }
@@ -957,145 +995,155 @@
 
     <!-- MAIN -->
     <main class="profile-wrapper">
-        <div class="profile-container">
+        <div class="profile-container" id="profile-container">
 
-            <!-- HERO — BIG PROFILE PHOTO -->
-            <section class="hero-photo-wrap" id="hero-photo-wrap">
-                <img id="hero-photo" src="" alt="Profile" onclick="openLightbox(this.src)">
-                <div class="hero-verified-badge" id="hero-verified-badge" style="display:none;">
-                    💎 Verified
-                </div>
-                <div class="hero-online-ring" id="hero-online-ring"></div>
-
-                <!-- SCROLL CUE -->
-                <button class="scroll-cue" id="scroll-cue" onclick="scrollToContent()" aria-label="Scroll to content">
-                    <span class="scroll-cue__text">Scroll to see more</span>
-                    <span class="scroll-cue__arrow">↓</span>
-                </button>
-            </section>
-
-            <!-- NAME / META -->
-            <section class="profile-name-block">
-                <h1 class="profile-name" id="profile-name">
-                    Loading...
-                </h1>
-                <div class="profile-meta-line" id="profile-location-line">
-                    📍 Loading...
-                </div>
-                <div class="profile-meta-line muted" id="profile-occupation-line">
-                    💼 Loading...
-                </div>
-            </section>
-
-            <!-- 01 · ABOUT -->
-            <section class="mag-section">
-                <div class="mag-header">
-                    <span class="mag-number">01</span>
-                    <span class="mag-title">About</span>
-                    <span class="mag-line"></span>
-                </div>
-
-                <div class="about-list">
-                    <div class="about-item">
-                        <span class="icon">📍</span>
-                        <span class="label">Location</span>
-                        <span class="value" id="info-location">—</span>
-                    </div>
-                    <div class="about-item">
-                        <span class="icon">🌎</span>
-                        <span class="label">Country</span>
-                        <span class="value" id="info-origin">—</span>
-                    </div>
-                    <div class="about-item">
-                        <span class="icon">🎂</span>
-                        <span class="label">Age</span>
-                        <span class="value" id="info-age">—</span>
-                    </div>
-                    <div class="about-item">
-                        <span class="icon">👤</span>
-                        <span class="label">Gender</span>
-                        <span class="value" id="info-gender">—</span>
-                    </div>
-                    <div class="about-item">
-                        <span class="icon">💼</span>
-                        <span class="label">Occupation</span>
-                        <span class="value" id="info-occupation">—</span>
-                    </div>
-                </div>
-
-                <div class="about-subheading">About me</div>
-                <p class="about-bio collapsed" id="info-bio">No bio available.</p>
-                <button class="read-more-btn" id="read-more-btn" onclick="toggleBio()">[Read more]</button>
-            </section>
-
-            <!-- 02 · LOOKING FOR -->
-            <section class="mag-section">
-                <div class="mag-header">
-                    <span class="mag-number">02</span>
-                    <span class="mag-title">Looking For</span>
-                    <span class="mag-line"></span>
-                </div>
-                <div class="looking-list" id="info-looking">
-                    <span class="looking-empty">Not specified</span>
-                </div>
-            </section>
-
-            <!-- 03 · INTERESTS -->
-            <section class="mag-section">
-                <div class="mag-header">
-                    <span class="mag-number">03</span>
-                    <span class="mag-title">Interests</span>
-                    <span class="mag-line"></span>
-                </div>
-                <div class="interests-grid" id="info-interests">
-                    <span class="interests-empty">No interests listed</span>
-                </div>
-            </section>
-
-            <!-- 04 · PHOTOS -->
-            <section class="mag-section">
-                <div class="mag-header">
-                    <span class="mag-number">04</span>
-                    <span class="mag-title">Photos</span>
-                    <span class="mag-line"></span>
-                </div>
-                <div class="photo-mosaic" id="photo-mosaic">
-                    <div class="photo-mosaic-empty" style="grid-column: 1 / -1;">Loading photos...</div>
-                </div>
-            </section>
-
-            <!-- VERIFICATION STRIP -->
-            <div class="verify-strip">
-                <div class="verify-strip-item">
-                    <span class="icon">✓</span>
-                    <span>Profile Verified</span>
-                </div>
-                <div class="verify-strip-item">
-                    <span class="icon lock">🔒</span>
-                    <span>Privacy Protected</span>
-                </div>
+            <!-- LOADING STATE -->
+            <div class="page-state" id="loading-state">
+                <span class="loading-spinner-lg"></span>
+                <h2>Loading profile...</h2>
+                <p>Just a moment</p>
             </div>
 
-            <!-- CTA -->
-            <div class="profile-cta">
-                <div class="price-badge">
-                    <span class="price-icon">💎</span>
-                    <span>Matching Fee: <span class="price-amount">$14.99</span></span>
-                </div>
-                <p class="price-subtitle">Secure connection request</p>
-
-                <button class="btn-connect-big" id="connect-btn" onclick="connectWith()">
-                    💬 Request Connection
-                </button>
-
-                <!-- Shareable short URL -->
-                <div class="share-link-row" id="share-link-row" style="display:none;">
-                    <span class="link-icon">🔗</span>
-                    <span class="link-text" id="share-link-text">prolovehub.com/u/...</span>
-                    <button class="copy-btn" id="copy-link-btn" onclick="copyProfileLink()">Copy</button>
-                </div>
+            <!-- ERROR STATE -->
+            <div class="page-state" id="error-state" style="display:none;">
+                <div class="icon">⚠️</div>
+                <h2 id="error-title">Profile not found</h2>
+                <p id="error-text">The link may be broken or the member was removed.</p>
             </div>
 
+            <!-- CONTENT -->
+            <div id="profile-content" style="display:none;">
+
+                <!-- HERO — BIG PROFILE PHOTO -->
+                <section class="hero-photo-wrap" id="hero-photo-wrap">
+                    <img id="hero-photo" src="" alt="Profile" onclick="openLightbox(this.src)">
+                    <div class="hero-verified-badge" id="hero-verified-badge" style="display:none;">
+                        💎 Verified
+                    </div>
+                    <div class="hero-online-ring" id="hero-online-ring"></div>
+
+                    <button class="scroll-cue" id="scroll-cue" onclick="scrollToContent()" aria-label="Scroll to content">
+                        <span class="scroll-cue__text">Scroll to see more</span>
+                        <span class="scroll-cue__arrow">↓</span>
+                    </button>
+                </section>
+
+                <!-- NAME / META -->
+                <section class="profile-name-block">
+                    <h1 class="profile-name" id="profile-name">Loading...</h1>
+                    <div class="profile-meta-line" id="profile-location-line">📍 Loading...</div>
+                    <div class="profile-meta-line muted" id="profile-occupation-line">💼 Loading...</div>
+                </section>
+
+                <!-- 01 · ABOUT -->
+                <section class="mag-section">
+                    <div class="mag-header">
+                        <span class="mag-number">01</span>
+                        <span class="mag-title">About</span>
+                        <span class="mag-line"></span>
+                    </div>
+
+                    <div class="about-list">
+                        <div class="about-item">
+                            <span class="icon">📍</span>
+                            <span class="label">Location</span>
+                            <span class="value" id="info-location">—</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="icon">🌎</span>
+                            <span class="label">Country</span>
+                            <span class="value" id="info-origin">—</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="icon">🎂</span>
+                            <span class="label">Age</span>
+                            <span class="value" id="info-age">—</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="icon">👤</span>
+                            <span class="label">Gender</span>
+                            <span class="value" id="info-gender">—</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="icon">💼</span>
+                            <span class="label">Occupation</span>
+                            <span class="value" id="info-occupation">—</span>
+                        </div>
+                    </div>
+
+                    <div class="about-subheading">About me</div>
+                    <p class="about-bio collapsed" id="info-bio">No bio available.</p>
+                    <button class="read-more-btn" id="read-more-btn" onclick="toggleBio()">[Read more]</button>
+                </section>
+
+                <!-- 02 · LOOKING FOR -->
+                <section class="mag-section">
+                    <div class="mag-header">
+                        <span class="mag-number">02</span>
+                        <span class="mag-title">Looking For</span>
+                        <span class="mag-line"></span>
+                    </div>
+                    <div class="looking-list" id="info-looking">
+                        <span class="looking-empty">Not specified</span>
+                    </div>
+                </section>
+
+                <!-- 03 · INTERESTS -->
+                <section class="mag-section">
+                    <div class="mag-header">
+                        <span class="mag-number">03</span>
+                        <span class="mag-title">Interests</span>
+                        <span class="mag-line"></span>
+                    </div>
+                    <div class="interests-grid" id="info-interests">
+                        <span class="interests-empty">No interests listed</span>
+                    </div>
+                </section>
+
+                <!-- 04 · PHOTOS -->
+                <section class="mag-section">
+                    <div class="mag-header">
+                        <span class="mag-number">04</span>
+                        <span class="mag-title">Photos</span>
+                        <span class="mag-line"></span>
+                    </div>
+                    <div class="photo-mosaic" id="photo-mosaic">
+                        <div class="photo-mosaic-empty" style="grid-column: 1 / -1;">Loading photos...</div>
+                    </div>
+                </section>
+
+                <!-- VERIFICATION STRIP -->
+                <div class="verify-strip">
+                    <div class="verify-strip-item">
+                        <span class="icon">✓</span>
+                        <span>Profile Verified</span>
+                    </div>
+                    <div class="verify-strip-item">
+                        <span class="icon lock">🔒</span>
+                        <span>Privacy Protected</span>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="profile-cta">
+                    <div class="price-badge">
+                        <span class="price-icon">💎</span>
+                        <span>Matching Fee: <span class="price-amount">$14.99</span></span>
+                    </div>
+                    <p class="price-subtitle">Secure connection request</p>
+
+                    <button class="btn-connect-big" id="connect-btn" onclick="connectWith()">
+                        💬 Request Connection
+                    </button>
+
+                    <div class="share-link-row" id="share-link-row" style="display:none;">
+                        <span class="link-icon">🔗</span>
+                        <span class="link-text" id="share-link-text">prolovehub.com/u/...</span>
+                        <button class="copy-btn" id="copy-link-btn" onclick="copyProfileLink()">Copy</button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
 
@@ -1141,94 +1189,32 @@
         let profilePhotos = [];
         let shortUrl = '';
 
+        // ============================================================
+        // EMOJI MAP
+        // ============================================================
         const EMOJI_MAP = {
-            'serious relationship': '❤️',
-            'serious': '❤️',
-            'relationship': '❤️',
-            'marriage': '💍',
-            'married': '💍',
-            'friendship': '🤝',
-            'friends': '🤝',
-            'casual': '😎',
-            'long term': '❤️',
-            'long-term': '❤️',
-            'life partner': '💞',
-            'companionship': '👫',
-            'dating': '💕',
-            'love': '❤️',
-            'travel partner': '✈️',
-            'beach': '🏖️',
-            'fishing': '🎣',
-            'travel': '✈️',
-            'traveling': '✈️',
-            'family': '👨‍👩‍👧',
-            'business': '💼',
-            'reading': '📚',
-            'books': '📚',
-            'music': '🎵',
-            'singing': '🎤',
-            'dancing': '💃',
-            'cooking': '🍳',
-            'food': '🍔',
-            'gym': '💪',
-            'fitness': '💪',
-            'running': '🏃',
-            'sports': '⚽',
-            'football': '⚽',
-            'soccer': '⚽',
-            'basketball': '🏀',
-            'tennis': '🎾',
-            'swimming': '🏊',
-            'hiking': '🥾',
-            'camping': '⛺',
-            'outdoors': '🌿',
-            'nature': '🌳',
-            'photography': '📷',
-            'art': '🎨',
-            'painting': '🎨',
-            'movies': '🎬',
-            'cinema': '🎬',
-            'gaming': '🎮',
-            'games': '🎮',
-            'technology': '💻',
-            'tech': '💻',
-            'coding': '💻',
-            'programming': '💻',
-            'fashion': '👗',
-            'shopping': '🛍️',
-            'pets': '🐶',
-            'dogs': '🐶',
-            'dog': '🐶',
-            'cats': '🐱',
-            'cat': '🐱',
-            'coffee': '☕',
-            'wine': '🍷',
-            'beer': '🍺',
-            'party': '🎉',
-            'partying': '🎉',
-            'church': '⛪',
-            'god': '🙏',
-            'faith': '🙏',
-            'yoga': '🧘',
-            'meditation': '🧘',
-            'writing': '✍️',
-            'gardening': '🌱',
-            'cars': '🚗',
-            'bikes': '🏍️',
-            'motorcycles': '🏍️',
-            'yachting': '🛥️',
-            'boats': '⛵',
-            'sailing': '⛵',
-            'horses': '🐴',
-            'animals': '🐾',
-            'volunteering': '🤲',
-            'charity': '🤲',
-            'crypto': '🪙',
-            'investing': '📈',
-            'stocks': '📈',
-            'real estate': '🏠',
-            'science': '🔬',
-            'history': '📜',
+            'serious relationship': '❤️', 'serious': '❤️', 'relationship': '❤️',
+            'marriage': '💍', 'married': '💍', 'friendship': '🤝', 'friends': '🤝',
+            'casual': '😎', 'long term': '❤️', 'long-term': '❤️', 'life partner': '💞',
+            'companionship': '👫', 'dating': '💕', 'love': '❤️', 'travel partner': '✈️',
+            'beach': '🏖️', 'fishing': '🎣', 'travel': '✈️', 'traveling': '✈️',
+            'family': '👨‍👩‍👧', 'business': '💼', 'reading': '📚', 'books': '📚',
+            'music': '🎵', 'singing': '🎤', 'dancing': '💃', 'cooking': '🍳',
+            'food': '🍔', 'gym': '💪', 'fitness': '💪', 'running': '🏃',
+            'sports': '⚽', 'football': '⚽', 'soccer': '⚽', 'basketball': '🏀',
+            'tennis': '🎾', 'swimming': '🏊', 'hiking': '🥾', 'camping': '⛺',
+            'outdoors': '🌿', 'nature': '🌳', 'photography': '📷', 'art': '🎨',
+            'painting': '🎨', 'movies': '🎬', 'cinema': '🎬', 'gaming': '🎮',
+            'games': '🎮', 'technology': '💻', 'tech': '💻', 'coding': '💻',
+            'programming': '💻', 'fashion': '👗', 'shopping': '🛍️', 'pets': '🐶',
+            'dogs': '🐶', 'dog': '🐶', 'cats': '🐱', 'cat': '🐱',
+            'coffee': '☕', 'wine': '🍷', 'beer': '🍺', 'party': '🎉',
+            'partying': '🎉', 'church': '⛪', 'god': '🙏', 'faith': '🙏',
+            'yoga': '🧘', 'meditation': '🧘', 'writing': '✍️', 'gardening': '🌱',
+            'cars': '🚗', 'bikes': '🏍️', 'motorcycles': '🏍️', 'yachting': '🛥️',
+            'boats': '⛵', 'sailing': '⛵', 'horses': '🐴', 'animals': '🐾',
+            'volunteering': '🤲', 'charity': '🤲', 'crypto': '🪙', 'investing': '📈',
+            'stocks': '📈', 'real estate': '🏠', 'science': '🔬', 'history': '📜',
             'languages': '🗣️'
         };
 
@@ -1254,16 +1240,19 @@
             return slug || 'member';
         }
 
+        function capitalize(str) {
+            if (!str) return '';
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
+
         // ============================================================
         // URL PARAMS — accepts ?id=, ?slug=, or /u/slug
         // ============================================================
         function getURLParams() {
             const params = new URLSearchParams(window.location.search);
-
             let id = params.get('id');
             let slug = params.get('slug');
 
-            // Support /u/slug path if host rewrites aren't set up
             if (!id && !slug) {
                 const path = window.location.pathname;
                 const match = path.match(/\/u\/([^/?#]+)/);
@@ -1282,44 +1271,88 @@
         }
 
         // ============================================================
-        // LOAD PROFILE — accepts id OR slug
+        // LOAD PROFILE — accepts id OR slug, with fallbacks
         // ============================================================
         async function loadProfile() {
             const { id, slug } = getURLParams();
 
             if (!id && !slug) {
-                showToast('❌ No member specified', 'error');
-                setTimeout(() => { window.location.href = 'members.html'; }, 1500);
+                showErrorState('Profile not found', 'No member specified. Please go back and pick a profile.');
                 return;
             }
 
             try {
-                let query = supabase.from('members').select('*');
+                let data = null;
+                let error = null;
 
+                // -------- 1st attempt: query by id or slug
                 if (id) {
-                    query = query.eq('id', id);
+                    const res = await supabase.from('members').select('*').eq('id', id).maybeSingle();
+                    data = res.data; error = res.error;
                 } else if (slug) {
-                    query = query.eq('slug', slug);
+                    // Try by slug column first
+                    const res = await supabase.from('members').select('*').eq('slug', slug).maybeSingle();
+                    data = res.data; error = res.error;
+
+                    // If slug column doesn't exist or returned nothing, try id match
+                    if (!data && !error) {
+                        const res2 = await supabase.from('members').select('*').eq('id', slug).maybeSingle();
+                        data = res2.data; error = res2.error;
+                    }
+
+                    // If still nothing, try to match by generated slug from all members
+                    if (!data && !error) {
+                        console.log('🔍 Slug not found directly, trying name-based match...');
+                        const res3 = await supabase.from('members').select('*');
+                        if (res3.data) {
+                            const match = res3.data.find(m => {
+                                const generated = slugify(m.name, m.age);
+                                return generated === slug || (m.slug && m.slug === slug);
+                            });
+                            if (match) data = match;
+                        }
+                    }
                 }
 
-                const { data, error } = await query.maybeSingle();
+                if (error) {
+                    console.error('Query error:', error);
+                    showErrorState('Could not load profile', error.message);
+                    return;
+                }
 
-                if (error) throw error;
                 if (!data) {
-                    showToast('❌ Member not found', 'error');
-                    setTimeout(() => { window.location.href = 'members.html'; }, 1500);
+                    showErrorState('Profile not found', 'The link may be broken or the member was removed.');
                     return;
                 }
 
                 memberData = data;
                 console.log('📊 Member loaded:', memberData);
                 renderProfile(memberData);
+
             } catch (err) {
                 console.error('Error loading profile:', err);
-                showToast('Error loading profile: ' + err.message, 'error');
+                showErrorState('Error', err.message);
             }
         }
 
+        function showErrorState(title, text) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('profile-content').style.display = 'none';
+            const err = document.getElementById('error-state');
+            err.style.display = 'flex';
+            if (title) document.getElementById('error-title').textContent = title;
+            if (text) document.getElementById('error-text').textContent = text;
+        }
+
+        function showContent() {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('error-state').style.display = 'none';
+            document.getElementById('profile-content').style.display = 'block';
+        }
+
+        // ============================================================
+        // RENDER PROFILE
+        // ============================================================
         function renderProfile(member) {
             const name = member.name || 'Member';
             const age = member.age || '';
@@ -1372,20 +1405,21 @@
             if (bio) {
                 bioEl.textContent = bio;
                 bioEl.classList.remove('empty');
+                bioEl.classList.add('collapsed');
+                readMoreBtn.classList.remove('show');
 
                 requestAnimationFrame(() => {
                     if (bioEl.scrollHeight > bioEl.clientHeight + 4) {
                         readMoreBtn.classList.add('show');
                         readMoreBtn.textContent = '[Read more]';
-                        bioEl.classList.add('collapsed');
                     } else {
-                        readMoreBtn.classList.remove('show');
                         bioEl.classList.remove('collapsed');
                     }
                 });
             } else {
                 bioEl.textContent = 'No bio available.';
                 bioEl.classList.add('empty');
+                bioEl.classList.remove('collapsed');
                 readMoreBtn.classList.remove('show');
             }
 
@@ -1393,20 +1427,20 @@
             renderInterests(member.interests);
             renderPhotoMosaic(photos, name);
 
-            // ---- Shareable URL — uses DB slug if present, else generates one
+            // Shareable URL
             const slug = member.slug || slugify(name, age);
             shortUrl = `${window.location.origin}/u/${slug}`;
             document.getElementById('share-link-text').textContent = shortUrl.replace(/^https?:\/\//, '');
             document.getElementById('share-link-row').style.display = 'flex';
 
             document.title = `${name} | Pro Love Hub`;
+
+            showContent();
         }
 
-        function capitalize(str) {
-            if (!str) return '';
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        }
-
+        // ============================================================
+        // LOOKING FOR
+        // ============================================================
         function renderLookingFor(text) {
             const el = document.getElementById('info-looking');
             if (!text || !text.trim()) {
@@ -1435,6 +1469,9 @@
             }).join('');
         }
 
+        // ============================================================
+        // INTERESTS
+        // ============================================================
         function renderInterests(interests) {
             const el = document.getElementById('info-interests');
             if (!interests || interests.length === 0) {
@@ -1453,6 +1490,9 @@
             }).join('');
         }
 
+        // ============================================================
+        // PHOTO MOSAIC
+        // ============================================================
         function renderPhotoMosaic(photos, memberName) {
             const mosaic = document.getElementById('photo-mosaic');
 
@@ -1504,6 +1544,9 @@
             onScroll();
         })();
 
+        // ============================================================
+        // READ MORE
+        // ============================================================
         window.toggleBio = function() {
             const bioEl = document.getElementById('info-bio');
             const btn = document.getElementById('read-more-btn');
@@ -1517,6 +1560,9 @@
             }
         }
 
+        // ============================================================
+        // COPY LINK
+        // ============================================================
         window.copyProfileLink = async function() {
             if (!shortUrl) return;
             const btn = document.getElementById('copy-link-btn');
@@ -1526,7 +1572,6 @@
                 btn.textContent = '✓ Copied';
                 btn.classList.add('copied');
                 showToast('🔗 Profile link copied!', 'success');
-
                 setTimeout(() => {
                     btn.textContent = 'Copy';
                     btn.classList.remove('copied');
@@ -1552,6 +1597,9 @@
             }
         }
 
+        // ============================================================
+        // LIGHTBOX
+        // ============================================================
         window.openLightbox = function(url) {
             document.getElementById('lightbox-img').src = url;
             document.getElementById('lightbox').classList.add('show');
@@ -1568,6 +1616,9 @@
             if (e.key === 'Escape') closeLightbox();
         });
 
+        // ============================================================
+        // MENU
+        // ============================================================
         window.toggleMenu = function() {
             document.getElementById('menuDropdown').classList.toggle('show');
         }
@@ -1579,11 +1630,17 @@
             }
         });
 
+        // ============================================================
+        // CONNECT
+        // ============================================================
         window.connectWith = function() {
             if (!memberData) return;
             window.location.href = `connect.html?member=${memberData.id}`;
         }
 
+        // ============================================================
+        // SHARE
+        // ============================================================
         window.shareProfile = async function() {
             if (!memberData) return;
             const name = memberData.name || 'Member';
@@ -1608,6 +1665,9 @@ ${shareUrl}
             }
         }
 
+        // ============================================================
+        // SUPPORT
+        // ============================================================
         window.openSupport = async function(event) {
             if (event) event.preventDefault();
             try {
@@ -1634,12 +1694,18 @@ ${shareUrl}
             }
         }
 
+        // ============================================================
+        // LOGOUT
+        // ============================================================
         window.logoutUser = async function() {
             try { await supabase.auth.signOut(); } catch (e) {}
             sessionStorage.removeItem('prolovehub_likes');
             window.location.href = 'index.html';
         }
 
+        // ============================================================
+        // BACK
+        // ============================================================
         window.goBack = function() {
             if (window.history.length > 1) {
                 window.history.back();
@@ -1648,6 +1714,9 @@ ${shareUrl}
             }
         }
 
+        // ============================================================
+        // TOAST
+        // ============================================================
         let toastTimeout;
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
@@ -1658,6 +1727,9 @@ ${shareUrl}
             toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
         }
 
+        // ============================================================
+        // HELPERS
+        // ============================================================
         function escapeHtml(str) {
             if (!str) return '';
             return String(str)
@@ -1668,11 +1740,14 @@ ${shareUrl}
                 .replace(/'/g, '&#039;');
         }
 
+        // ============================================================
+        // INIT
+        // ============================================================
         loadProfile();
 
-        console.log('💎 Pro Love Hub Profile — pink + blue palette');
+        console.log('💎 Pro Love Hub Profile — with fallback lookup');
         console.log('✅ Accepts ?id=, ?slug=, or /u/slug');
-        console.log('✅ Scroll cue with auto-hide');
+        console.log('✅ Never shows blank — shows clear error state if not found');
     </script>
 
 </body>
