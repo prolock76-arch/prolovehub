@@ -765,6 +765,184 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
+        /* ============================================================ */
+        /* COUNTRY MODAL — smooth overlay, in-chat experience           */
+        /* ============================================================ */
+        .country-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 5, 15, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 1500;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .country-modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+        .country-modal {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 28px 24px 24px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(247, 38, 109, 0.25);
+            border: 1px solid rgba(247, 38, 109, 0.1);
+            text-align: center;
+            transform: translateY(20px) scale(0.96);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .country-modal-overlay.show .country-modal {
+            transform: translateY(0) scale(1);
+        }
+        .country-modal__close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(247, 38, 109, 0.08);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #F7266D;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-family: "Inter", sans-serif;
+        }
+        .country-modal__close:hover {
+            background: rgba(247, 38, 109, 0.15);
+            transform: rotate(90deg);
+        }
+        .country-modal__icon {
+            font-size: 44px;
+            margin-bottom: 12px;
+            display: block;
+            animation: payIconFloat 3s ease-in-out infinite;
+        }
+        @keyframes payIconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .country-modal h3 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a0a14;
+            margin-bottom: 6px;
+        }
+        .country-modal p {
+            font-size: 13px;
+            color: rgba(26, 10, 20, 0.6);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .country-modal__price {
+            background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(30, 136, 229, 0.06));
+            border: 1px solid rgba(247, 38, 109, 0.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+        }
+        .country-modal__price .usd {
+            font-size: 22px;
+            font-weight: 900;
+            color: #F7266D;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .country-modal__price .kes {
+            font-size: 11px;
+            color: rgba(26, 10, 20, 0.55);
+            font-weight: 600;
+        }
+        .country-modal select {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid rgba(247, 38, 109, 0.15);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: "Inter", sans-serif;
+            background: #fff;
+            color: #1a0a14;
+            margin-bottom: 14px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .country-modal select:focus { border-color: #F7266D; }
+        .country-modal__btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: "Inter", sans-serif;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 20px rgba(247, 38, 109, 0.3);
+        }
+        .country-modal__btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(247, 38, 109, 0.4);
+        }
+        .country-modal__btn:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+        .country-modal__error {
+            display: none;
+            background: rgba(220, 53, 69, 0.08);
+            color: #dc3545;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-top: 12px;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .country-modal__error.show { display: block; }
+        .country-modal__wa {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s;
+        }
+        .country-modal__wa:hover { transform: translateY(-2px); }
+        .country-modal__wa.show { display: inline-flex; }
+
+        @media (max-width: 480px) {
+            .country-modal { padding: 24px 20px 20px; }
+            .country-modal h3 { font-size: 18px; }
+            .country-modal__price .usd { font-size: 20px; }
+            .country-modal__icon { font-size: 38px; }
+        }
+
         .access-denied {
             display: none;
             flex-direction: column;
@@ -926,6 +1104,44 @@
 
     <div class="toast" id="toast"></div>
 
+    <!-- ============================================================ -->
+    <!-- COUNTRY MODAL — appears smoothly over the chat               -->
+    <!-- ============================================================ -->
+    <div class="country-modal-overlay" id="countryModalOverlay">
+        <div class="country-modal">
+            <button class="country-modal__close" onclick="closeCountryModal()">✕</button>
+            <span class="country-modal__icon">🌍</span>
+            <h3>Where are you joining from?</h3>
+            <p>Just so we can process your payment securely</p>
+
+            <div class="country-modal__price">
+                <span class="usd" id="modalUsdPrice">$0.00</span>
+                <span class="kes" id="modalKesPrice">≈ KES 0</span>
+            </div>
+
+            <select id="modalCountrySelect">
+                <option value="">-- Select Country --</option>
+                <option value="KE">Kenya 🇰🇪</option>
+                <option value="NG">Nigeria 🇳🇬</option>
+                <option value="GH">Ghana 🇬🇭</option>
+                <option value="ZA">South Africa 🇿🇦</option>
+                <option value="OTHER">Other Country</option>
+            </select>
+
+            <button class="country-modal__btn" id="modalProceedBtn" onclick="confirmCountryAndPay()">
+                Continue to Secure Payment →
+            </button>
+
+            <div class="country-modal__error" id="modalError">
+                We're not able to process payments from your country just yet. Tap below and we'll help you personally.
+            </div>
+
+            <a class="country-modal__wa" id="modalWaFallback" href="#" target="_blank" rel="noopener">
+                💬 Chat with us on WhatsApp
+            </a>
+        </div>
+    </div>
+
     <script type="importmap">
         {
             "imports": {
@@ -956,17 +1172,17 @@
         const CURRENCY = 'KES';
 
         // ============================================================
-        // LIVE EXCHANGE RATE (USD → KES) — for display only
+        // LIVE EXCHANGE RATE (USD → KES) — display only
         // ============================================================
-        const FX_API_KEY = ''; // 👈 Optional: paste your allratestoday.com key if you have one
-        const FX_FALLBACK_RATE = 129.5; // Fallback if API fails
+        const FX_API_KEY = ''; // Optional: your allratestoday.com key
+        const FX_FALLBACK_RATE = 129.5;
         let usdExchangeRate = null;
 
         // ============================================================
         // WHATSAPP FALLBACK
         // ============================================================
         const WHATSAPP_NUMBER = '254117044510';
-        const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. i am ready with the required fee";
+        const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
 
         // ============================================================
         // ADMIN AUTO-REPLY
@@ -986,6 +1202,7 @@
         let readPollingInterval = null;
         let autoReplyInFlight = false;
         let paymentInFlight = false;
+        let pendingPaymentReference = null;
 
         const messagesContainer = document.getElementById('messages-container');
         const messageInput = document.getElementById('message-input');
@@ -1000,6 +1217,7 @@
         const chatHeaderStatus = document.getElementById('chat-header-status');
         const accessDenied = document.getElementById('access-denied');
         const chatMain = document.getElementById('chat-main');
+        const countryModalOverlay = document.getElementById('countryModalOverlay');
 
         const urlParams = new URLSearchParams(window.location.search);
         conversationId = urlParams.get('conversation');
@@ -1025,7 +1243,6 @@
         // EXCHANGE RATE
         // ============================================================
         async function fetchExchangeRate() {
-            // If no API key, just use fallback
             if (!FX_API_KEY) {
                 usdExchangeRate = FX_FALLBACK_RATE;
                 console.log('💱 Using fallback FX rate:', usdExchangeRate, 'KES per USD');
@@ -1051,7 +1268,7 @@
         function getUsdDisplay() {
             const rate = usdExchangeRate || FX_FALLBACK_RATE;
             const usd = (BOOKING_FEE_KES / rate).toFixed(2);
-            return `$${usd} USD`;
+            return `$${usd}`;
         }
 
         // ============================================================
@@ -1430,7 +1647,7 @@
                     if (!alreadyPaid) {
                         html += `
                             <div class="message message--received">
-                                <button class="pay-book-btn" onclick="startPayment()" id="pay-btn-${msg.id}">
+                                <button class="pay-book-btn" onclick="openCountryModal()" id="pay-btn-${msg.id}">
                                     <span class="pay-icon">💳</span>
                                     <span class="pay-label">
                                         <strong>Pay Booking Fee — ${usdDisplay}</strong>
@@ -1479,9 +1696,9 @@
         }
 
         // ============================================================
-        // PAYMENT — STEP 1: Redirect to country-check.html
+        // COUNTRY MODAL — open / close / confirm
         // ============================================================
-        window.startPayment = async function() {
+        window.openCountryModal = function() {
             if (paymentInFlight) return;
             if (!conversation) return showToast('Conversation not loaded', 'error');
             if (!currentUser || !currentUser.email) return showToast('Please login first', 'error');
@@ -1490,39 +1707,72 @@
                 return showToast('This booking is already paid ✅', 'info');
             }
 
-            // Generate reference and send user to country check
-            const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
+            // Update modal prices
+            const usd = getUsdDisplay();
+            document.getElementById('modalUsdPrice').textContent = `${usd} USD`;
+            document.getElementById('modalKesPrice').textContent = `≈ KES ${BOOKING_FEE_KES.toLocaleString()}`;
 
-            try {
-                localStorage.setItem('plh_pending_reference', reference);
-                localStorage.setItem('plh_pending_conversation', conversationId);
-            } catch (e) {}
+            // Set WhatsApp fallback
+            const waMsg = encodeURIComponent(`Hi Pro Love Hub, I'd like to book a private connection for conversation ${conversationId}.`);
+            document.getElementById('modalWaFallback').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
 
-            console.log('➡️ Redirecting to country check...');
-            window.location.href = `country-check.html?conversation=${conversationId}&reference=${reference}&amount=${BOOKING_FEE_CENTS}`;
+            // Reset state
+            document.getElementById('modalCountrySelect').value = '';
+            document.getElementById('modalProceedBtn').disabled = false;
+            document.getElementById('modalProceedBtn').textContent = 'Continue to Secure Payment →';
+            document.getElementById('modalError').classList.remove('show');
+            document.getElementById('modalWaFallback').classList.remove('show');
+
+            // Show modal
+            countryModalOverlay.classList.add('show');
         };
 
-        // ============================================================
-        // PAYMENT — STEP 2: Called when user returns from country-check with proceed=pay
-        // ============================================================
-        async function executePaystackPayment() {
-            const reference = urlParams.get('reference') || localStorage.getItem('plh_pending_reference');
-            const country = urlParams.get('country');
+        window.closeCountryModal = function() {
+            countryModalOverlay.classList.remove('show');
+        };
 
-            if (!reference) {
-                showToast('❌ Payment session expired. Please try again.', 'error');
+        window.confirmCountryAndPay = async function() {
+            const country = document.getElementById('modalCountrySelect').value;
+            const proceedBtn = document.getElementById('modalProceedBtn');
+            const errorEl = document.getElementById('modalError');
+            const waEl = document.getElementById('modalWaFallback');
+
+            if (!country) {
+                showToast('Please select a country', 'error');
                 return;
             }
 
+            const supported = ['KE', 'NG', 'GH', 'ZA'];
+
+            if (supported.includes(country)) {
+                proceedBtn.disabled = true;
+                proceedBtn.textContent = 'Preparing secure payment...';
+
+                const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
+                pendingPaymentReference = reference;
+
+                try {
+                    localStorage.setItem('plh_pending_reference', reference);
+                    localStorage.setItem('plh_pending_conversation', conversationId);
+                } catch (e) {}
+
+                await executePaystackPayment(reference, country);
+            } else {
+                errorEl.classList.add('show');
+                waEl.classList.add('show');
+                proceedBtn.disabled = true;
+                proceedBtn.textContent = 'Not Available';
+            }
+        };
+
+        // ============================================================
+        // PAYSTACK — initialize and redirect
+        // ============================================================
+        async function executePaystackPayment(reference, country) {
             paymentInFlight = true;
 
-            // Disable any pay buttons
-            document.querySelectorAll('.pay-book-btn').forEach(btn => {
-                btn.disabled = true;
-            });
-
             try {
-                console.log('💳 Executing Paystack payment:', { reference, country, amount: BOOKING_FEE_CENTS });
+                console.log('💳 Initializing Paystack payment:', { reference, country, amount: BOOKING_FEE_CENTS });
 
                 const { data, error } = await supabase.functions.invoke('paystack-initialize', {
                     body: {
@@ -1546,10 +1796,7 @@
                 console.log('error:', error);
 
                 if (error) {
-                    console.error('Initialize error:', error);
-                    throw new Error(
-                        (data?.error) || (data?.message) || error.message || 'Failed to initialize payment'
-                    );
+                    throw new Error((data?.error) || (data?.message) || error.message || 'Failed to initialize payment');
                 }
 
                 if (!data || !data.authorization_url) {
@@ -1569,25 +1816,29 @@
                     })
                     .eq('id', conversationId);
 
-                // Clean URL before redirecting (so refresh doesn't re-trigger)
-                const cleanUrl = window.location.pathname + `?conversation=${conversationId}`;
-                window.history.replaceState({}, document.title, cleanUrl);
+                console.log('✅ Redirecting to Paystack:', data.authorization_url);
 
-                console.log('✅ Redirecting to Paystack checkout:', data.authorization_url);
-                window.location.href = data.authorization_url;
+                // Small delay for smooth UX
+                setTimeout(() => {
+                    window.location.href = data.authorization_url;
+                }, 400);
 
             } catch (err) {
                 console.error('Payment start failed:', err);
                 showToast('❌ ' + (err.message || 'Payment failed. Please try again.'), 'error');
                 paymentInFlight = false;
-                document.querySelectorAll('.pay-book-btn').forEach(btn => {
-                    btn.disabled = false;
-                });
+
+                // Re-enable modal button
+                const proceedBtn = document.getElementById('modalProceedBtn');
+                if (proceedBtn) {
+                    proceedBtn.disabled = false;
+                    proceedBtn.textContent = 'Continue to Secure Payment →';
+                }
             }
         }
 
         // ============================================================
-        // PAYMENT — STEP 3: Verify on return from Paystack
+        // PAYMENT — verify on return from Paystack
         // ============================================================
         async function handlePaymentReturn() {
             const referenceFromUrl = urlParams.get('reference');
@@ -1818,6 +2069,18 @@
             }
         }
 
+        // Close modal on overlay click
+        countryModalOverlay.addEventListener('click', (e) => {
+            if (e.target === countryModalOverlay) closeCountryModal();
+        });
+
+        // Escape key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && countryModalOverlay.classList.contains('show')) {
+                closeCountryModal();
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             sendBtn.addEventListener('click', sendMessage);
             messageInput.addEventListener('keypress', (e) => {
@@ -1847,22 +2110,15 @@
             if (!ok) return;
 
             await detectRole();
-            await fetchExchangeRate(); // Fetch FX rate for USD display
+            await fetchExchangeRate();
 
             const conv = await loadConversation();
             if (!conv) return;
 
             renderConversationHeader();
 
-            // Handle return from Paystack first (verify)
+            // Handle Paystack return first
             await handlePaymentReturn();
-
-            // Then handle return from country-check (execute payment)
-            const proceedParam = urlParams.get('proceed');
-            if (proceedParam === 'pay' && !conversation.payment_status !== 'paid') {
-                await executePaystackPayment();
-                return; // Don't continue loading if we're redirecting
-            }
 
             await loadMessages();
             await markMessagesAsRead();
