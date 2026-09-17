@@ -1,46 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Select Country - Pro Love Hub</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body { font-family: sans-serif; background: #FFF5F8; text-align: center; padding: 50px 20px; }
-        .card { background: white; max-width: 400px; margin: 0 auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(247,38,109,0.1); }
-        select { width: 100%; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
-        .btn { background: #F7266D; color: white; border: none; padding: 15px; width: 100%; border-radius: 50px; font-weight: bold; font-size: 16px; cursor: pointer; }
-        .error { color: #dc3545; display: none; margin-top: 15px; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h2>🌍 Where are you paying from?</h2>
-        <p>Please select your country to continue</p>
-        <select id="countrySelect">
-            <option value="">-- Select Country --</option>
-            <option value="KE">Kenya 🇰🇪</option>
-            <option value="NG">Nigeria 🇳🇬</option>
-            <option value="GH">Ghana 🇬🇭</option>
-            <option value="ZA">South Africa 🇿🇦</option>
-            <option value="OTHER">Other Country</option>
-        </select>
-        <button class="btn" onclick="checkCountry()">Continue to Payment</button>
-        <div class="error" id="errorMsg">Sorry, we cannot process payments from your country at this time.</div>
-    </div>
-    <script>
-        function checkCountry() {
-            const country = document.getElementById('countrySelect').value;
-            const urlParams = new URLSearchParams(window.location.search);
-            const conversationId = urlParams.get('conversation');
+async function executePaystackPayment() {
+    const reference = urlParams.get('reference') || localStorage.getItem('plh_pending_reference');
+    const country = urlParams.get('country');
 
-            if (!country) return alert('Please select a country');
+    if (!reference) {
+        showToast('❌ Payment session expired. Please try again.', 'error');
+        return;
+    }
 
-            if (country === 'KE' || country === 'NG' || country === 'GH' || country === 'ZA') {
-                // Redirect to Paystack checkout logic
-                window.location.href = `chat.html?conversation=${conversationId}&proceed=pay`;
-            } else {
-                document.getElementById('errorMsg').style.display = 'block';
+    paymentInFlight = true;
+
+    try {
+        console.log('💳 Executing Paystack payment for:', { reference, country });
+
+        const { data, error } = await supabase.functions.invoke('paystack-initialize', {
+            body: {
+                amount: BOOKING_FEE_CENTS,
+                email: currentUser.email,
+                reference: reference,
+                currency: CURRENCY, // Always KES
+                callback_url: `${window.location.origin}${window.location.pathname}?conversation=${conversationId}&reference=${reference}`,
+                metadata: {
+                    conversation_id: conversationId,
+                    user_id: currentUser.id,
+                    member_name: conversation.member_name || '',
+                    full_name: conversation.full_name || '',
+                    country: country
+                }
             }
+        });
+
+        console.log('=== PAYSTACK INITIALIZE RAW RESPONSE ===');
+        console.log('data:', JSON.stringify(data, null, 2));
+        console.log('error:', error);
+
+        if (error) {
+            console.error('Initialize error:', error);
+            throw new Error(
+                (data?.error) || (data?.message) || error.message || 'Failed to initialize payment'
+            );
         }
-    </script>
-</body>
-</html>
+
+        if (!data || !data.authorization_url) {
+            const diagnostic =
+                data?.error ? `Function error: ${data.error}` :
+                data?.message ? `Function message: ${data.message}` :
+                `Raw response: ${JSON.stringify(data)}`;
+            throw new Error(diagnostic);
+        }
+
+        // Update DB with pending status
+        await supabase
+            .from('conversations')
+            .update({
+                payment_status: 'pending',
+                payment_reference: reference
+            })
+            .eq('id', conversationId);
+
+        console.log('✅ Redirecting to Paystack checkout:', data.authorization_url);
+        window.location.href = data.authorization_url;
+
+    } catch (err) {
+        console.error('Payment start failed:', err);
+        showToast('❌ ' + (err.message || 'Payment failed. Please try again.'), 'error');
+        paymentInFlight = false;
+    }
+}
