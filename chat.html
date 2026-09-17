@@ -1113,11 +1113,11 @@
             <button class="country-modal__close" onclick="closeCountryModal()">✕</button>
             <span class="country-modal__icon">🌍</span>
             <h3>Where are you joining from?</h3>
-            <p>Just so we can process your payment securely</p>
+            <p>Just so we can guide you correctly</p>
 
             <div class="country-modal__price" id="modalPriceBox">
-                <span class="usd" id="modalUsdPrice">$0.08 USD</span>
-                <span class="kes" id="modalKesPrice">≈ $0.08 USD · settles as KES 11</span>
+                <span class="usd" id="modalUsdPrice">$12.99 USD</span>
+                <span class="kes" id="modalKesPrice">Select your country to continue</span>
             </div>
 
             <select id="modalCountrySelect">
@@ -1130,11 +1130,11 @@
             </select>
 
             <button class="country-modal__btn" id="modalProceedBtn" onclick="confirmCountryAndPay()">
-                Continue to Secure Payment →
+                Secure My Booking →
             </button>
 
             <div class="country-modal__error" id="modalError">
-                We're not able to process payments from your country just yet. Tap below and we'll help you personally.
+                We'll help you complete your booking directly on WhatsApp.
             </div>
 
             <a class="country-modal__wa" id="modalWaFallback" href="#" target="_blank" rel="noopener">
@@ -1154,6 +1154,9 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
+        // ============================================================
+        // CONFIG
+        // ============================================================
         const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
@@ -1161,27 +1164,45 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
+        // ============================================================
+        // PAYSTACK CONFIG (Live — Kenya)
+        // ============================================================
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
         const BOOKING_FEE_KES = 11;
         const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100;
         const CURRENCY = 'KES';
 
-        const FX_FALLBACK_RATE = 129.5;
-        let usdExchangeRate = FX_FALLBACK_RATE;
+        // ============================================================
+        // USD BASE PRICE — used across all countries
+        // ============================================================
+        const BOOKING_FEE_USD = 12.99;
+        const USD_DISPLAY = `$${BOOKING_FEE_USD}`;
 
+        // ============================================================
+        // CURRENCY MAP — for display when user picks a country
+        // ============================================================
         const CURRENCY_MAP = {
-            KE:    { code: 'KES', symbol: 'KSh',  name: 'Kenyan Shilling',     perKes: 1 },
-            NG:    { code: 'NGN', symbol: '₦',    name: 'Nigerian Naira',      perKes: 11.8 },
-            GH:    { code: 'GHS', symbol: 'GH₵',  name: 'Ghanaian Cedi',       perKes: 0.12 },
-            ZA:    { code: 'ZAR', symbol: 'R',    name: 'South African Rand',  perKes: 0.14 },
-            OTHER: { code: 'USD', symbol: '$',    name: 'US Dollar',           perKes: 0.0077 }
+            KE: { code: 'KES', symbol: 'KSh',  name: 'Kenyan Shilling',     display: `$${BOOKING_FEE_USD}` },
+            NG: { code: 'NGN', symbol: '₦',    name: 'Nigerian Naira',      display: `$${BOOKING_FEE_USD}` },
+            GH: { code: 'GHS', symbol: 'GH₵',  name: 'Ghanaian Cedi',       display: `$${BOOKING_FEE_USD}` },
+            ZA: { code: 'ZAR', symbol: 'R',    name: 'South African Rand',  display: `$${BOOKING_FEE_USD}` },
+            OTHER: { code: 'USD', symbol: '$', name: 'US Dollar',           display: `$${BOOKING_FEE_USD}` }
         };
 
+        // ============================================================
+        // WHATSAPP FALLBACK
+        // ============================================================
         const WHATSAPP_NUMBER = '254117044510';
         const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
 
+        // ============================================================
+        // ADMIN AUTO-REPLY
+        // ============================================================
         const ADMIN_AUTO_REPLY = `Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap 💳 Pay Booking Fee below to secure your private connection. Our team will reach out on WhatsApp once payment is confirmed. 💎`;
 
+        // ============================================================
+        // STATE
+        // ============================================================
         let currentUser = null;
         let isAdmin = false;
         let conversationId = null;
@@ -1211,6 +1232,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         conversationId = urlParams.get('conversation');
 
+        // ============================================================
+        // TOAST
+        // ============================================================
         let toastTimeout;
         function showToast(message, type = 'success') {
             toast.textContent = message;
@@ -1226,33 +1250,22 @@
         }
 
         function getUsdDisplay() {
-            const usd = (BOOKING_FEE_KES / usdExchangeRate).toFixed(2);
-            return `$${usd}`;
+            return USD_DISPLAY;
         }
 
         function getLocalPrice(countryCode) {
             const currency = CURRENCY_MAP[countryCode] || CURRENCY_MAP.OTHER;
-            const amount = BOOKING_FEE_KES * currency.perKes;
-
-            let formatted;
-            if (amount >= 1000) {
-                formatted = amount.toLocaleString(undefined, { maximumFractionDigits: 0 });
-            } else if (amount >= 1) {
-                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            } else {
-                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-            }
-
             return {
                 code: currency.code,
                 symbol: currency.symbol,
                 name: currency.name,
-                amount: amount,
-                formatted: formatted,
-                display: `${currency.symbol}${formatted} ${currency.code}`
+                display: currency.display
             };
         }
 
+        // ============================================================
+        // AUTH
+        // ============================================================
         async function requireAuth() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session || !session.user) {
@@ -1303,6 +1316,9 @@
             if (text) document.getElementById('access-denied-text').textContent = text;
         }
 
+        // ============================================================
+        // CONVERSATION
+        // ============================================================
         async function loadConversation() {
             if (!conversationId) {
                 redirectToMembers('Choose a member to start a conversation');
@@ -1438,6 +1454,9 @@
             adminStatusText.textContent = 'Offline';
         }
 
+        // ============================================================
+        // MESSAGES
+        // ============================================================
         async function loadMessages() {
             if (!conversationId) return;
 
@@ -1530,6 +1549,9 @@
             return `https://wa.me/${phone}?text=${text}`;
         }
 
+        // ============================================================
+        // RENDER MESSAGES
+        // ============================================================
         function renderMessages() {
             if (messages.length === 0) {
                 messagesContainer.innerHTML = `
@@ -1557,8 +1579,6 @@
                     </div>
                 `;
             }
-
-            const usdDisplay = getUsdDisplay();
 
             messages.forEach((msg) => {
                 const msgDate = new Date(msg.created_at);
@@ -1620,8 +1640,8 @@
                                 <button class="pay-book-btn" onclick="openCountryModal()" id="pay-btn-${msg.id}">
                                     <span class="pay-icon">💳</span>
                                     <span class="pay-label">
-                                        <strong>Pay Booking Fee — ${usdDisplay}</strong>
-                                        <small>Select country · instant local price</small>
+                                        <strong>Pay Booking Fee — ${USD_DISPLAY}</strong>
+                                        <small>Secure your private connection</small>
                                     </span>
                                 </button>
                             </div>
@@ -1665,6 +1685,9 @@
                 .replace(/'/g, '&#039;');
         }
 
+        // ============================================================
+        // COUNTRY MODAL — open / close / confirm
+        // ============================================================
         window.openCountryModal = function() {
             if (paymentInFlight) return;
             if (!conversation) return showToast('Conversation not loaded', 'error');
@@ -1674,17 +1697,21 @@
                 return showToast('This booking is already paid ✅', 'info');
             }
 
+            // Reset price to USD
             updateModalPrice('OTHER', true);
 
+            // Set WhatsApp fallback
             const waMsg = encodeURIComponent(`Hi Pro Love Hub, I'd like to book a private connection for conversation ${conversationId}.`);
             document.getElementById('modalWaFallback').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
 
+            // Reset state
             document.getElementById('modalCountrySelect').value = '';
             document.getElementById('modalProceedBtn').disabled = false;
-            document.getElementById('modalProceedBtn').textContent = 'Continue to Secure Payment →';
+            document.getElementById('modalProceedBtn').textContent = 'Secure My Booking →';
             document.getElementById('modalError').classList.remove('show');
             document.getElementById('modalWaFallback').classList.remove('show');
 
+            // Show modal
             countryModalOverlay.classList.add('show');
         };
 
@@ -1694,21 +1721,23 @@
 
         function updateModalPrice(countryCode, isDefault) {
             const price = getLocalPrice(countryCode || 'OTHER');
-            const usdPrice = getUsdDisplay();
 
             const priceBox = document.getElementById('modalPriceBox');
             const usdEl = document.getElementById('modalUsdPrice');
             const kesEl = document.getElementById('modalKesPrice');
 
+            // Always show the USD price as the primary
             usdEl.textContent = price.display;
 
             if (isDefault) {
-                kesEl.textContent = `≈ ${usdPrice} USD · charged as KES ${BOOKING_FEE_KES}`;
+                kesEl.textContent = `Select your country to continue`;
+            } else if (countryCode === 'KE') {
+                kesEl.textContent = `You'll be redirected to secure payment`;
             } else {
-                kesEl.textContent = `≈ ${usdPrice} USD · settles as KES ${BOOKING_FEE_KES}`;
+                kesEl.textContent = `You'll continue on WhatsApp`;
             }
 
-            // Flash animation to signal the change
+            // Flash animation
             priceBox.classList.remove('flash');
             void priceBox.offsetWidth;
             priceBox.classList.add('flash');
@@ -1725,6 +1754,9 @@
             }
         });
 
+        // ============================================================
+        // COUNTRY CONFIRM — Kenya goes to Paystack, others go to WhatsApp
+        // ============================================================
         window.confirmCountryAndPay = async function() {
             const country = document.getElementById('modalCountrySelect').value;
             const proceedBtn = document.getElementById('modalProceedBtn');
@@ -1732,15 +1764,14 @@
             const waEl = document.getElementById('modalWaFallback');
 
             if (!country) {
-                showToast('Please select a country', 'error');
+                showToast('Please select your country first', 'error');
                 return;
             }
 
-            const supported = ['KE', 'NG', 'GH', 'ZA'];
-
-            if (supported.includes(country)) {
+            // 🇰🇪 Kenya → Paystack
+            if (country === 'KE') {
                 proceedBtn.disabled = true;
-                proceedBtn.textContent = 'Preparing secure payment...';
+                proceedBtn.textContent = 'Opening secure payment...';
 
                 const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
 
@@ -1750,14 +1781,35 @@
                 } catch (e) {}
 
                 await executePaystackPayment(reference, country);
-            } else {
-                errorEl.classList.add('show');
-                waEl.classList.add('show');
-                proceedBtn.disabled = true;
-                proceedBtn.textContent = 'Not Available';
+                return;
             }
+
+            // 🌍 All other countries → WhatsApp direct
+            proceedBtn.disabled = true;
+            proceedBtn.textContent = 'Redirecting to WhatsApp...';
+
+            const countryName = country === 'OTHER' ? 'outside Kenya' : country;
+            const waMsg = encodeURIComponent(
+                `Hi Pro Love Hub, I'm from ${countryName} and I'd like to book a private connection ($${BOOKING_FEE_USD}). Please help me complete the payment.`
+            );
+            const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
+
+            // Show fallback button
+            waEl.href = waLink;
+            waEl.classList.add('show');
+            errorEl.classList.add('show');
+
+            // Redirect to WhatsApp
+            setTimeout(() => {
+                window.open(waLink, '_blank');
+                proceedBtn.disabled = false;
+                proceedBtn.textContent = 'Secure My Booking →';
+            }, 400);
         };
 
+        // ============================================================
+        // PAYSTACK — initialize and redirect (Kenya only)
+        // ============================================================
         async function executePaystackPayment(reference, country) {
             paymentInFlight = true;
 
@@ -1776,9 +1828,8 @@
                             user_id: currentUser.id,
                             member_name: conversation.member_name || '',
                             full_name: conversation.full_name || '',
-                            country: country || '',
-                            local_currency: (CURRENCY_MAP[country] || CURRENCY_MAP.OTHER).code,
-                            local_amount: getLocalPrice(country).amount
+                            country: country || 'KE',
+                            usd_display: BOOKING_FEE_USD
                         }
                     }
                 });
@@ -1821,11 +1872,14 @@
                 const proceedBtn = document.getElementById('modalProceedBtn');
                 if (proceedBtn) {
                     proceedBtn.disabled = false;
-                    proceedBtn.textContent = 'Continue to Secure Payment →';
+                    proceedBtn.textContent = 'Secure My Booking →';
                 }
             }
         }
 
+        // ============================================================
+        // PAYMENT — verify on return from Paystack
+        // ============================================================
         async function handlePaymentReturn() {
             const referenceFromUrl = urlParams.get('reference');
             if (!referenceFromUrl) return false;
@@ -1889,6 +1943,9 @@
             }
         }
 
+        // ============================================================
+        // SEND MESSAGE
+        // ============================================================
         async function sendMessage() {
             const text = messageInput.value.trim();
             if (!text) return showToast('Please type a message first!', 'error');
@@ -1930,6 +1987,9 @@
             }
         }
 
+        // ============================================================
+        // SEND PHOTO
+        // ============================================================
         async function sendPhoto(file) {
             if (!file) return;
             if (file.size > 5 * 1024 * 1024) return showToast('Photo too large (max 5MB)', 'error');
@@ -1984,6 +2044,9 @@
             }
         }
 
+        // ============================================================
+        // REALTIME + POLLING
+        // ============================================================
         function subscribeToMessages() {
             if (realtimeChannel) supabase.removeChannel(realtimeChannel);
 
@@ -2077,6 +2140,9 @@
             });
         });
 
+        // ============================================================
+        // INIT
+        // ============================================================
         (async function init() {
             const ok = await requireAuth();
             if (!ok) return;
@@ -2101,8 +2167,8 @@
 
             console.log('💬 Chat ready');
             console.log('Role:', isAdmin ? 'ADMIN' : 'USER');
-            console.log('Base price: KES', BOOKING_FEE_KES, '→', getUsdDisplay());
-            console.log('Currency map:', Object.keys(CURRENCY_MAP).join(', '));
+            console.log('Base USD price:', USD_DISPLAY);
+            console.log('Kenya → Paystack | Others → WhatsApp');
         })();
     </script>
 
