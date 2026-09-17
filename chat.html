@@ -489,9 +489,7 @@
             background: #ffe0eb;
         }
 
-        /* ============================================================ */
-        /* PAY NOW BUTTON — PRIMARY ACTION                              */
-        /* ============================================================ */
+        /* PAY NOW BUTTON */
         .pay-book-btn {
             display: inline-flex;
             align-items: center;
@@ -537,19 +535,9 @@
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 12px 30px rgba(247, 38, 109, 0.6), 0 0 0 4px rgba(247, 38, 109, 0.15);
         }
-        .pay-book-btn:active {
-            transform: translateY(-1px) scale(0.98);
-        }
-        .pay-book-btn:disabled {
-            opacity: 0.6;
-            cursor: wait;
-            animation: none;
-        }
-        .pay-book-btn .pay-icon {
-            font-size: 18px;
-            flex-shrink: 0;
-            display: inline-block;
-        }
+        .pay-book-btn:active { transform: translateY(-1px) scale(0.98); }
+        .pay-book-btn:disabled { opacity: 0.6; cursor: wait; animation: none; }
+        .pay-book-btn .pay-icon { font-size: 18px; flex-shrink: 0; display: inline-block; }
         .pay-book-btn .pay-label {
             display: flex;
             flex-direction: column;
@@ -558,21 +546,10 @@
             z-index: 1;
             text-align: left;
         }
-        .pay-book-btn .pay-label strong {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-        }
-        .pay-book-btn .pay-label small {
-            font-size: 11px;
-            opacity: 0.9;
-            font-weight: 500;
-            margin-top: 2px;
-        }
+        .pay-book-btn .pay-label strong { font-size: 14px; font-weight: 700; letter-spacing: 0.2px; }
+        .pay-book-btn .pay-label small { font-size: 11px; opacity: 0.9; font-weight: 500; margin-top: 2px; }
 
-        /* ============================================================ */
-        /* WHATSAPP FALLBACK BUTTON                                     */
-        /* ============================================================ */
+        /* WHATSAPP FALLBACK */
         .wa-book-btn {
             display: inline-flex;
             align-items: center;
@@ -596,18 +573,11 @@
             border-color: rgba(37, 211, 102, 0.4);
         }
         .wa-book-btn .wa-icon { font-size: 14px; flex-shrink: 0; }
-        .wa-book-btn .wa-label {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-            text-align: left;
-        }
+        .wa-book-btn .wa-label { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
         .wa-book-btn .wa-label strong { font-size: 12px; font-weight: 700; }
         .wa-book-btn .wa-label small { font-size: 10px; opacity: 0.8; font-weight: 500; }
 
-        /* ============================================================ */
-        /* PAYMENT STATUS BANNER (shown after successful payment)       */
-        /* ============================================================ */
+        /* PAYMENT SUCCESS BANNER */
         .payment-success-banner {
             background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(30, 136, 229, 0.08));
             border: 1px solid rgba(40, 167, 69, 0.25);
@@ -620,29 +590,15 @@
             font-size: 13px;
             color: #1a0a14;
         }
-        .payment-success-banner .check {
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-        .payment-success-banner .text strong {
-            display: block;
-            color: #28a745;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        .payment-success-banner .text span {
-            color: rgba(26, 10, 20, 0.65);
-            font-size: 12px;
-        }
+        .payment-success-banner .check { font-size: 22px; flex-shrink: 0; }
+        .payment-success-banner .text strong { display: block; color: #28a745; font-weight: 700; margin-bottom: 2px; }
+        .payment-success-banner .text span { color: rgba(26, 10, 20, 0.65); font-size: 12px; }
 
         @media (prefers-reduced-motion: reduce) {
             .pay-book-btn, .pay-book-btn::before { animation: none !important; }
         }
 
-        .date-separator {
-            text-align: center;
-            margin: 14px 0;
-        }
+        .date-separator { text-align: center; margin: 14px 0; }
         .date-separator span {
             font-size: 11px;
             color: rgba(26, 10, 20, 0.5);
@@ -680,9 +636,7 @@
             min-height: 40px;
         }
 
-        .message-input-container input[type="text"]::placeholder {
-            color: rgba(26, 10, 20, 0.3);
-        }
+        .message-input-container input[type="text"]::placeholder { color: rgba(26, 10, 20, 0.3); }
 
         .message-input-container input[type="text"]:focus {
             border-color: #F7266D;
@@ -706,10 +660,7 @@
             align-items: center;
             justify-content: center;
         }
-        .icon-btn:hover {
-            background: rgba(247, 38, 109, 0.1);
-            transform: translateY(-2px);
-        }
+        .icon-btn:hover { background: rgba(247, 38, 109, 0.1); transform: translateY(-2px); }
         .icon-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
         .btn-send {
@@ -986,9 +937,6 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        // ============================================================
-        // CONFIG
-        // ============================================================
         const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
@@ -996,28 +944,16 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        // ============================================================
-        // PAYSTACK CONFIG (Live)
-        // ============================================================
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
-        const BOOKING_FEE_KES = 500;                 // Display amount
-        const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100; // Paystack wants smallest unit
+        const BOOKING_FEE_KES = 500;
+        const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100;
         const CURRENCY = 'KES';
 
-        // ============================================================
-        // WHATSAPP FALLBACK CONFIG
-        // ============================================================
         const WHATSAPP_NUMBER = '254117044510';
         const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. i am ready with the required fee";
 
-        // ============================================================
-        // ADMIN AUTO-REPLY
-        // ============================================================
         const ADMIN_AUTO_REPLY = `Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap 💳 Pay Booking Fee below to secure your private connection (KES ${BOOKING_FEE_KES}). Our team will reach out on WhatsApp once payment is confirmed. 💎`;
 
-        // ============================================================
-        // STATE
-        // ============================================================
         let currentUser = null;
         let isAdmin = false;
         let conversationId = null;
@@ -1046,9 +982,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         conversationId = urlParams.get('conversation');
 
-        // ============================================================
-        // TOAST
-        // ============================================================
         let toastTimeout;
         function showToast(message, type = 'success') {
             toast.textContent = message;
@@ -1063,9 +996,6 @@
             window.location.href = `members.html?toast=${encoded}`;
         }
 
-        // ============================================================
-        // AUTH
-        // ============================================================
         async function requireAuth() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session || !session.user) {
@@ -1116,9 +1046,6 @@
             if (text) document.getElementById('access-denied-text').textContent = text;
         }
 
-        // ============================================================
-        // CONVERSATION
-        // ============================================================
         async function loadConversation() {
             if (!conversationId) {
                 redirectToMembers('Choose a member to start a conversation');
@@ -1171,7 +1098,6 @@
                 document.getElementById('ud-location').textContent = conversation.location || '—';
                 document.getElementById('ud-occupation').textContent = conversation.occupation || '—';
 
-                // Payment status display
                 const payEl = document.getElementById('ud-payment');
                 if (conversation.payment_status === 'paid') {
                     payEl.innerHTML = `✅ Paid KES ${(conversation.amount_paid / 100).toLocaleString()} <small style="color:rgba(26,10,20,0.4)">(${conversation.payment_reference || ''})</small>`;
@@ -1255,9 +1181,6 @@
             adminStatusText.textContent = 'Offline';
         }
 
-        // ============================================================
-        // MESSAGES
-        // ============================================================
         async function loadMessages() {
             if (!conversationId) return;
 
@@ -1344,18 +1267,12 @@
             }
         }
 
-        // ============================================================
-        // WHATSAPP FALLBACK LINK
-        // ============================================================
         function buildWhatsAppLink() {
             const phone = String(WHATSAPP_NUMBER).replace(/\D/g, '');
             const text = encodeURIComponent(WHATSAPP_MESSAGE);
             return `https://wa.me/${phone}?text=${text}`;
         }
 
-        // ============================================================
-        // RENDER MESSAGES
-        // ============================================================
         function renderMessages() {
             if (messages.length === 0) {
                 messagesContainer.innerHTML = `
@@ -1372,7 +1289,6 @@
             let lastSenderType = null;
             let html = '';
 
-            // Show payment success banner if paid
             if (!isAdmin && conversation && conversation.payment_status === 'paid') {
                 html += `
                     <div class="payment-success-banner">
@@ -1436,9 +1352,6 @@
                     </div>
                 `;
 
-                // ============================================================
-                // PAY + WHATSAPP BUTTONS (user-side only, on admin text messages)
-                // ============================================================
                 if (!isAdmin && msg.sender_type === 'admin' && msg.text && msg.text.trim()) {
                     const alreadyPaid = conversation && conversation.payment_status === 'paid';
 
@@ -1493,9 +1406,6 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // ============================================================
-        // PAYMENT — START
-        // ============================================================
         window.startPayment = async function() {
             if (paymentInFlight) return;
             if (!conversation) return showToast('Conversation not loaded', 'error');
@@ -1507,7 +1417,6 @@
 
             paymentInFlight = true;
 
-            // Disable all pay buttons
             document.querySelectorAll('.pay-book-btn').forEach(btn => {
                 btn.disabled = true;
             });
@@ -1542,15 +1451,13 @@
                     throw new Error('No authorization URL returned from Paystack');
                 }
 
-                // Store the reference so we can verify on return
                 try {
                     localStorage.setItem('plh_pending_reference', reference);
                     localStorage.setItem('plh_pending_conversation', conversationId);
-                } catch (e) { /* localStorage may be blocked */ }
+                } catch (e) { }
 
                 console.log('✅ Redirecting to Paystack checkout:', data.authorization_url);
 
-                // Mark payment as pending in DB
                 await supabase
                     .from('conversations')
                     .update({
@@ -1559,7 +1466,6 @@
                     })
                     .eq('id', conversationId);
 
-                // Redirect to Paystack
                 window.location.href = data.authorization_url;
 
             } catch (err) {
@@ -1572,24 +1478,19 @@
             }
         };
 
-        // ============================================================
-        // PAYMENT — RETURN HANDLER (runs on page load if ?reference= is present)
-        // ============================================================
         async function handlePaymentReturn() {
             const referenceFromUrl = urlParams.get('reference');
             if (!referenceFromUrl) return false;
 
             console.log('🔍 Payment return detected, verifying:', referenceFromUrl);
 
-            // Clean the URL immediately so refresh doesn't re-trigger
             const cleanUrl = window.location.pathname + `?conversation=${conversationId}`;
             window.history.replaceState({}, document.title, cleanUrl);
 
-            // Clear local storage
             try {
                 localStorage.removeItem('plh_pending_reference');
                 localStorage.removeItem('plh_pending_conversation');
-            } catch (e) { /* ignore */ }
+            } catch (e) { }
 
             showToast('🔍 Verifying your payment...', 'info');
 
@@ -1612,7 +1513,6 @@
 
                 console.log('✅ Payment verified:', data);
 
-                // Update conversation in DB
                 await supabase
                     .from('conversations')
                     .update({
@@ -1625,7 +1525,6 @@
 
                 showToast('✅ Payment confirmed! Our team will contact you on WhatsApp shortly.', 'success');
 
-                // Reload conversation + messages to reflect the paid state
                 await loadConversation();
                 renderConversationHeader();
                 await loadMessages();
@@ -1638,9 +1537,6 @@
             }
         }
 
-        // ============================================================
-        // SEND MESSAGE
-        // ============================================================
         async function sendMessage() {
             const text = messageInput.value.trim();
             if (!text) return showToast('Please type a message first!', 'error');
@@ -1682,9 +1578,6 @@
             }
         }
 
-        // ============================================================
-        // SEND PHOTO
-        // ============================================================
         async function sendPhoto(file) {
             if (!file) return;
             if (file.size > 5 * 1024 * 1024) return showToast('Photo too large (max 5MB)', 'error');
@@ -1739,9 +1632,6 @@
             }
         }
 
-        // ============================================================
-        // REALTIME + POLLING
-        // ============================================================
         function subscribeToMessages() {
             if (realtimeChannel) supabase.removeChannel(realtimeChannel);
 
@@ -1825,9 +1715,6 @@
             });
         });
 
-        // ============================================================
-        // INIT
-        // ============================================================
         (async function init() {
             const ok = await requireAuth();
             if (!ok) return;
@@ -1839,7 +1726,6 @@
 
             renderConversationHeader();
 
-            // Handle payment return BEFORE loading messages so banner shows
             await handlePaymentReturn();
 
             await loadMessages();
