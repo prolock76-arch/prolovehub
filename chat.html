@@ -1442,13 +1442,33 @@
                     }
                 });
 
+                // ============================================================
+                // DEBUG: Log the full response from the Edge Function
+                // ============================================================
+                console.log('=== PAYSTACK INITIALIZE RAW RESPONSE ===');
+                console.log('data:', JSON.stringify(data, null, 2));
+                console.log('error:', error);
+                console.log('data type:', typeof data);
+                console.log('has authorization_url:', data?.authorization_url ? 'YES' : 'NO');
+                console.log('has error field:', data?.error ? 'YES -> ' + data.error : 'NO');
+                console.log('has message field:', data?.message ? 'YES -> ' + data.message : 'NO');
+
                 if (error) {
                     console.error('Initialize error:', error);
-                    throw new Error(error.message || 'Failed to initialize payment');
+                    throw new Error(
+                        (data?.error) ||
+                        (data?.message) ||
+                        error.message ||
+                        'Failed to initialize payment'
+                    );
                 }
 
                 if (!data || !data.authorization_url) {
-                    throw new Error('No authorization URL returned from Paystack');
+                    const diagnostic =
+                        data?.error ? `Function error: ${data.error}` :
+                        data?.message ? `Function message: ${data.message}` :
+                        `Raw response: ${JSON.stringify(data)}`;
+                    throw new Error(diagnostic);
                 }
 
                 try {
@@ -1499,6 +1519,10 @@
                     body: { reference: referenceFromUrl }
                 });
 
+                console.log('=== PAYSTACK VERIFY RAW RESPONSE ===');
+                console.log('data:', JSON.stringify(data, null, 2));
+                console.log('error:', error);
+
                 if (error) {
                     console.error('Verify error:', error);
                     showToast('❌ Could not verify payment. Please contact support.', 'error');
@@ -1507,7 +1531,7 @@
 
                 if (!data || !data.verified) {
                     console.warn('Payment not verified:', data);
-                    showToast('❌ Payment was not successful. Please try again.', 'error');
+                    showToast('❌ ' + (data?.message || 'Payment was not successful. Please try again.'), 'error');
                     return false;
                 }
 
