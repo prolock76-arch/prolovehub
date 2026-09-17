@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Country - Pro Love Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; background: #FFF5F8; text-align: center; padding: 50px 20px; }
+        .card { background: white; max-width: 400px; margin: 0 auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(247,38,109,0.1); }
+        select { width: 100%; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .btn { background: #F7266D; color: white; border: none; padding: 15px; width: 100%; border-radius: 50px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .error { color: #dc3545; display: none; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🌍 Where are you paying from?</h2>
+        <p>Please select your country to continue</p>
+        <select id="countrySelect">
+            <option value="">-- Select Country --</option>
+            <option value="KE">Kenya 🇰🇪</option>
+            <option value="NG">Nigeria 🇳🇬</option>
+            <option value="GH">Ghana 🇬🇭</option>
+            <option value="ZA">South Africa 🇿🇦</option>
+            <option value="OTHER">Other Country</option>
+        </select>
+        <button class="btn" onclick="checkCountry()">Continue to Payment</button>
+        <div class="error" id="errorMsg">Sorry, we cannot process payments from your country at this time.</div>
+    </div>
+    <script>
+        function checkCountry() {
+            const country = document.getElementById('countrySelect').value;
+            const urlParams = new URLSearchParams(window.location.search);
+            const conversationId = urlParams.get('conversation');
+
+            if (!country) return alert('Please select a country');
+
+            if (country === 'KE' || country === 'NG' || country === 'GH' || country === 'ZA') {
+                // Redirect to Paystack checkout logic
+                window.location.href = `chat.html?conversation=${conversationId}&proceed=pay`;
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
