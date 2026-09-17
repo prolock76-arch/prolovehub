@@ -762,6 +762,9 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
+        /* ============================================================ */
+        /* COUNTRY MODAL                                                */
+        /* ============================================================ */
         .country-modal-overlay {
             display: none;
             position: fixed;
@@ -845,15 +848,15 @@
             background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(30, 136, 229, 0.06));
             border: 1px solid rgba(247, 38, 109, 0.15);
             border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 14px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
         }
         .country-modal__price .usd {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 900;
             color: #F7266D;
             display: block;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
             transition: all 0.25s ease;
         }
         .country-modal__price .kes {
@@ -869,6 +872,25 @@
             0% { background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(30, 136, 229, 0.06)); }
             50% { background: linear-gradient(135deg, rgba(247, 38, 109, 0.2), rgba(30, 136, 229, 0.15)); }
             100% { background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(30, 136, 229, 0.06)); }
+        }
+
+        .country-modal__reason {
+            background: rgba(247, 38, 109, 0.04);
+            border: 1px dashed rgba(247, 38, 109, 0.25);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: rgba(26, 10, 20, 0.7);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .country-modal__reason .icon {
+            font-size: 14px;
+            flex-shrink: 0;
         }
 
         .country-modal__method {
@@ -951,7 +973,7 @@
         @media (max-width: 480px) {
             .country-modal { padding: 24px 20px 20px; }
             .country-modal h3 { font-size: 18px; }
-            .country-modal__price .usd { font-size: 20px; }
+            .country-modal__price .usd { font-size: 22px; }
             .country-modal__icon { font-size: 38px; }
         }
 
@@ -1119,13 +1141,18 @@
     <div class="country-modal-overlay" id="countryModalOverlay">
         <div class="country-modal">
             <button class="country-modal__close" onclick="closeCountryModal()">✕</button>
-            <span class="country-modal__icon">🌍</span>
-            <h3>Where are you joining from?</h3>
-            <p>So we can show you the right payment options</p>
+            <span class="country-modal__icon">🔓</span>
+            <h3>Unlock Your Private Connection</h3>
+            <p>One small step to secure your match</p>
 
             <div class="country-modal__price" id="modalPriceBox">
                 <span class="usd" id="modalUsdPrice">$12.99 USD</span>
-                <span class="kes" id="modalKesPrice">Select your country to continue</span>
+                <span class="kes" id="modalKesPrice">Select your country to see local price</span>
+            </div>
+
+            <div class="country-modal__reason">
+                <span class="icon">💎</span>
+                <span>Private connection booking fee</span>
             </div>
 
             <div class="country-modal__method hidden" id="modalMethodRow">
@@ -1165,9 +1192,6 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        // ============================================================
-        // CONFIG
-        // ============================================================
         const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
@@ -1175,95 +1199,30 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        // ============================================================
-        // PAYSTACK CONFIG (Live — Kenya)
-        // ============================================================
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
         const BOOKING_FEE_KES = 11;
         const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100;
         const CURRENCY = 'KES';
-
-        // ============================================================
-        // BASE USD PRICE
-        // ============================================================
         const BOOKING_FEE_USD = 12.99;
 
-        // ============================================================
-        // LIVE FX FALLBACK (per 1 USD)
-        // ============================================================
+        // Display-only FX rates (per 1 USD)
         const FX_FALLBACK = {
-            KES: 129.5,     // Kenyan Shilling
-            NGN: 1550,      // Nigerian Naira
-            GHS: 15.2,      // Ghanaian Cedi
-            ZAR: 18.6,      // South African Rand
-            USD: 1
+            KES: 129.5, NGN: 1550, GHS: 15.2, ZAR: 18.6, USD: 1
         };
 
-        // ============================================================
-        // COUNTRY → CURRENCY + METHOD CONFIG
-        // ============================================================
         const COUNTRY_CONFIG = {
-            KE: {
-                name: 'Kenya',
-                flag: '🇰🇪',
-                currency: 'KES',
-                symbol: 'KSh',
-                hint: "M-PESA prioritised · Card also available",
-                icon: '📱',
-                isMpesa: true
-            },
-            NG: {
-                name: 'Nigeria',
-                flag: '🇳🇬',
-                currency: 'NGN',
-                symbol: '₦',
-                hint: "You'll pay with Visa or Mastercard",
-                icon: '💳',
-                isMpesa: false
-            },
-            GH: {
-                name: 'Ghana',
-                flag: '🇬🇭',
-                currency: 'GHS',
-                symbol: 'GH₵',
-                hint: "You'll pay with Visa or Mastercard",
-                icon: '💳',
-                isMpesa: false
-            },
-            ZA: {
-                name: 'South Africa',
-                flag: '🇿🇦',
-                currency: 'ZAR',
-                symbol: 'R',
-                hint: "You'll pay with Visa or Mastercard",
-                icon: '💳',
-                isMpesa: false
-            },
-            OTHER: {
-                name: 'International',
-                flag: '🌍',
-                currency: 'USD',
-                symbol: '$',
-                hint: "You'll pay with Visa or Mastercard",
-                icon: '💳',
-                isMpesa: false
-            }
+            KE:    { name: 'Kenya',        flag: '🇰🇪', currency: 'KES', symbol: 'KSh',  hint: "M-PESA prioritised · Card ready",      icon: '📱', isMpesa: true  },
+            NG:    { name: 'Nigeria',      flag: '🇳🇬', currency: 'NGN', symbol: '₦',    hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false },
+            GH:    { name: 'Ghana',        flag: '🇬🇭', currency: 'GHS', symbol: 'GH₵',  hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false },
+            ZA:    { name: 'South Africa', flag: '🇿🇦', currency: 'ZAR', symbol: 'R',    hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false },
+            OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false }
         };
 
-        // ============================================================
-        // WHATSAPP FALLBACK
-        // ============================================================
         const WHATSAPP_NUMBER = '254117044510';
         const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
 
-        // ============================================================
-        // ADMIN AUTO-REPLY
-        // ============================================================
         const ADMIN_AUTO_REPLY = `Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap 🔓 Unlock Private Connection below. Our team will reach out on WhatsApp once payment is confirmed. 💎`;
 
-        // ============================================================
-        // STATE
-        // ============================================================
         let currentUser = null;
         let isAdmin = false;
         let conversationId = null;
@@ -1293,9 +1252,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         conversationId = urlParams.get('conversation');
 
-        // ============================================================
-        // TOAST
-        // ============================================================
         let toastTimeout;
         function showToast(message, type = 'success') {
             toast.textContent = message;
@@ -1310,9 +1266,6 @@
             window.location.href = `members.html?toast=${encoded}`;
         }
 
-        // ============================================================
-        // CURRENCY CONVERSION — display the price in local currency
-        // ============================================================
         function getCountryPrice(countryCode) {
             const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
             const rate = FX_FALLBACK[config.currency] || 1;
@@ -1321,8 +1274,6 @@
             let formatted;
             if (amount >= 1000) {
                 formatted = amount.toLocaleString(undefined, { maximumFractionDigits: 0 });
-            } else if (amount >= 1) {
-                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             } else {
                 formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
@@ -1330,17 +1281,10 @@
             return {
                 display: `${config.symbol}${formatted} ${config.currency}`,
                 code: config.currency,
-                symbol: config.symbol,
-                amount: amount,
-                usd: BOOKING_FEE_USD,
-                name: config.name,
-                flag: config.flag
+                amount: amount
             };
         }
 
-        // ============================================================
-        // AUTH
-        // ============================================================
         async function requireAuth() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session || !session.user) {
@@ -1391,9 +1335,6 @@
             if (text) document.getElementById('access-denied-text').textContent = text;
         }
 
-        // ============================================================
-        // CONVERSATION
-        // ============================================================
         async function loadConversation() {
             if (!conversationId) {
                 redirectToMembers('Choose a member to start a conversation');
@@ -1529,9 +1470,6 @@
             adminStatusText.textContent = 'Offline';
         }
 
-        // ============================================================
-        // MESSAGES
-        // ============================================================
         async function loadMessages() {
             if (!conversationId) return;
 
@@ -1554,18 +1492,15 @@
 
         async function markMessagesAsRead() {
             if (!conversationId || !currentUser) return;
-
             try {
                 if (isAdmin) {
-                    await supabase
-                        .from('messages')
+                    await supabase.from('messages')
                         .update({ read_by_admin: true })
                         .eq('conversation_id', conversationId)
                         .eq('sender_type', 'user')
                         .eq('read_by_admin', false);
                 } else {
-                    await supabase
-                        .from('messages')
+                    await supabase.from('messages')
                         .update({ read_by_user: true })
                         .eq('conversation_id', conversationId)
                         .eq('sender_type', 'admin')
@@ -1590,27 +1525,20 @@
             autoReplyInFlight = true;
 
             try {
-                console.log('🤖 Auto-reply firing');
-
-                const { error } = await supabase
-                    .from('messages')
-                    .insert([{
-                        conversation_id: conversationId,
-                        sender_type: 'admin',
-                        sender_id: null,
-                        text: ADMIN_AUTO_REPLY,
-                        read_by_admin: true,
-                        read_by_user: false
-                    }]);
-
+                const { error } = await supabase.from('messages').insert([{
+                    conversation_id: conversationId,
+                    sender_type: 'admin',
+                    sender_id: null,
+                    text: ADMIN_AUTO_REPLY,
+                    read_by_admin: true,
+                    read_by_user: false
+                }]);
                 if (error) throw error;
 
-                await supabase
-                    .from('conversations')
+                await supabase.from('conversations')
                     .update({ updated_at: new Date().toISOString() })
                     .eq('id', conversationId);
 
-                console.log('✅ Auto-reply inserted');
                 await loadMessages();
             } catch (err) {
                 console.error('Auto-reply failed:', err);
@@ -1624,9 +1552,6 @@
             return `https://wa.me/${phone}?text=${text}`;
         }
 
-        // ============================================================
-        // RENDER MESSAGES
-        // ============================================================
         function renderMessages() {
             if (messages.length === 0) {
                 messagesContainer.innerHTML = `
@@ -1649,7 +1574,7 @@
                         <span class="check">✅</span>
                         <div class="text">
                             <strong>Payment Confirmed</strong>
-                            <span>KES ${(conversation.amount_paid / 100).toLocaleString()} received. Our team will contact you on WhatsApp shortly.</span>
+                            <span>Your private connection has been unlocked. Our team will contact you on WhatsApp shortly.</span>
                         </div>
                     </div>
                 `;
@@ -1671,9 +1596,7 @@
 
                 let contentHTML = '';
                 let isPhotoOnly = false;
-
                 if (msg.attachment_url && !msg.text) isPhotoOnly = true;
-
                 if (msg.attachment_url) {
                     contentHTML += `<img src="${msg.attachment_url}" onclick="openLightbox('${msg.attachment_url}')" alt="Attachment">`;
                 }
@@ -1715,7 +1638,7 @@
                                 <button class="pay-book-btn" onclick="openCountryModal()" id="pay-btn-${msg.id}">
                                     <span class="pay-icon">🔓</span>
                                     <span class="pay-label">
-                                        <strong>Unlock Private Connection — $${BOOKING_FEE_USD}</strong>
+                                        <strong>Unlock Private Connection</strong>
                                         <small>Secure your match · instant access</small>
                                     </span>
                                 </button>
@@ -1744,7 +1667,6 @@
             const today = new Date();
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
-
             if (date.toDateString() === today.toDateString()) return 'Today';
             if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
             return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
@@ -1760,24 +1682,18 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // ============================================================
-        // COUNTRY MODAL — live price translation
-        // ============================================================
         window.openCountryModal = function() {
             if (paymentInFlight) return;
             if (!conversation) return showToast('Conversation not loaded', 'error');
             if (!currentUser || !currentUser.email) return showToast('Please login first', 'error');
-
             if (conversation.payment_status === 'paid') {
                 return showToast('This booking is already paid ✅', 'info');
             }
 
             updateModalPrice('', true);
-
             document.getElementById('modalCountrySelect').value = '';
             document.getElementById('modalProceedBtn').disabled = false;
             document.getElementById('modalProceedBtn').textContent = 'Unlock My Connection →';
-
             countryModalOverlay.classList.add('show');
         };
 
@@ -1794,35 +1710,22 @@
             const methodIcon = document.getElementById('modalMethodIcon');
 
             if (isDefault || !countryCode) {
-                // Default display: USD
                 usdEl.textContent = `$${BOOKING_FEE_USD} USD`;
                 kesEl.textContent = `Select your country to see local price`;
                 if (methodRow) methodRow.classList.add('hidden');
             } else {
                 const price = getCountryPrice(countryCode);
                 const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
-
-                // Main price in local currency
                 usdEl.textContent = price.display;
-
-                // Sub-line shows USD equivalent
-                kesEl.textContent = `≈ $${BOOKING_FEE_USD} USD · charged as KES ${BOOKING_FEE_KES}`;
-
-                // Method hint
+                kesEl.textContent = `≈ $${BOOKING_FEE_USD} USD · settles in KES`;
                 if (methodRow && methodText && methodIcon) {
                     methodText.textContent = config.hint;
                     methodIcon.textContent = config.icon;
-
-                    if (config.isMpesa) {
-                        methodRow.classList.add('mpesa');
-                    } else {
-                        methodRow.classList.remove('mpesa');
-                    }
+                    methodRow.classList.toggle('mpesa', config.isMpesa);
                     methodRow.classList.remove('hidden');
                 }
             }
 
-            // Flash animation to signal update
             priceBox.classList.remove('flash');
             void priceBox.offsetWidth;
             priceBox.classList.add('flash');
@@ -1830,16 +1733,10 @@
 
         document.getElementById('modalCountrySelect').addEventListener('change', (e) => {
             const country = e.target.value;
-            if (country) {
-                updateModalPrice(country, false);
-            } else {
-                updateModalPrice('', true);
-            }
+            if (country) updateModalPrice(country, false);
+            else updateModalPrice('', true);
         });
 
-        // ============================================================
-        // CONFIRM — All countries → Paystack
-        // ============================================================
         window.confirmCountryAndPay = async function() {
             const country = document.getElementById('modalCountrySelect').value;
             const proceedBtn = document.getElementById('modalProceedBtn');
@@ -1853,7 +1750,6 @@
             proceedBtn.textContent = 'Preparing secure checkout...';
 
             const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
-
             try {
                 localStorage.setItem('plh_pending_reference', reference);
                 localStorage.setItem('plh_pending_conversation', conversationId);
@@ -1862,31 +1758,19 @@
             await executePaystackPayment(reference, country);
         };
 
-        // ============================================================
-        // PAYSTACK — initialize and redirect
-        // ============================================================
         async function executePaystackPayment(reference, country) {
             paymentInFlight = true;
-
             const config = COUNTRY_CONFIG[country] || COUNTRY_CONFIG.OTHER;
             const countryPrice = getCountryPrice(country);
 
             try {
-                console.log('💳 Initializing Paystack payment:', {
-                    reference,
-                    country,
-                    amount: BOOKING_FEE_CENTS,
-                    currency: CURRENCY,
-                    localCurrency: countryPrice.code
-                });
-
                 const { data, error } = await supabase.functions.invoke('paystack-initialize', {
                     body: {
                         amount: BOOKING_FEE_CENTS,
                         email: currentUser.email,
                         reference: reference,
                         currency: CURRENCY,
-                        country: country, // 🔑 tells the function to prioritize M-PESA for KE
+                        country: country,
                         callback_url: `${window.location.origin}/chat.html?conversation=${conversationId}&reference=${reference}`,
                         metadata: {
                             conversation_id: conversationId,
@@ -1897,36 +1781,24 @@
                             country_name: config.name,
                             local_currency: countryPrice.code,
                             local_amount: countryPrice.amount,
-                            usd_display: BOOKING_FEE_USD
+                            usd_display: BOOKING_FEE_USD,
+                            payment_reason: 'Private connection booking fee'
                         }
                     }
                 });
 
-                console.log('=== PAYSTACK INITIALIZE RAW RESPONSE ===');
-                console.log('data:', JSON.stringify(data, null, 2));
-                console.log('error:', error);
+                console.log('=== PAYSTACK INIT RESPONSE ===', data, error);
 
                 if (error) {
                     throw new Error((data?.error) || (data?.message) || error.message || 'Failed to initialize payment');
                 }
-
                 if (!data || !data.authorization_url) {
-                    const diagnostic =
-                        data?.error ? `Function error: ${data.error}` :
-                        data?.message ? `Function message: ${data.message}` :
-                        `Raw response: ${JSON.stringify(data)}`;
-                    throw new Error(diagnostic);
+                    throw new Error(data?.error || data?.message || `No checkout URL returned`);
                 }
 
-                await supabase
-                    .from('conversations')
-                    .update({
-                        payment_status: 'pending',
-                        payment_reference: reference
-                    })
+                await supabase.from('conversations')
+                    .update({ payment_status: 'pending', payment_reference: reference })
                     .eq('id', conversationId);
-
-                console.log('✅ Redirecting to Paystack:', data.authorization_url);
 
                 setTimeout(() => {
                     window.location.href = data.authorization_url;
@@ -1936,7 +1808,6 @@
                 console.error('Payment start failed:', err);
                 showToast('❌ ' + (err.message || 'Payment failed. Please try again.'), 'error');
                 paymentInFlight = false;
-
                 const proceedBtn = document.getElementById('modalProceedBtn');
                 if (proceedBtn) {
                     proceedBtn.disabled = false;
@@ -1945,14 +1816,9 @@
             }
         }
 
-        // ============================================================
-        // PAYMENT — verify on return from Paystack
-        // ============================================================
         async function handlePaymentReturn() {
             const referenceFromUrl = urlParams.get('reference');
             if (!referenceFromUrl) return false;
-
-            console.log('🔍 Payment return detected, verifying:', referenceFromUrl);
 
             const cleanUrl = window.location.pathname + `?conversation=${conversationId}`;
             window.history.replaceState({}, document.title, cleanUrl);
@@ -1969,26 +1835,16 @@
                     body: { reference: referenceFromUrl }
                 });
 
-                console.log('=== PAYSTACK VERIFY RAW RESPONSE ===');
-                console.log('data:', JSON.stringify(data, null, 2));
-                console.log('error:', error);
-
                 if (error) {
-                    console.error('Verify error:', error);
                     showToast('❌ Could not verify payment. Please contact support.', 'error');
                     return false;
                 }
-
                 if (!data || !data.verified) {
-                    console.warn('Payment not verified:', data);
-                    showToast('❌ ' + (data?.message || 'Payment was not successful. Please try again.'), 'error');
+                    showToast('❌ ' + (data?.message || 'Payment was not successful.'), 'error');
                     return false;
                 }
 
-                console.log('✅ Payment verified:', data);
-
-                await supabase
-                    .from('conversations')
+                await supabase.from('conversations')
                     .update({
                         payment_status: 'paid',
                         payment_reference: data.reference || referenceFromUrl,
@@ -2002,51 +1858,40 @@
                 await loadConversation();
                 renderConversationHeader();
                 await loadMessages();
-
                 return true;
             } catch (err) {
-                console.error('Payment verification failed:', err);
                 showToast('❌ Verification failed: ' + (err.message || 'Unknown error'), 'error');
                 return false;
             }
         }
 
-        // ============================================================
-        // SEND MESSAGE
-        // ============================================================
         async function sendMessage() {
             const text = messageInput.value.trim();
             if (!text) return showToast('Please type a message first!', 'error');
             if (!conversation) return showToast('Conversation not loaded', 'error');
 
             const senderType = isAdmin ? 'admin' : 'user';
-
             sendBtn.disabled = true;
             sendBtn.textContent = '⏳';
 
             try {
-                const { error } = await supabase
-                    .from('messages')
-                    .insert([{
-                        conversation_id: conversationId,
-                        sender_type: senderType,
-                        sender_id: currentUser.id,
-                        text: text,
-                        read_by_admin: senderType === 'admin',
-                        read_by_user: senderType === 'user'
-                    }]);
-
+                const { error } = await supabase.from('messages').insert([{
+                    conversation_id: conversationId,
+                    sender_type: senderType,
+                    sender_id: currentUser.id,
+                    text: text,
+                    read_by_admin: senderType === 'admin',
+                    read_by_user: senderType === 'user'
+                }]);
                 if (error) throw error;
 
-                await supabase
-                    .from('conversations')
+                await supabase.from('conversations')
                     .update({ updated_at: new Date().toISOString() })
                     .eq('id', conversationId);
 
                 messageInput.value = '';
                 await loadMessages();
             } catch (err) {
-                console.error('Send error:', err);
                 showToast('Failed to send: ' + err.message, 'error');
             } finally {
                 sendBtn.disabled = false;
@@ -2055,9 +1900,6 @@
             }
         }
 
-        // ============================================================
-        // SEND PHOTO
-        // ============================================================
         async function sendPhoto(file) {
             if (!file) return;
             if (file.size > 5 * 1024 * 1024) return showToast('Photo too large (max 5MB)', 'error');
@@ -2073,7 +1915,6 @@
                 const { data, error } = await supabase.storage
                     .from('chat_attachments')
                     .upload(fileName, file);
-
                 if (error) throw error;
 
                 const { data: urlData } = supabase.storage
@@ -2081,29 +1922,24 @@
                     .getPublicUrl(data.path);
 
                 const senderType = isAdmin ? 'admin' : 'user';
-                const { error: insertErr } = await supabase
-                    .from('messages')
-                    .insert([{
-                        conversation_id: conversationId,
-                        sender_type: senderType,
-                        sender_id: currentUser.id,
-                        text: '',
-                        attachment_url: urlData.publicUrl,
-                        read_by_admin: senderType === 'admin',
-                        read_by_user: senderType === 'user'
-                    }]);
-
+                const { error: insertErr } = await supabase.from('messages').insert([{
+                    conversation_id: conversationId,
+                    sender_type: senderType,
+                    sender_id: currentUser.id,
+                    text: '',
+                    attachment_url: urlData.publicUrl,
+                    read_by_admin: senderType === 'admin',
+                    read_by_user: senderType === 'user'
+                }]);
                 if (insertErr) throw insertErr;
 
-                await supabase
-                    .from('conversations')
+                await supabase.from('conversations')
                     .update({ updated_at: new Date().toISOString() })
                     .eq('id', conversationId);
 
                 showToast('✅ Photo sent!', 'success');
                 await loadMessages();
             } catch (err) {
-                console.error('Photo send error:', err);
                 showToast('Failed to send photo: ' + err.message, 'error');
             } finally {
                 photoBtn.disabled = false;
@@ -2112,31 +1948,19 @@
             }
         }
 
-        // ============================================================
-        // REALTIME + POLLING
-        // ============================================================
         function subscribeToMessages() {
             if (realtimeChannel) supabase.removeChannel(realtimeChannel);
 
             realtimeChannel = supabase
                 .channel('messages:' + conversationId)
                 .on('postgres_changes', {
-                    event: 'INSERT',
-                    schema: 'public',
-                    table: 'messages',
+                    event: 'INSERT', schema: 'public', table: 'messages',
                     filter: `conversation_id=eq.${conversationId}`
-                }, () => {
-                    loadMessages();
-                    markMessagesAsRead();
-                })
+                }, () => { loadMessages(); markMessagesAsRead(); })
                 .on('postgres_changes', {
-                    event: 'UPDATE',
-                    schema: 'public',
-                    table: 'messages',
+                    event: 'UPDATE', schema: 'public', table: 'messages',
                     filter: `conversation_id=eq.${conversationId}`
-                }, () => {
-                    loadMessages();
-                })
+                }, () => { loadMessages(); })
                 .subscribe();
         }
 
@@ -2154,7 +1978,6 @@
                     loadConversation().then(() => renderConversationHeader());
                 }
             }, 5000);
-            console.log('🔄 Polling started (every 5s)');
         }
 
         window.openLightbox = function(url) {
@@ -2166,15 +1989,8 @@
         }
 
         window.goBack = function() {
-            if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                if (isAdmin) {
-                    window.location.href = 'adminpanel.html';
-                } else {
-                    window.location.href = 'members.html';
-                }
-            }
+            if (window.history.length > 1) window.history.back();
+            else window.location.href = isAdmin ? 'adminpanel.html' : 'members.html';
         }
 
         countryModalOverlay.addEventListener('click', (e) => {
@@ -2182,9 +1998,7 @@
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && countryModalOverlay.classList.contains('show')) {
-                closeCountryModal();
-            }
+            if (e.key === 'Escape' && countryModalOverlay.classList.contains('show')) closeCountryModal();
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -2199,7 +2013,6 @@
             photoInput.addEventListener('change', (e) => {
                 if (e.target.files && e.target.files[0]) sendPhoto(e.target.files[0]);
             });
-
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden && conversation) {
                     markMessagesAsRead();
@@ -2208,34 +2021,21 @@
             });
         });
 
-        // ============================================================
-        // INIT
-        // ============================================================
         (async function init() {
             const ok = await requireAuth();
             if (!ok) return;
-
             await detectRole();
-
             const conv = await loadConversation();
             if (!conv) return;
-
             renderConversationHeader();
-
             await handlePaymentReturn();
-
             await loadMessages();
             await markMessagesAsRead();
-
             subscribeToMessages();
             startAdminStatusPolling();
             startReadPolling();
-
             messageInput.focus();
-
             console.log('💬 Chat ready');
-            console.log('Role:', isAdmin ? 'ADMIN' : 'USER');
-            console.log('Base USD price:', `$${BOOKING_FEE_USD}`);
         })();
     </script>
 
