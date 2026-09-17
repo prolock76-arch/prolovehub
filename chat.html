@@ -931,6 +931,15 @@
             transition: border-color 0.2s;
         }
         .country-modal select:focus { border-color: #F7266D; }
+        .country-modal select.shake {
+            animation: selectShake 0.4s ease;
+            border-color: #dc3545;
+        }
+        @keyframes selectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
         .country-modal__btn {
             width: 100%;
             padding: 14px;
@@ -968,6 +977,27 @@
             display: flex;
             align-items: center;
             gap: 3px;
+        }
+
+        /* Inline error message inside modal */
+        .country-modal__inline-error {
+            display: none;
+            background: rgba(220, 53, 69, 0.08);
+            color: #dc3545;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+            animation: errorIn 0.3s ease;
+        }
+        .country-modal__inline-error.show {
+            display: block;
+        }
+        @keyframes errorIn {
+            0% { opacity: 0; transform: translateY(-6px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 480px) {
@@ -1160,6 +1190,10 @@
                 <span id="modalMethodText">Secure checkout</span>
             </div>
 
+            <div class="country-modal__inline-error" id="modalInlineError">
+                👆 Please select your country first to continue
+            </div>
+
             <select id="modalCountrySelect">
                 <option value="">-- Select Country --</option>
                 <option value="KE">Kenya 🇰🇪</option>
@@ -1199,23 +1233,36 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
+        // ============================================================
+        // PAYSTACK CONFIG
+        // ============================================================
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
+
+        // 💰 The ACTUAL amount charged by Paystack (in KES)
+        // This is what appears on the Paystack checkout page.
         const BOOKING_FEE_KES = 11;
         const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100;
         const CURRENCY = 'KES';
+
+        // 📊 Base USD price — used to derive LOCAL display only
+        // (Paystack still charges in KES — see BOOKING_FEE_KES above)
         const BOOKING_FEE_USD = 12.99;
 
-        // Display-only FX rates (per 1 USD)
+        // Approximate KES/USD rate used for the "≈ USD" hint (display only)
+        const USD_TO_KES = 129.5;
+
+        // Display-only FX rates for local currency preview (per 1 USD)
         const FX_FALLBACK = {
             KES: 129.5, NGN: 1550, GHS: 15.2, ZAR: 18.6, USD: 1
         };
 
+        // Country configuration
         const COUNTRY_CONFIG = {
-            KE:    { name: 'Kenya',        flag: '🇰🇪', currency: 'KES', symbol: 'KSh',  hint: "M-PESA prioritised · Card ready",      icon: '📱', isMpesa: true  },
-            NG:    { name: 'Nigeria',      flag: '🇳🇬', currency: 'NGN', symbol: '₦',    hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false },
-            GH:    { name: 'Ghana',        flag: '🇬🇭', currency: 'GHS', symbol: 'GH₵',  hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false },
-            ZA:    { name: 'South Africa', flag: '🇿🇦', currency: 'ZAR', symbol: 'R',    hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false },
-            OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll pay with Visa or Mastercard",    icon: '💳', isMpesa: false }
+            KE:    { name: 'Kenya',        flag: '🇰🇪', currency: 'KES', symbol: 'KSh',  hint: "M-PESA prioritised · Card also available", icon: '📱', isMpesa: true  },
+            NG:    { name: 'Nigeria',      flag: '🇳🇬', currency: 'NGN', symbol: '₦',    hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false },
+            GH:    { name: 'Ghana',        flag: '🇬🇭', currency: 'GHS', symbol: 'GH₵',  hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false },
+            ZA:    { name: 'South Africa', flag: '🇿🇦', currency: 'ZAR', symbol: 'R',    hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false },
+            OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false }
         };
 
         const WHATSAPP_NUMBER = '254117044510';
@@ -1266,22 +1313,46 @@
             window.location.href = `members.html?toast=${encoded}`;
         }
 
+        // ============================================================
+        // Get display price for a country
+        // - For Kenya: shows the REAL KES amount (matches Paystack)
+        // - For others: shows local equivalent (Paystack still charges KES)
+        // ============================================================
         function getCountryPrice(countryCode) {
             const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
             const rate = FX_FALLBACK[config.currency] || 1;
-            const amount = BOOKING_FEE_USD * rate;
+
+            // What we'll display
+            let displayAmount, displayCurrency, displaySymbol;
+
+            if (config.currency === 'KES') {
+                // Kenya: show the EXACT KES amount charged on Paystack
+                displayAmount = BOOKING_FEE_KES;
+                displayCurrency = 'KES';
+                displaySymbol = 'KSh';
+            } else if (config.currency === 'USD') {
+                // Other: show USD
+                displayAmount = BOOKING_FEE_USD;
+                displayCurrency = 'USD';
+                displaySymbol = '$';
+            } else {
+                // Other countries: show local currency equivalent
+                displayAmount = BOOKING_FEE_USD * rate;
+                displayCurrency = config.currency;
+                displaySymbol = config.symbol;
+            }
 
             let formatted;
-            if (amount >= 1000) {
-                formatted = amount.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            if (displayAmount >= 1000) {
+                formatted = displayAmount.toLocaleString(undefined, { maximumFractionDigits: 0 });
             } else {
-                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                formatted = displayAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
 
             return {
-                display: `${config.symbol}${formatted} ${config.currency}`,
-                code: config.currency,
-                amount: amount
+                display: `${displaySymbol}${formatted} ${displayCurrency}`,
+                code: displayCurrency,
+                amount: displayAmount
             };
         }
 
@@ -1682,6 +1753,9 @@
                 .replace(/'/g, '&#039;');
         }
 
+        // ============================================================
+        // COUNTRY MODAL
+        // ============================================================
         window.openCountryModal = function() {
             if (paymentInFlight) return;
             if (!conversation) return showToast('Conversation not loaded', 'error');
@@ -1694,6 +1768,9 @@
             document.getElementById('modalCountrySelect').value = '';
             document.getElementById('modalProceedBtn').disabled = false;
             document.getElementById('modalProceedBtn').textContent = 'Unlock My Connection →';
+            document.getElementById('modalInlineError').classList.remove('show');
+            document.getElementById('modalCountrySelect').classList.remove('shake');
+
             countryModalOverlay.classList.add('show');
         };
 
@@ -1716,8 +1793,16 @@
             } else {
                 const price = getCountryPrice(countryCode);
                 const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
+
                 usdEl.textContent = price.display;
-                kesEl.textContent = `≈ $${BOOKING_FEE_USD} USD · settles in KES`;
+
+                // If Kenya, show it's the exact KES being charged
+                if (countryCode === 'KE') {
+                    kesEl.textContent = `Exact amount charged on checkout`;
+                } else {
+                    kesEl.textContent = `≈ $${BOOKING_FEE_USD} USD · settles in KES`;
+                }
+
                 if (methodRow && methodText && methodIcon) {
                     methodText.textContent = config.hint;
                     methodIcon.textContent = config.icon;
@@ -1733,19 +1818,36 @@
 
         document.getElementById('modalCountrySelect').addEventListener('change', (e) => {
             const country = e.target.value;
+
+            // Clear any previous error state
+            document.getElementById('modalInlineError').classList.remove('show');
+            document.getElementById('modalCountrySelect').classList.remove('shake');
+
             if (country) updateModalPrice(country, false);
             else updateModalPrice('', true);
         });
 
+        // ============================================================
+        // CONFIRM — validates country is selected first
+        // ============================================================
         window.confirmCountryAndPay = async function() {
-            const country = document.getElementById('modalCountrySelect').value;
+            const countrySelect = document.getElementById('modalCountrySelect');
+            const country = countrySelect.value;
             const proceedBtn = document.getElementById('modalProceedBtn');
+            const inlineError = document.getElementById('modalInlineError');
 
+            // ⚠️ If no country selected → show helpful message
             if (!country) {
-                showToast('Please select your country first', 'error');
+                inlineError.classList.add('show');
+                countrySelect.classList.add('shake');
+                // Remove shake class after animation ends
+                setTimeout(() => countrySelect.classList.remove('shake'), 500);
+                // Auto-hide error after 4s
+                setTimeout(() => inlineError.classList.remove('show'), 4000);
                 return;
             }
 
+            inlineError.classList.remove('show');
             proceedBtn.disabled = true;
             proceedBtn.textContent = 'Preparing secure checkout...';
 
@@ -1764,6 +1866,8 @@
             const countryPrice = getCountryPrice(country);
 
             try {
+                console.log('💳 Initializing Paystack:', { reference, country, amount: BOOKING_FEE_CENTS });
+
                 const { data, error } = await supabase.functions.invoke('paystack-initialize', {
                     body: {
                         amount: BOOKING_FEE_CENTS,
@@ -1787,7 +1891,9 @@
                     }
                 });
 
-                console.log('=== PAYSTACK INIT RESPONSE ===', data, error);
+                console.log('=== PAYSTACK INIT RESPONSE ===');
+                console.log('data:', JSON.stringify(data, null, 2));
+                console.log('error:', error);
 
                 if (error) {
                     throw new Error((data?.error) || (data?.message) || error.message || 'Failed to initialize payment');
@@ -1799,6 +1905,8 @@
                 await supabase.from('conversations')
                     .update({ payment_status: 'pending', payment_reference: reference })
                     .eq('id', conversationId);
+
+                console.log('✅ Redirecting to Paystack:', data.authorization_url);
 
                 setTimeout(() => {
                     window.location.href = data.authorization_url;
