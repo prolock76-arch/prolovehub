@@ -489,7 +489,6 @@
             background: #ffe0eb;
         }
 
-        /* PAY NOW BUTTON */
         .pay-book-btn {
             display: inline-flex;
             align-items: center;
@@ -549,7 +548,6 @@
         .pay-book-btn .pay-label strong { font-size: 14px; font-weight: 700; letter-spacing: 0.2px; }
         .pay-book-btn .pay-label small { font-size: 11px; opacity: 0.9; font-weight: 500; margin-top: 2px; }
 
-        /* WHATSAPP FALLBACK */
         .wa-book-btn {
             display: inline-flex;
             align-items: center;
@@ -577,7 +575,6 @@
         .wa-book-btn .wa-label strong { font-size: 12px; font-weight: 700; }
         .wa-book-btn .wa-label small { font-size: 10px; opacity: 0.8; font-weight: 500; }
 
-        /* PAYMENT SUCCESS BANNER */
         .payment-success-banner {
             background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(30, 136, 229, 0.08));
             border: 1px solid rgba(40, 167, 69, 0.25);
@@ -765,9 +762,6 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        /* ============================================================ */
-        /* COUNTRY MODAL — smooth overlay, in-chat experience           */
-        /* ============================================================ */
         .country-modal-overlay {
             display: none;
             position: fixed;
@@ -860,11 +854,21 @@
             color: #F7266D;
             display: block;
             margin-bottom: 2px;
+            transition: all 0.25s ease;
         }
         .country-modal__price .kes {
             font-size: 11px;
             color: rgba(26, 10, 20, 0.55);
             font-weight: 600;
+            transition: all 0.25s ease;
+        }
+        .country-modal__price.flash {
+            animation: priceFlash 0.5s ease;
+        }
+        @keyframes priceFlash {
+            0% { background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(30, 136, 229, 0.06)); }
+            50% { background: linear-gradient(135deg, rgba(247, 38, 109, 0.2), rgba(30, 136, 229, 0.15)); }
+            100% { background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(30, 136, 229, 0.06)); }
         }
         .country-modal select {
             width: 100%;
@@ -1104,9 +1108,6 @@
 
     <div class="toast" id="toast"></div>
 
-    <!-- ============================================================ -->
-    <!-- COUNTRY MODAL — appears smoothly over the chat               -->
-    <!-- ============================================================ -->
     <div class="country-modal-overlay" id="countryModalOverlay">
         <div class="country-modal">
             <button class="country-modal__close" onclick="closeCountryModal()">✕</button>
@@ -1114,9 +1115,9 @@
             <h3>Where are you joining from?</h3>
             <p>Just so we can process your payment securely</p>
 
-            <div class="country-modal__price">
-                <span class="usd" id="modalUsdPrice">$0.00</span>
-                <span class="kes" id="modalKesPrice">≈ KES 0</span>
+            <div class="country-modal__price" id="modalPriceBox">
+                <span class="usd" id="modalUsdPrice">$0.08 USD</span>
+                <span class="kes" id="modalKesPrice">≈ $0.08 USD · settles as KES 11</span>
             </div>
 
             <select id="modalCountrySelect">
@@ -1153,9 +1154,6 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        // ============================================================
-        // CONFIG
-        // ============================================================
         const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
@@ -1163,35 +1161,27 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        // ============================================================
-        // PAYSTACK CONFIG (Live — Kenya)
-        // ============================================================
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
         const BOOKING_FEE_KES = 11;
         const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100;
         const CURRENCY = 'KES';
 
-        // ============================================================
-        // LIVE EXCHANGE RATE (USD → KES) — display only
-        // ============================================================
-        const FX_API_KEY = ''; // Optional: your allratestoday.com key
         const FX_FALLBACK_RATE = 129.5;
-        let usdExchangeRate = null;
+        let usdExchangeRate = FX_FALLBACK_RATE;
 
-        // ============================================================
-        // WHATSAPP FALLBACK
-        // ============================================================
+        const CURRENCY_MAP = {
+            KE:    { code: 'KES', symbol: 'KSh',  name: 'Kenyan Shilling',     perKes: 1 },
+            NG:    { code: 'NGN', symbol: '₦',    name: 'Nigerian Naira',      perKes: 11.8 },
+            GH:    { code: 'GHS', symbol: 'GH₵',  name: 'Ghanaian Cedi',       perKes: 0.12 },
+            ZA:    { code: 'ZAR', symbol: 'R',    name: 'South African Rand',  perKes: 0.14 },
+            OTHER: { code: 'USD', symbol: '$',    name: 'US Dollar',           perKes: 0.0077 }
+        };
+
         const WHATSAPP_NUMBER = '254117044510';
         const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
 
-        // ============================================================
-        // ADMIN AUTO-REPLY
-        // ============================================================
         const ADMIN_AUTO_REPLY = `Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap 💳 Pay Booking Fee below to secure your private connection. Our team will reach out on WhatsApp once payment is confirmed. 💎`;
 
-        // ============================================================
-        // STATE
-        // ============================================================
         let currentUser = null;
         let isAdmin = false;
         let conversationId = null;
@@ -1202,7 +1192,6 @@
         let readPollingInterval = null;
         let autoReplyInFlight = false;
         let paymentInFlight = false;
-        let pendingPaymentReference = null;
 
         const messagesContainer = document.getElementById('messages-container');
         const messageInput = document.getElementById('message-input');
@@ -1222,9 +1211,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         conversationId = urlParams.get('conversation');
 
-        // ============================================================
-        // TOAST
-        // ============================================================
         let toastTimeout;
         function showToast(message, type = 'success') {
             toast.textContent = message;
@@ -1239,41 +1225,34 @@
             window.location.href = `members.html?toast=${encoded}`;
         }
 
-        // ============================================================
-        // EXCHANGE RATE
-        // ============================================================
-        async function fetchExchangeRate() {
-            if (!FX_API_KEY) {
-                usdExchangeRate = FX_FALLBACK_RATE;
-                console.log('💱 Using fallback FX rate:', usdExchangeRate, 'KES per USD');
-                return;
-            }
-            try {
-                const res = await fetch(`https://allratestoday.com/api/v1/central-bank/cbke/latest?source=USD&target=KES`, {
-                    headers: { 'Authorization': `Bearer ${FX_API_KEY}` }
-                });
-                const data = await res.json();
-                if (data && data.rate) {
-                    usdExchangeRate = data.rate;
-                    console.log('💱 Live FX rate:', usdExchangeRate, 'KES per USD');
-                } else {
-                    usdExchangeRate = FX_FALLBACK_RATE;
-                }
-            } catch (err) {
-                console.warn('FX fetch failed, using fallback:', err);
-                usdExchangeRate = FX_FALLBACK_RATE;
-            }
-        }
-
         function getUsdDisplay() {
-            const rate = usdExchangeRate || FX_FALLBACK_RATE;
-            const usd = (BOOKING_FEE_KES / rate).toFixed(2);
+            const usd = (BOOKING_FEE_KES / usdExchangeRate).toFixed(2);
             return `$${usd}`;
         }
 
-        // ============================================================
-        // AUTH
-        // ============================================================
+        function getLocalPrice(countryCode) {
+            const currency = CURRENCY_MAP[countryCode] || CURRENCY_MAP.OTHER;
+            const amount = BOOKING_FEE_KES * currency.perKes;
+
+            let formatted;
+            if (amount >= 1000) {
+                formatted = amount.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            } else if (amount >= 1) {
+                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            } else {
+                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+            }
+
+            return {
+                code: currency.code,
+                symbol: currency.symbol,
+                name: currency.name,
+                amount: amount,
+                formatted: formatted,
+                display: `${currency.symbol}${formatted} ${currency.code}`
+            };
+        }
+
         async function requireAuth() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session || !session.user) {
@@ -1324,9 +1303,6 @@
             if (text) document.getElementById('access-denied-text').textContent = text;
         }
 
-        // ============================================================
-        // CONVERSATION
-        // ============================================================
         async function loadConversation() {
             if (!conversationId) {
                 redirectToMembers('Choose a member to start a conversation');
@@ -1462,9 +1438,6 @@
             adminStatusText.textContent = 'Offline';
         }
 
-        // ============================================================
-        // MESSAGES
-        // ============================================================
         async function loadMessages() {
             if (!conversationId) return;
 
@@ -1557,9 +1530,6 @@
             return `https://wa.me/${phone}?text=${text}`;
         }
 
-        // ============================================================
-        // RENDER MESSAGES
-        // ============================================================
         function renderMessages() {
             if (messages.length === 0) {
                 messagesContainer.innerHTML = `
@@ -1651,7 +1621,7 @@
                                     <span class="pay-icon">💳</span>
                                     <span class="pay-label">
                                         <strong>Pay Booking Fee — ${usdDisplay}</strong>
-                                        <small>Secure payment via M-PESA or Card</small>
+                                        <small>Select country · instant local price</small>
                                     </span>
                                 </button>
                             </div>
@@ -1695,9 +1665,6 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // ============================================================
-        // COUNTRY MODAL — open / close / confirm
-        // ============================================================
         window.openCountryModal = function() {
             if (paymentInFlight) return;
             if (!conversation) return showToast('Conversation not loaded', 'error');
@@ -1707,29 +1674,56 @@
                 return showToast('This booking is already paid ✅', 'info');
             }
 
-            // Update modal prices
-            const usd = getUsdDisplay();
-            document.getElementById('modalUsdPrice').textContent = `${usd} USD`;
-            document.getElementById('modalKesPrice').textContent = `≈ KES ${BOOKING_FEE_KES.toLocaleString()}`;
+            updateModalPrice('OTHER', true);
 
-            // Set WhatsApp fallback
             const waMsg = encodeURIComponent(`Hi Pro Love Hub, I'd like to book a private connection for conversation ${conversationId}.`);
             document.getElementById('modalWaFallback').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
 
-            // Reset state
             document.getElementById('modalCountrySelect').value = '';
             document.getElementById('modalProceedBtn').disabled = false;
             document.getElementById('modalProceedBtn').textContent = 'Continue to Secure Payment →';
             document.getElementById('modalError').classList.remove('show');
             document.getElementById('modalWaFallback').classList.remove('show');
 
-            // Show modal
             countryModalOverlay.classList.add('show');
         };
 
         window.closeCountryModal = function() {
             countryModalOverlay.classList.remove('show');
         };
+
+        function updateModalPrice(countryCode, isDefault) {
+            const price = getLocalPrice(countryCode || 'OTHER');
+            const usdPrice = getUsdDisplay();
+
+            const priceBox = document.getElementById('modalPriceBox');
+            const usdEl = document.getElementById('modalUsdPrice');
+            const kesEl = document.getElementById('modalKesPrice');
+
+            usdEl.textContent = price.display;
+
+            if (isDefault) {
+                kesEl.textContent = `≈ ${usdPrice} USD · charged as KES ${BOOKING_FEE_KES}`;
+            } else {
+                kesEl.textContent = `≈ ${usdPrice} USD · settles as KES ${BOOKING_FEE_KES}`;
+            }
+
+            // Flash animation to signal the change
+            priceBox.classList.remove('flash');
+            void priceBox.offsetWidth;
+            priceBox.classList.add('flash');
+
+            console.log(`💰 Price for ${countryCode || 'default'}: ${price.display}`);
+        }
+
+        document.getElementById('modalCountrySelect').addEventListener('change', (e) => {
+            const country = e.target.value;
+            if (country) {
+                updateModalPrice(country, false);
+            } else {
+                updateModalPrice('OTHER', true);
+            }
+        });
 
         window.confirmCountryAndPay = async function() {
             const country = document.getElementById('modalCountrySelect').value;
@@ -1749,7 +1743,6 @@
                 proceedBtn.textContent = 'Preparing secure payment...';
 
                 const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
-                pendingPaymentReference = reference;
 
                 try {
                     localStorage.setItem('plh_pending_reference', reference);
@@ -1765,9 +1758,6 @@
             }
         };
 
-        // ============================================================
-        // PAYSTACK — initialize and redirect
-        // ============================================================
         async function executePaystackPayment(reference, country) {
             paymentInFlight = true;
 
@@ -1786,7 +1776,9 @@
                             user_id: currentUser.id,
                             member_name: conversation.member_name || '',
                             full_name: conversation.full_name || '',
-                            country: country || ''
+                            country: country || '',
+                            local_currency: (CURRENCY_MAP[country] || CURRENCY_MAP.OTHER).code,
+                            local_amount: getLocalPrice(country).amount
                         }
                     }
                 });
@@ -1807,7 +1799,6 @@
                     throw new Error(diagnostic);
                 }
 
-                // Mark pending in DB
                 await supabase
                     .from('conversations')
                     .update({
@@ -1818,7 +1809,6 @@
 
                 console.log('✅ Redirecting to Paystack:', data.authorization_url);
 
-                // Small delay for smooth UX
                 setTimeout(() => {
                     window.location.href = data.authorization_url;
                 }, 400);
@@ -1828,7 +1818,6 @@
                 showToast('❌ ' + (err.message || 'Payment failed. Please try again.'), 'error');
                 paymentInFlight = false;
 
-                // Re-enable modal button
                 const proceedBtn = document.getElementById('modalProceedBtn');
                 if (proceedBtn) {
                     proceedBtn.disabled = false;
@@ -1837,9 +1826,6 @@
             }
         }
 
-        // ============================================================
-        // PAYMENT — verify on return from Paystack
-        // ============================================================
         async function handlePaymentReturn() {
             const referenceFromUrl = urlParams.get('reference');
             if (!referenceFromUrl) return false;
@@ -1903,9 +1889,6 @@
             }
         }
 
-        // ============================================================
-        // SEND MESSAGE
-        // ============================================================
         async function sendMessage() {
             const text = messageInput.value.trim();
             if (!text) return showToast('Please type a message first!', 'error');
@@ -1947,9 +1930,6 @@
             }
         }
 
-        // ============================================================
-        // SEND PHOTO
-        // ============================================================
         async function sendPhoto(file) {
             if (!file) return;
             if (file.size > 5 * 1024 * 1024) return showToast('Photo too large (max 5MB)', 'error');
@@ -2004,9 +1984,6 @@
             }
         }
 
-        // ============================================================
-        // REALTIME + POLLING
-        // ============================================================
         function subscribeToMessages() {
             if (realtimeChannel) supabase.removeChannel(realtimeChannel);
 
@@ -2069,12 +2046,10 @@
             }
         }
 
-        // Close modal on overlay click
         countryModalOverlay.addEventListener('click', (e) => {
             if (e.target === countryModalOverlay) closeCountryModal();
         });
 
-        // Escape key closes modal
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && countryModalOverlay.classList.contains('show')) {
                 closeCountryModal();
@@ -2102,22 +2077,17 @@
             });
         });
 
-        // ============================================================
-        // INIT
-        // ============================================================
         (async function init() {
             const ok = await requireAuth();
             if (!ok) return;
 
             await detectRole();
-            await fetchExchangeRate();
 
             const conv = await loadConversation();
             if (!conv) return;
 
             renderConversationHeader();
 
-            // Handle Paystack return first
             await handlePaymentReturn();
 
             await loadMessages();
@@ -2131,8 +2101,8 @@
 
             console.log('💬 Chat ready');
             console.log('Role:', isAdmin ? 'ADMIN' : 'USER');
-            console.log('Booking fee: KES', BOOKING_FEE_KES, '→', getUsdDisplay());
-            console.log('FX rate:', usdExchangeRate, 'KES per USD');
+            console.log('Base price: KES', BOOKING_FEE_KES, '→', getUsdDisplay());
+            console.log('Currency map:', Object.keys(CURRENCY_MAP).join(', '));
         })();
     </script>
 
