@@ -1,0 +1,108 @@
+// supabase/functions/paystack-webhook/index.ts
+// Receives automatic payment confirmations from Paystack
+// Updates the conversations table when a payment succeeds
+
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const PAYSTACK_SECRET_KEY = Deno.env.get("PAYSTACK_SECRET_KEY")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+// Verify Paystack signature using HMAC-SHA512
+async function verifySignature(rawBody: string, signature: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(PAYSTACK_SECRET_KEY),
+    { name: "HMAC", hash: "SHA-512" },
+    false,
+    ["sign"]
+  );
+  const signatureBuffer = await crypto.subtle.sign("HMAC", key, encoder.encode(rawBody));
+  const expectedSignature = Array.from(new Uint8Array(signatureBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  // Constant-time comparison to prevent timing attacks
+  if (expectedSignature.length !== signature.length) return false;
+  let result = 0;
+  for (let i = 0; i < expectedSignature.length; i++) {
+    result |= expectedSignature.charCodeAt(i) ^ signature.charCodeAt(i);
+  }
+  return result === 0;
+}
+
+serve(async (req) => {
+  // Webhooks only accept POST
+  if (req.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 });
+  }
+
+  try {
+    const rawBody = await req.text();
+    const signature = req.headers.get("x-paystack-signature");
+
+    if (!signature) {
+      console.warn("Webhook missing signature");
+      return new Response("Missing signature", { status: 401 });
+    }
+
+    // Verify the webhook is genuinely from Paystack
+    const isValid = await verifySignature(rawBody, signature);
+    if (!isValid) {
+      console.warn("Webhook signature mismatch — possible spoofing");
+      return new Response("Invalid signature", { status: 401 });
+    }
+
+    const event = JSON.parse(rawBody);
+    console.log("📩 Paystack webhook:", event.event);
+
+    // Handle successful charges
+    if (event.event === "charge.success") {
+      const tx = event.data;
+      const conversationId = tx.metadata?.conversation_id;
+
+      if (!conversationId) {
+        console.warn("No conversation_id in metadata — skipping DB update");
+        return new Response(JSON.stringify({ status: "ignored" }), {
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+
+      const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+      const { error } = await supabase
+        .from("conversations")
+        .update({
+          payment_status: "paid",
+          payment_reference: tx.reference,
+          amount_paid: tx.amount,
+          paid_at: tx.paid_at || new Date().toISOString(),
+        })
+        .eq("id", conversationId);
+
+      if (error) {
+        console.error("DB update failed:", error);
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+
+      console.log("✅ Conversation marked paid:", conversationId);
+    }
+
+    // Always return 200 to acknowledge receipt
+    return new Response(JSON.stringify({ status: "success" }), {
+      headers: { "Content-Type": "application/json" },
+    });
+
+  } catch (error) {
+    console.error("Webhook error:", error);
+    return new Response(
+      JSON.stringify({ error: error.message || "Internal error" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+});
