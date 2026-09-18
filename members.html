@@ -328,7 +328,7 @@
         }
 
         /* ============================================================ */
-        /* BENTO GRID - MOBILE-FIRST                                   */
+        /* BENTO GRID                                                    */
         /* ============================================================ */
         .bento-grid {
             display: grid;
@@ -343,7 +343,7 @@
         .bento-tile--wide { grid-column: span 2; grid-row: span 1; }
 
         /* ============================================================ */
-        /* CARD (shared for all tiles)                                  */
+        /* CARD                                                          */
         /* ============================================================ */
         .member-card {
             background: rgba(255, 255, 255, 0.7);
@@ -355,6 +355,7 @@
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
             width: 100%;
             height: 100%;
             display: flex;
@@ -370,8 +371,15 @@
 
         .member-card:active { transform: scale(0.98); }
 
+        /* Long-press visual feedback */
+        .member-card.pressing {
+            transform: scale(0.97);
+            border-color: rgba(247, 38, 109, 0.5);
+            box-shadow: 0 6px 20px rgba(247, 38, 109, 0.25);
+        }
+
         /* ============================================================ */
-        /* IMAGE WRAPPER                                               */
+        /* IMAGE WRAPPER                                                 */
         /* ============================================================ */
         .member-card__image-wrapper {
             position: relative;
@@ -410,7 +418,7 @@
         .member-card:hover .member-card__image-wrapper img { transform: scale(1.05); }
 
         /* ============================================================ */
-        /* CAROUSEL — auto-slide, pause on hover/touch                  */
+        /* CAROUSEL                                                      */
         /* ============================================================ */
         .carousel-slides {
             display: flex;
@@ -420,7 +428,6 @@
             will-change: transform;
         }
 
-        /* When there's only one photo, no animation/transition */
         .carousel-slides.single { transition: none; }
 
         .carousel-slide {
@@ -438,7 +445,6 @@
             display: block;
         }
 
-        /* Slide indicator dots */
         .carousel-dots {
             position: absolute;
             bottom: 6px;
@@ -469,10 +475,8 @@
             border-radius: 50px;
         }
 
-        /* Hide dots on single-photo cards */
         .member-card[data-photos="1"] .carousel-dots { display: none; }
 
-        /* Online dot */
         .online-dot {
             position: absolute;
             top: 6px;
@@ -493,7 +497,6 @@
             50% { transform: scale(1.15); opacity: 0.7; }
         }
 
-        /* Verified badge */
         .verified-badge {
             position: absolute;
             top: 6px;
@@ -513,7 +516,6 @@
             box-shadow: 0 2px 8px rgba(30, 136, 229, 0.4);
         }
 
-        /* Like pill */
         .like-pill {
             position: absolute;
             top: 6px;
@@ -533,7 +535,7 @@
         .like-pill .heart { font-size: 10px; }
 
         /* ============================================================ */
-        /* CARD INFO                                                    */
+        /* CARD INFO                                                     */
         /* ============================================================ */
         .member-card__info {
             padding: 8px 10px 10px;
@@ -584,7 +586,6 @@
             display: block;
         }
 
-        /* Connect button */
         .btn-connect {
             margin-top: auto;
             padding: 10px 12px;
@@ -617,7 +618,7 @@
         .bento-tile--big .btn-connect { font-size: 13px; padding: 12px; }
 
         /* ============================================================ */
-        /* EMPTY STATE                                                  */
+        /* EMPTY STATE                                                   */
         /* ============================================================ */
         .empty-state {
             grid-column: 1 / -1;
@@ -653,7 +654,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ============================================================ */
-        /* TOAST                                                        */
+        /* TOAST                                                         */
         /* ============================================================ */
         .toast {
             position: fixed;
@@ -680,7 +681,7 @@
         .toast.error { background: #dc3545; }
 
         /* ============================================================ */
-        /* FLOATING SUPPORT BUTTON                                      */
+        /* FLOATING SUPPORT BUTTON                                       */
         /* ============================================================ */
         .support-float {
             position: fixed;
@@ -727,7 +728,7 @@
         }
 
         /* ============================================================ */
-        /* TABLET + DESKTOP                                            */
+        /* RESPONSIVE                                                    */
         /* ============================================================ */
         @media (min-width: 600px) {
             .cb-shell-header__inner { height: 60px; padding: 0 16px; }
@@ -852,7 +853,7 @@
     <div class="toast" id="toast"></div>
 
     <!-- ============================================================ -->
-    <!-- SCRIPTS                                                      -->
+    <!-- SCRIPTS                                                       -->
     <!-- ============================================================ -->
     <script type="importmap">
         {
@@ -874,7 +875,7 @@
 
         let allMembers = [];
         let isLoading = true;
-        const carouselTimers = new Map(); // memberId -> intervalId
+        const carouselTimers = new Map();
 
         const likeCounts = JSON.parse(sessionStorage.getItem('prolovehub_likes') || '{}');
 
@@ -882,7 +883,7 @@
         const totalCount = document.getElementById('total-count');
 
         /* ============================================================ */
-        /* TICKER                                                       */
+        /* TICKER                                                        */
         /* ============================================================ */
         const firstNames = ['Mark','Judith','Sarah','James','Emma','David','Lisa','Michael','Maria','John','Anna','Chris','Jessica','Daniel','Sophie','Peter','Linda','Robert','Grace','William','Karen','Joseph','Nancy','Charles','Betty','Thomas','Helen','Christopher','Sandra','Matthew'];
         const countries = ['USA','UK','Canada','Australia','Germany','France','Italy','Spain','Kenya','Nigeria','South Africa','Ghana','Uganda','Tanzania','Zimbabwe','Brazil','Mexico','Japan','India','Sweden','Norway','Netherlands'];
@@ -934,7 +935,7 @@
         setInterval(renderTicker, 45000);
 
         /* ============================================================ */
-        /* MENU                                                         */
+        /* MENU                                                          */
         /* ============================================================ */
         window.toggleMenu = function() {
             document.getElementById('menuDropdown').classList.toggle('show');
@@ -954,7 +955,7 @@
         }
 
         /* ============================================================ */
-        /* SUPPORT FLOAT                                                */
+        /* SUPPORT FLOAT                                                 */
         /* ============================================================ */
         window.openSupport = async function() {
             const { data: { session } } = await supabase.auth.getSession();
@@ -978,7 +979,7 @@
         }
 
         /* ============================================================ */
-        /* LIKES                                                        */
+        /* LIKES                                                         */
         /* ============================================================ */
         function seedLikeCount(memberId) {
             if (likeCounts[memberId]) return likeCounts[memberId];
@@ -997,7 +998,7 @@
         }
 
         /* ============================================================ */
-        /* PHOTO URL HELPER                                             */
+        /* PHOTO URL HELPER                                              */
         /* ============================================================ */
         function getPhotoUrl(fileId) {
             if (!fileId) return null;
@@ -1008,7 +1009,7 @@
         }
 
         /* ============================================================ */
-        /* LOAD MEMBERS                                                 */
+        /* LOAD MEMBERS                                                  */
         /* ============================================================ */
         async function loadMembers() {
             try {
@@ -1039,13 +1040,12 @@
         }
 
         /* ============================================================ */
-        /* RENDER                                                       */
+        /* RENDER                                                        */
         /* ============================================================ */
         function renderMembers(members) {
             if (isLoading) return;
 
-            // Clear any existing carousel timers before re-rendering
-            carouselTimers.forEach(id => clearInterval(id));
+            carouselTimers.forEach(t => { try { t.clear(); } catch (e) {} });
             carouselTimers.clear();
 
             if (members.length === 0) {
@@ -1066,7 +1066,6 @@
                 return renderMemberTile(member, tileSize);
             }).join('');
 
-            // Set up long press + carousels
             document.querySelectorAll('.member-card').forEach(card => setupLongPress(card));
             document.querySelectorAll('.member-card').forEach(card => setupCarousel(card));
         }
@@ -1090,7 +1089,6 @@
                 photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`];
             }
 
-            // Limit to 4 photos on mobile for performance
             if (window.innerWidth < 768 && photos.length > 4) {
                 photos = photos.slice(0, 4);
             }
@@ -1102,7 +1100,6 @@
                 </div>
             `).join('');
 
-            // Dots — one per photo (only show if more than 1 photo)
             const dotsHTML = photos.length > 1 ? `
                 <div class="carousel-dots">
                     ${photos.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
@@ -1137,14 +1134,12 @@
         }
 
         /* ============================================================ */
-        /* CAROUSEL — auto-slide with random per-card interval          */
-        /* Pauses on hover/touch. Loops forever.                         */
+        /* CAROUSEL                                                      */
         /* ============================================================ */
         function setupCarousel(card) {
             const memberId = card.dataset.id;
             const totalPhotos = parseInt(card.dataset.photos, 10);
 
-            // Nothing to do for single photos
             if (!totalPhotos || totalPhotos <= 1) return;
 
             const slidesEl = card.querySelector('.carousel-slides');
@@ -1153,15 +1148,13 @@
 
             let current = 0;
             let intervalId = null;
+            let initialTimeoutId = null;
             let paused = false;
 
             function goTo(index) {
                 current = index % totalPhotos;
                 slidesEl.style.transform = `translateX(-${current * 100}%)`;
-
-                dots.forEach((d, i) => {
-                    d.classList.toggle('active', i === current);
-                });
+                dots.forEach((d, i) => d.classList.toggle('active', i === current));
             }
 
             function advance() {
@@ -1169,29 +1162,18 @@
                 goTo(current + 1);
             }
 
-            // Random interval between 3.5s and 7s for each card
             function scheduleNext() {
                 const delay = 3500 + Math.random() * 3500;
-
-                // Add a random starting offset so cards don't all fire at once
                 const startOffset = Math.random() * 2000;
 
-                clearTimeout(scheduleNext._t);
-                scheduleNext._t = setTimeout(() => {
+                initialTimeoutId = setTimeout(() => {
                     advance();
-                    // Recurring interval
-                    if (intervalId) clearInterval(intervalId);
                     intervalId = setInterval(advance, delay);
                 }, startOffset + delay);
             }
 
-            // Pause/resume handlers
-            function pause() {
-                paused = true;
-            }
-            function resume() {
-                paused = false;
-            }
+            function pause() { paused = true; }
+            function resume() { paused = false; }
 
             card.addEventListener('mouseenter', pause);
             card.addEventListener('mouseleave', resume);
@@ -1200,79 +1182,113 @@
 
             card.addEventListener('touchstart', pause, { passive: true });
             card.addEventListener('touchend', () => {
-                // Small delay after touch so the user can look at the photo
                 setTimeout(resume, 4000);
             }, { passive: true });
 
-            // Pause when tab is hidden (saves CPU/battery)
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) pause();
                 else resume();
             });
 
-            // Kick off
             scheduleNext();
 
-            // Store interval/timer for cleanup
             carouselTimers.set(memberId, {
                 clear: () => {
                     if (intervalId) clearInterval(intervalId);
-                    clearTimeout(scheduleNext._t);
+                    if (initialTimeoutId) clearTimeout(initialTimeoutId);
                 }
             });
         }
 
         /* ============================================================ */
-        /* CONNECT                                                      */
+        /* CONNECT                                                       */
         /* ============================================================ */
         window.connectWith = function(event, memberId) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             window.location.href = `profile.html?id=${memberId}`;
         }
 
         /* ============================================================ */
-        /* LONG PRESS TO SHARE                                          */
+        /* LONG PRESS TO SHARE — prevents accidental connect             */
         /* ============================================================ */
         let longPressTimer = null;
+        let longPressFired = false;
+        let pressStartTime = 0;
 
         function setupLongPress(card) {
             const memberId = card.dataset.id;
 
-            card.addEventListener('touchstart', function() {
+            function startPress(e) {
+                // Ignore if user pressed the Connect button
+                if (e.target.closest('.btn-connect')) return;
+
+                longPressFired = false;
+                pressStartTime = Date.now();
+                card.classList.add('pressing');
+
                 longPressTimer = setTimeout(() => {
+                    longPressFired = true;
+                    card.classList.remove('pressing');
                     shareMember(memberId);
                 }, 600);
-            });
-            card.addEventListener('touchend', () => clearTimeout(longPressTimer));
-            card.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+            }
 
-            card.addEventListener('mousedown', function() {
-                longPressTimer = setTimeout(() => {
-                    shareMember(memberId);
-                }, 800);
-            });
-            card.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-            card.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+            function cancelPress() {
+                clearTimeout(longPressTimer);
+                card.classList.remove('pressing');
+            }
+
+            // Touch
+            card.addEventListener('touchstart', startPress, { passive: true });
+            card.addEventListener('touchend', cancelPress);
+            card.addEventListener('touchmove', cancelPress);
+
+            // Mouse
+            card.addEventListener('mousedown', startPress);
+            card.addEventListener('mouseup', cancelPress);
+            card.addEventListener('mouseleave', cancelPress);
+
+            // Prevent the click from firing if a long press just happened
+            card.addEventListener('click', function(e) {
+                if (longPressFired) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    longPressFired = false;
+                }
+            }, true);
         }
 
-        function shareMember(memberId) {
+        async function shareMember(memberId) {
             const member = allMembers.find(m => m.id === memberId);
             if (!member) return;
+
             const name = member.name || 'Member';
             const url = `${window.location.origin}/profile.html?id=${member.id}`;
             const msg = `Check out ${name} on Pro Love Hub! 💎\n${url}`;
 
             if (navigator.share) {
-                navigator.share({ title: name, text: msg, url }).catch(() => {});
-            } else {
-                const wa = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-                window.open(wa, '_blank');
+                try {
+                    await navigator.share({ title: name, text: msg, url });
+                    if (navigator.vibrate) navigator.vibrate(30);
+                    return;
+                } catch (e) {
+                    // User cancelled or share failed → fall through to copy
+                }
             }
-            if (navigator.vibrate) navigator.vibrate(30);
+
+            // Fallback: copy link to clipboard
+            try {
+                await navigator.clipboard.writeText(url);
+                showToast('🔗 Profile link copied', 'success');
+                if (navigator.vibrate) navigator.vibrate(30);
+            } catch (e) {
+                // Last resort: open WhatsApp with the message
+                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+            }
         }
 
         /* ============================================================ */
-        /* TOAST                                                        */
+        /* TOAST                                                         */
         /* ============================================================ */
         let toastTimeout;
         function showToast(msg, type = 'success') {
@@ -1285,7 +1301,7 @@
         }
 
         /* ============================================================ */
-        /* INIT                                                         */
+        /* INIT                                                          */
         /* ============================================================ */
         renderTicker();
         loadMembers();
@@ -1297,8 +1313,7 @@
         });
 
         console.log('💎 Pro Love Hub — Members (auto-sliding carousels)');
-        console.log('✅ Each card slides at its own random pace');
-        console.log('✅ Pauses on hover/touch');
+        console.log('✅ Long-press to share, tap Connect to view profile');
     </script>
 
 </body>
