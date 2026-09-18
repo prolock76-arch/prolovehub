@@ -15,7 +15,7 @@ window.PLH_CONFIG = {
     // International format — no + sign, no spaces, no dashes.
     // Kenya example: '254117044510'  (254 + 9-digit number)
     // ============================================================
-    WHATSAPP_NUMBER: '254750647197',
+    WHATSAPP_NUMBER: '254750647193',
 
     // ============================================================
     // 💬 DEFAULT WHATSAPP MESSAGE
