@@ -7,6 +7,9 @@
     <meta name="description" content="Log in to your Pro Love Hub account and continue your journey.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 
+    <!-- ⚡ Preload members page for instant redirect -->
+    <link rel="prefetch" href="members.html">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -26,6 +29,19 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            /* Smooth fade-in from redirects */
+            animation: pageFadeIn 0.35s ease;
+        }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Fade-out when leaving */
+        body.page-leaving {
+            opacity: 0;
+            transition: opacity 0.25s ease;
         }
 
         a { text-decoration: none; color: inherit; }
@@ -233,6 +249,14 @@
             padding: 48px 40px 40px;
             border: 1px solid rgba(247, 38, 109, 0.15);
             box-shadow: 0 20px 60px rgba(247, 38, 109, 0.12);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        /* Card exit animation on successful login */
+        .login-card.login-success {
+            transform: scale(0.96);
+            opacity: 0.6;
+            pointer-events: none;
         }
 
         .login-card__header {
@@ -454,7 +478,7 @@
             <span class="heart-login" style="left:95%;animation-delay:2.5s;font-size:16px;">💗</span>
         </div>
 
-        <div class="login-card">
+        <div class="login-card" id="login-card">
             <div class="login-card__header">
                 <span class="icon">💎</span>
                 <h1>Welcome Back</h1>
@@ -462,7 +486,7 @@
             </div>
 
             <div class="error-message" id="error-message">⚠️ Invalid email or password.</div>
-            <div class="success-message" id="success-message">✅ Login successful! Redirecting...</div>
+            <div class="success-message" id="success-message">✅ Login successful! Taking you in...</div>
 
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="form-group">
@@ -488,9 +512,6 @@
         </div>
     </main>
 
-    <!-- ============================================================ -->
-    <!-- SCRIPTS - Supabase Auth                                      -->
-    <!-- ============================================================ -->
     <script type="importmap">
         {
             "imports": {
@@ -513,7 +534,11 @@
         const btn = document.getElementById('login-btn');
         const errorMessage = document.getElementById('error-message');
         const successMessage = document.getElementById('success-message');
+        const loginCard = document.getElementById('login-card');
 
+        // ============================================================
+        // Resolve redirect target — default members.html, supports ?redirect=
+        // ============================================================
         function getRedirectTarget() {
             const params = new URLSearchParams(window.location.search);
             const redirect = params.get('redirect');
@@ -528,18 +553,35 @@
             return 'members.html';
         }
 
+        // ============================================================
+        // Smooth redirect — fade out page, then navigate
+        // ============================================================
+        function smoothRedirect(url, delay = 250) {
+            document.body.classList.add('page-leaving');
+            setTimeout(() => {
+                window.location.href = url;
+            }, delay);
+        }
+
+        // ============================================================
+        // SESSION CHECK — runs immediately (not inside IIFE wait)
+        // If already logged in → smooth redirect
+        // ============================================================
         (async function checkSession() {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session && session.user) {
                     console.log('✅ Already logged in:', session.user.email);
-                    window.location.href = getRedirectTarget();
+                    smoothRedirect(getRedirectTarget(), 200);
                 }
             } catch (err) {
                 console.warn('Session check failed:', err);
             }
         })();
 
+        // ============================================================
+        // LOGIN HANDLER — fast redirect on success
+        // ============================================================
         window.handleLogin = async function(event) {
             event.preventDefault();
 
@@ -598,15 +640,18 @@
 
                 console.log('✅ Login successful:', data.user.email);
 
-                successMessage.textContent = '✅ Login successful! Redirecting...';
+                // Instant visual feedback
+                successMessage.textContent = '✅ Login successful! Taking you in...';
                 successMessage.classList.add('show');
                 btn.textContent = '✅ Logged In!';
                 btn.style.background = 'linear-gradient(135deg, #28a745, #1e7e34)';
 
+                // Dim the card gracefully
+                loginCard.classList.add('login-success');
+
+                // ⚡ FAST redirect — 400ms feels instant but visible
                 const target = getRedirectTarget();
-                setTimeout(() => {
-                    window.location.href = target;
-                }, 900);
+                smoothRedirect(target, 400);
 
             } catch (err) {
                 console.error('Unexpected login error:', err);
@@ -617,17 +662,22 @@
             }
         }
 
+        // ============================================================
+        // Reset error state on new input
+        // ============================================================
         ['email', 'password'].forEach(id => {
             document.getElementById(id).addEventListener('input', () => {
                 errorMessage.classList.remove('show');
                 successMessage.classList.remove('show');
                 btn.disabled = false;
                 btn.textContent = '🔐 Log In';
+                btn.style.background = '';
+                loginCard.classList.remove('login-success');
             });
         });
 
         console.log('💎 Pro Love Hub Login — pink + blue palette');
-        console.log('✅ Real authentication via supabase.auth.signInWithPassword');
+        console.log('✅ Redirect target: members.html (default)');
         console.log('✅ Supports ?redirect= parameter');
     </script>
 
