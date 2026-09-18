@@ -29,9 +29,7 @@
 
         a { text-decoration: none; color: inherit; }
 
-        /* ============================================================ */
-        /* BRAND LOGO                                                   */
-        /* ============================================================ */
+        /* BRAND LOGO */
         .brand-logo {
             display: inline-flex;
             align-items: flex-end;
@@ -132,9 +130,7 @@
             .brand-logo__hearts::after { font-size: 5px; top: 0; left: 14px; }
         }
 
-        /* ============================================================ */
-        /* HEADER                                                       */
-        /* ============================================================ */
+        /* HEADER */
         .profile-header {
             position: fixed;
             top: 0;
@@ -222,9 +218,7 @@
             margin: 4px 0;
         }
 
-        /* ============================================================ */
-        /* WRAPPER                                                      */
-        /* ============================================================ */
+        /* WRAPPER */
         .profile-wrapper {
             flex: 1;
             padding: 68px 0 90px;
@@ -237,9 +231,7 @@
             padding: 0 16px;
         }
 
-        /* ============================================================ */
-        /* HERO — BIG PROFILE PHOTO                                     */
-        /* ============================================================ */
+        /* HERO PHOTO */
         .hero-photo-wrap {
             position: relative;
             width: 100%;
@@ -305,9 +297,7 @@
             50% { transform: scale(1.15); opacity: 0.7; }
         }
 
-        /* ============================================================ */
-        /* NAME / STATUS BLOCK                                          */
-        /* ============================================================ */
+        /* NAME / STATUS */
         .profile-name-block {
             padding: 20px 4px 22px;
             text-align: left;
@@ -354,9 +344,7 @@
 
         .profile-meta-line.muted { color: rgba(26, 10, 20, 0.55); }
 
-        /* ============================================================ */
-        /* SECTION                                                      */
-        /* ============================================================ */
+        /* SECTION */
         .mag-section {
             padding: 22px 0 24px;
             border-top: 1px solid rgba(247, 38, 109, 0.12);
@@ -404,9 +392,7 @@
             background: linear-gradient(to right, rgba(247, 38, 109, 0.25), transparent);
         }
 
-        /* ============================================================ */
-        /* ABOUT — KEY-VALUE ROWS                                       */
-        /* ============================================================ */
+        /* ABOUT */
         .about-list {
             display: flex;
             flex-direction: column;
@@ -490,9 +476,7 @@
         .read-more-btn.show { display: inline-block; }
         .read-more-btn:hover { color: #C41E56; text-decoration: underline; }
 
-        /* ============================================================ */
-        /* LOOKING FOR — ICON LIST                                      */
-        /* ============================================================ */
+        /* LOOKING FOR */
         .looking-list {
             display: flex;
             flex-direction: column;
@@ -524,9 +508,7 @@
             padding: 8px 0;
         }
 
-        /* ============================================================ */
-        /* INTERESTS — ICON CHIPS                                       */
-        /* ============================================================ */
+        /* INTERESTS */
         .interests-grid {
             display: flex;
             flex-wrap: wrap;
@@ -562,9 +544,7 @@
             font-size: 13.5px;
         }
 
-        /* ============================================================ */
-        /* PHOTO MOSAIC — 2 columns mixed sizes                         */
-        /* ============================================================ */
+        /* PHOTO MOSAIC */
         .photo-mosaic {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -610,9 +590,7 @@
             border: 1px dashed rgba(247, 38, 109, 0.15);
         }
 
-        /* ============================================================ */
-        /* VERIFICATION STRIP                                           */
-        /* ============================================================ */
+        /* VERIFICATION STRIP */
         .verify-strip {
             display: flex;
             flex-direction: column;
@@ -643,38 +621,18 @@
         /* ============================================================ */
         .profile-cta {
             padding: 22px 0 8px;
-        }
-
-        .price-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, rgba(247, 38, 109, 0.08), rgba(196, 30, 86, 0.06));
-            border: 1px solid rgba(247, 38, 109, 0.15);
-            border-radius: 50px;
-            padding: 10px 20px;
-            margin: 0 auto 10px;
-            width: fit-content;
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #C41E56;
-            letter-spacing: 0.2px;
-        }
-        .price-badge .price-icon {
-            font-size: 16px;
-        }
-        .price-badge .price-amount {
-            color: #F7266D;
-            font-weight: 800;
-        }
-
-        .price-subtitle {
             text-align: center;
-            font-size: 12.5px;
-            color: rgba(26, 10, 20, 0.55);
-            margin-bottom: 14px;
-            font-weight: 500;
+        }
+
+        .cta-tagline {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 17px;
+            font-weight: 700;
+            font-style: italic;
+            color: #1a0a14;
+            margin-bottom: 16px;
+            letter-spacing: 0.2px;
+            line-height: 1.4;
         }
 
         .btn-connect-big {
@@ -712,9 +670,7 @@
 
         .btn-connect-big:active { transform: scale(0.98); }
 
-        /* ============================================================ */
-        /* SHARE / COPY LINK BUTTON                                     */
-        /* ============================================================ */
+        /* SHARE LINK ROW */
         .share-link-row {
             display: flex;
             align-items: center;
@@ -726,6 +682,7 @@
             border-radius: 12px;
             font-size: 12.5px;
             color: rgba(26, 10, 20, 0.65);
+            text-align: left;
         }
 
         .share-link-row .link-icon {
@@ -759,9 +716,7 @@
         .share-link-row .copy-btn:hover { background: rgba(247, 38, 109, 0.18); }
         .share-link-row .copy-btn.copied { background: #28a745; color: #fff; }
 
-        /* ============================================================ */
-        /* LIGHTBOX                                                     */
-        /* ============================================================ */
+        /* LIGHTBOX */
         .lightbox {
             display: none;
             position: fixed;
@@ -803,9 +758,7 @@
         }
         .lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
 
-        /* ============================================================ */
-        /* SUPPORT FLOAT                                                */
-        /* ============================================================ */
+        /* SUPPORT FLOAT */
         .support-float {
             position: fixed;
             bottom: 16px;
@@ -850,9 +803,7 @@
             animation: pulse-ring 1.8s infinite;
         }
 
-        /* ============================================================ */
-        /* TOAST                                                        */
-        /* ============================================================ */
+        /* TOAST */
         .toast {
             position: fixed;
             bottom: 80px;
@@ -877,9 +828,7 @@
         .toast.success { background: #28a745; }
         .toast.error { background: #dc3545; }
 
-        /* ============================================================ */
-        /* RESPONSIVE                                                   */
-        /* ============================================================ */
+        /* RESPONSIVE */
         @media (min-width: 600px) {
             .profile-header { height: 60px; padding: 0 16px; }
             .profile-wrapper { padding: 76px 0 100px; }
@@ -898,8 +847,7 @@
 
             .photo-mosaic { gap: 10px; }
 
-            .price-badge { font-size: 14.5px; padding: 11px 24px; }
-            .price-badge .price-icon { font-size: 17px; }
+            .cta-tagline { font-size: 19px; }
 
             .btn-connect-big { font-size: 17px; padding: 20px 24px; }
         }
@@ -949,7 +897,7 @@
     <main class="profile-wrapper">
         <div class="profile-container">
 
-            <!-- HERO — BIG PROFILE PHOTO -->
+            <!-- HERO PHOTO -->
             <section class="hero-photo-wrap" id="hero-photo-wrap">
                 <img id="hero-photo" src="" alt="Profile" onclick="openLightbox(this.src)">
                 <div class="hero-verified-badge" id="hero-verified-badge" style="display:none;">
@@ -960,15 +908,9 @@
 
             <!-- NAME / META -->
             <section class="profile-name-block">
-                <h1 class="profile-name" id="profile-name">
-                    Loading...
-                </h1>
-                <div class="profile-meta-line" id="profile-location-line">
-                    📍 Loading...
-                </div>
-                <div class="profile-meta-line muted" id="profile-occupation-line">
-                    💼 Loading...
-                </div>
+                <h1 class="profile-name" id="profile-name">Loading...</h1>
+                <div class="profile-meta-line" id="profile-location-line">📍 Loading...</div>
+                <div class="profile-meta-line muted" id="profile-occupation-line">💼 Loading...</div>
             </section>
 
             <!-- 01 · ABOUT -->
@@ -1062,14 +1004,10 @@
 
             <!-- CTA -->
             <div class="profile-cta">
-                <div class="price-badge">
-                    <span class="price-icon">💎</span>
-                    <span>Matching Fee: <span class="price-amount">$14.99</span></span>
-                </div>
-                <p class="price-subtitle">Secure connection request</p>
+                <p class="cta-tagline">The right person is worth reaching out to.</p>
 
                 <button class="btn-connect-big" id="connect-btn" onclick="connectWith()">
-                    💬 Request Connection
+                    💬 Request Match
                 </button>
 
                 <!-- Shareable profile link -->
@@ -1482,7 +1420,7 @@
         });
 
         // ============================================================
-        // CONNECT
+        // CONNECT — "Request Match" button
         // ============================================================
         window.connectWith = function() {
             if (!memberData) return;
@@ -1597,9 +1535,10 @@ ${shareUrl}
         loadProfile();
 
         console.log('💎 Pro Love Hub Profile — editorial layout');
-        console.log('✅ Shareable URL: real working profile.html?id=XYZ link');
+        console.log('✅ Tagline: "The right person is worth reaching out to."');
+        console.log('✅ CTA: "Request Match"');
+        console.log('✅ Shareable URL uses real profile.html?id=XYZ');
         console.log('✅ Auto-emoji for interests & looking-for');
-        console.log('✅ $14.99 matching fee');
     </script>
 
 </body>
