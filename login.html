@@ -45,7 +45,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* ============================================================ */
-        /* BRAND LOGO — Pro + L♥ve + Hub                                 */
+        /* BRAND LOGO                                                    */
         /* ============================================================ */
         .brand-logo {
             display: inline-flex;
@@ -316,6 +316,14 @@
             box-shadow: 0 0 0 4px rgba(247, 38, 109, 0.1);
         }
 
+        /* Pre-filled email styling */
+        .form-group input.prefilled {
+            background: rgba(247, 38, 109, 0.04);
+            border-color: rgba(247, 38, 109, 0.25);
+            color: rgba(26, 10, 20, 0.85);
+            font-weight: 600;
+        }
+
         .form-options {
             display: flex;
             justify-content: flex-end;
@@ -540,6 +548,26 @@
             loginCard = document.getElementById('login-card');
 
             // ============================================================
+            // Pre-fill email from ?email= parameter (from signup redirect)
+            // ============================================================
+            const urlParams = new URLSearchParams(window.location.search);
+            const prefilledEmail = urlParams.get('email');
+
+            if (prefilledEmail) {
+                const emailField = document.getElementById('email');
+                if (emailField) {
+                    emailField.value = decodeURIComponent(prefilledEmail);
+                    emailField.classList.add('prefilled');
+                    emailField.setAttribute('readonly', 'readonly');
+                    // Focus password field so user can immediately type it
+                    setTimeout(() => {
+                        const pwField = document.getElementById('password');
+                        if (pwField) pwField.focus();
+                    }, 200);
+                }
+            }
+
+            // ============================================================
             // Reset error state on new input
             // ============================================================
             ['email', 'password'].forEach(id => {
@@ -688,7 +716,7 @@
 
         console.log('💎 Pro Love Hub Login — pink + blue palette');
         console.log('✅ Redirect target: members.html (default)');
-        console.log('✅ Supports ?redirect= parameter');
+        console.log('✅ Supports ?email= pre-fill and ?redirect= parameter');
     </script>
 
 </body>
