@@ -1003,6 +1003,9 @@
             .country-modal__icon { font-size: 38px; }
         }
 
+        /* ============================================================ */
+        /* SMOOTH TRANSITION OVERLAY — for Kenya → Paystack             */
+        /* ============================================================ */
         .smooth-transition-overlay {
             position: fixed;
             inset: 0;
@@ -1039,6 +1042,120 @@
             font-size: 12px;
             color: rgba(26, 10, 20, 0.5);
             font-weight: 600;
+        }
+
+        /* ============================================================ */
+        /* CASHIER OVERLAY — for non-Kenya → WhatsApp                   */
+        /* ============================================================ */
+        .cashier-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #FFF5F8 0%, #FFE8F0 100%);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            padding: 24px;
+            text-align: center;
+        }
+        .cashier-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+        .cashier-overlay__avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 44px;
+            color: #fff;
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
+            position: relative;
+            animation: cashierPulse 1.6s ease-in-out infinite;
+        }
+        .cashier-overlay__avatar::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 3px solid rgba(37, 211, 102, 0.3);
+            animation: cashierRing 1.6s ease-out infinite;
+        }
+        @keyframes cashierPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        @keyframes cashierRing {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.4); }
+        }
+        .cashier-overlay__title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a0a14;
+            letter-spacing: 0.2px;
+        }
+        .cashier-overlay__sub {
+            font-size: 13px;
+            color: rgba(26, 10, 20, 0.6);
+            font-weight: 600;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+        .cashier-overlay__dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .cashier-overlay__dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #F7266D;
+            opacity: 0.3;
+            animation: cashierDot 1.2s ease-in-out infinite;
+        }
+        .cashier-overlay__dots span:nth-child(2) { animation-delay: 0.2s; }
+        .cashier-overlay__dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes cashierDot {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-6px); }
+        }
+        .cashier-overlay__country {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #F7266D;
+            background: rgba(247, 38, 109, 0.08);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(247, 38, 109, 0.15);
+        }
+        .cashier-overlay__progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(247, 38, 109, 0.12);
+            border-radius: 50px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .cashier-overlay__progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #F7266D, #25D366);
+            width: 0%;
+            border-radius: 50px;
+            transition: width 3s linear;
+        }
+        .cashier-overlay.show .cashier-overlay__progress-bar {
+            width: 100%;
         }
 
         .access-denied {
@@ -1119,6 +1236,8 @@
             .pay-book-btn .pay-label small { font-size: 9.5px; }
             .pay-book-btn .pay-icon { font-size: 16px; }
             .wa-book-btn { font-size: 10.5px; padding: 6px 10px; max-width: 88%; }
+            .cashier-overlay__title { font-size: 18px; }
+            .cashier-overlay__avatar { width: 78px; height: 78px; font-size: 38px; }
         }
     </style>
 </head>
@@ -1249,10 +1368,27 @@
         </div>
     </div>
 
+    <!-- Smooth transition for Kenya → Paystack -->
     <div class="smooth-transition-overlay" id="transitionOverlay">
         <div class="spinner"></div>
         <div class="label">Preparing secure checkout</div>
         <div class="sub">Please wait a moment…</div>
+    </div>
+
+    <!-- Cashier overlay for non-Kenya → WhatsApp -->
+    <div class="cashier-overlay" id="cashierOverlay">
+        <div class="cashier-overlay__avatar">💬</div>
+        <div class="cashier-overlay__title">Connecting you to our Cashier</div>
+        <div class="cashier-overlay__sub">Please hold on a moment… we're connecting you to a secure WhatsApp chat to finalise your booking.</div>
+        <div class="cashier-overlay__country" id="cashierCountry"></div>
+        <div class="cashier-overlay__progress">
+            <div class="cashier-overlay__progress-bar"></div>
+        </div>
+        <div class="cashier-overlay__dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 
     <script type="importmap">
@@ -1273,9 +1409,6 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        // ============================================================
-        // PRICING — single source of truth
-        // ============================================================
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
 
         // 💵 Base USD price — the value users see everywhere
@@ -1287,11 +1420,9 @@
         };
 
         // 🔁 Kenya: charged in KES equivalent of $12.99
-        const BOOKING_FEE_KES = Math.round(BOOKING_FEE_USD * FX_RATES.KES); // = 1682
+        const BOOKING_FEE_KES = Math.round(BOOKING_FEE_USD * FX_RATES.KES);
         const BOOKING_FEE_KES_CENTS = BOOKING_FEE_KES * 100;
-
-        // 🔁 Others: charged in USD directly
-        const BOOKING_FEE_USD_CENTS = Math.round(BOOKING_FEE_USD * 100); // = 1299
+        const BOOKING_FEE_USD_CENTS = Math.round(BOOKING_FEE_USD * 100);
 
         console.log(`💰 USD display: $${BOOKING_FEE_USD} · KES for Kenya: ${BOOKING_FEE_KES}`);
 
@@ -1299,11 +1430,11 @@
         // COUNTRY CONFIG
         // ============================================================
         const COUNTRY_CONFIG = {
-            KE:    { name: 'Kenya',        flag: '🇰🇪', currency: 'KES', symbol: 'KSh',  hint: "M-PESA prioritised · Card also available", icon: '📱', isMpesa: true  },
-            NG:    { name: 'Nigeria',      flag: '🇳🇬', currency: 'NGN', symbol: '₦',    hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false },
-            GH:    { name: 'Ghana',        flag: '🇬🇭', currency: 'GHS', symbol: 'GH₵',  hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false },
-            ZA:    { name: 'South Africa', flag: '🇿🇦', currency: 'ZAR', symbol: 'R',    hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false },
-            OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll pay with Visa or Mastercard",      icon: '💳', isMpesa: false }
+            KE:    { name: 'Kenya',        flag: '🇰🇪', currency: 'KES', symbol: 'KSh',  hint: "M-PESA prioritised · Card also available", icon: '📱', isMpesa: true,  method: 'paystack' },
+            NG:    { name: 'Nigeria',      flag: '🇳🇬', currency: 'NGN', symbol: '₦',    hint: "You'll continue on WhatsApp with our cashier", icon: '💬', isMpesa: false, method: 'whatsapp' },
+            GH:    { name: 'Ghana',        flag: '🇬🇭', currency: 'GHS', symbol: 'GH₵',  hint: "You'll continue on WhatsApp with our cashier", icon: '💬', isMpesa: false, method: 'whatsapp' },
+            ZA:    { name: 'South Africa', flag: '🇿🇦', currency: 'ZAR', symbol: 'R',    hint: "You'll continue on WhatsApp with our cashier", icon: '💬', isMpesa: false, method: 'whatsapp' },
+            OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll continue on WhatsApp with our cashier", icon: '💬', isMpesa: false, method: 'whatsapp' }
         };
 
         const WHATSAPP_NUMBER = '254117044510';
@@ -1337,6 +1468,8 @@
         const chatMain = document.getElementById('chat-main');
         const countryModalOverlay = document.getElementById('countryModalOverlay');
         const transitionOverlay = document.getElementById('transitionOverlay');
+        const cashierOverlay = document.getElementById('cashierOverlay');
+        const cashierCountry = document.getElementById('cashierCountry');
 
         const urlParams = new URLSearchParams(window.location.search);
         conversationId = urlParams.get('conversation');
@@ -1361,7 +1494,6 @@
         function getCountryPrice(countryCode) {
             const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
 
-            // 🇰🇪 Kenya → show KES (charged KES)
             if (countryCode === 'KE') {
                 const kesFormatted = BOOKING_FEE_KES.toLocaleString(undefined, { maximumFractionDigits: 0 });
                 return {
@@ -1372,7 +1504,6 @@
                 };
             }
 
-            // 🌍 Others → show USD (charged USD), with local equivalent for clarity
             const rate = FX_RATES[config.currency] || 1;
             const localAmount = BOOKING_FEE_USD * rate;
 
@@ -1875,26 +2006,75 @@
             inlineError.classList.remove('show');
             countryModalOverlay.classList.remove('show');
 
-            const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
-            try {
-                localStorage.setItem('plh_pending_reference', reference);
-                localStorage.setItem('plh_pending_conversation', conversationId);
-            } catch (e) {}
+            const config = COUNTRY_CONFIG[country] || COUNTRY_CONFIG.OTHER;
 
-            await executePaystackPayment(reference, country);
+            // Route based on country
+            if (country === 'KE') {
+                // 🇰🇪 Kenya → Paystack
+                const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
+                try {
+                    localStorage.setItem('plh_pending_reference', reference);
+                    localStorage.setItem('plh_pending_conversation', conversationId);
+                } catch (e) {}
+                await executePaystackPayment(reference, country);
+            } else {
+                // 🌍 Everyone else → WhatsApp Cashier flow
+                redirectToCashier(country, config);
+            }
         };
+
+        // ============================================================
+        // CASHIER FLOW — 3 second overlay → WhatsApp with country-specific message
+        // ============================================================
+        function redirectToCashier(country, config) {
+            paymentInFlight = true;
+
+            const price = getCountryPrice(country);
+            const countryName = config.name;
+
+            // Set the country label in the overlay
+            cashierCountry.textContent = `${config.flag} ${countryName}`;
+
+            // Show the cashier overlay
+            cashierOverlay.classList.add('show');
+
+            // Build the WhatsApp message
+            const waMessage = `Hi Pro Love Hub 👋
+
+I'm from ${countryName} ${config.flag} and I'd like to book a private connection.
+
+💎 Booking fee: $${BOOKING_FEE_USD} USD (${price.secondary})
+
+Please share the payment details so I can complete this.
+
+Thank you!`;
+
+            const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+            console.log('💬 Redirecting to WhatsApp cashier:', {
+                country: countryName,
+                amount: BOOKING_FEE_USD,
+                link: waLink
+            });
+
+            // After 3 seconds, redirect to WhatsApp
+            setTimeout(() => {
+                window.open(waLink, '_blank');
+                // Fade the overlay away after opening WhatsApp
+                setTimeout(() => {
+                    cashierOverlay.classList.remove('show');
+                    paymentInFlight = false;
+                }, 400);
+            }, 3000);
+        }
 
         async function executePaystackPayment(reference, country) {
             paymentInFlight = true;
             const config = COUNTRY_CONFIG[country] || COUNTRY_CONFIG.OTHER;
             const isKenya = country === 'KE';
-
-            // Kenya → KES, everyone else → USD
             const amountCents = isKenya ? BOOKING_FEE_KES_CENTS : BOOKING_FEE_USD_CENTS;
             const currency = isKenya ? 'KES' : 'USD';
-            const countryPrice = getCountryPrice(country);
 
-            // Show smooth overlay
             transitionOverlay.classList.add('show');
 
             try {
@@ -1923,9 +2103,7 @@
                     }
                 });
 
-                console.log('=== PAYSTACK INIT RESPONSE ===');
-                console.log('data:', JSON.stringify(data, null, 2));
-                console.log('error:', error);
+                console.log('=== PAYSTACK INIT RESPONSE ===', data, error);
 
                 if (error) {
                     throw new Error((data?.error) || (data?.message) || error.message || 'Failed to initialize payment');
