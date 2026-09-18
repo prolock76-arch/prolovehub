@@ -29,7 +29,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            /* Smooth fade-in from redirects */
             animation: pageFadeIn 0.35s ease;
         }
 
@@ -38,7 +37,6 @@
             to { opacity: 1; }
         }
 
-        /* Fade-out when leaving */
         body.page-leaving {
             opacity: 0;
             transition: opacity 0.25s ease;
@@ -252,7 +250,6 @@
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
-        /* Card exit animation on successful login */
         .login-card.login-success {
             transform: scale(0.96);
             opacity: 0.6;
@@ -500,7 +497,7 @@
                 </div>
 
                 <div class="form-options">
-                    <a href="#">Forgot password?</a>
+                    <a href="signup.html">Forgot password?</a>
                 </div>
 
                 <button type="submit" class="btn-login" id="login-btn">🔐 Log In</button>
