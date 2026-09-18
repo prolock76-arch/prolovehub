@@ -37,11 +37,6 @@
             to { opacity: 1; }
         }
 
-        body.page-leaving {
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
         a { text-decoration: none; color: inherit; }
 
         /* ============================================================ */
@@ -247,13 +242,6 @@
             padding: 40px 32px 32px;
             border: 1px solid rgba(247, 38, 109, 0.15);
             box-shadow: 0 20px 60px rgba(247, 38, 109, 0.12);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .signup-card.signup-success {
-            transform: scale(0.96);
-            opacity: 0.6;
-            pointer-events: none;
         }
 
         .signup-card__header {
@@ -333,6 +321,46 @@
             font-weight: 500;
         }
         .field-error.show { display: block; }
+
+        /* Password field with visibility toggle */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 6px;
+            color: rgba(26, 10, 20, 0.5);
+            transition: color 0.2s ease, transform 0.2s ease;
+            font-family: "Inter", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .password-toggle:hover {
+            color: #F7266D;
+            background: rgba(247, 38, 109, 0.08);
+        }
+
+        .password-toggle:active {
+            transform: translateY(-50%) scale(0.92);
+        }
 
         /* PASSWORD STRENGTH */
         .pwd-strength {
@@ -421,16 +449,22 @@
             display: block;
         }
 
-        .error-message.show {
-            animation: shake 0.5s ease;
+        /* Shake animation — used on the info message */
+        @keyframes shakeInfo {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-10px); }
+            20% { transform: translateX(10px); }
+            30% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            50% { transform: translateX(-6px); }
+            60% { transform: translateX(6px); }
+            70% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+            90% { transform: translateX(-2px); }
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
+        .info-message.shake {
+            animation: shakeInfo 2.5s ease-in-out;
         }
 
         /* FOOTER */
@@ -565,7 +599,10 @@
 
                 <div class="form-group">
                     <label for="password">Password <span class="required">*</span></label>
-                    <input type="password" id="password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password', this)" aria-label="Toggle password visibility">👁️</button>
+                    </div>
                     <div class="pwd-strength" id="pwd-strength">
                         <div class="bar" id="pwd-bar"></div>
                     </div>
@@ -574,7 +611,10 @@
 
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password <span class="required">*</span></label>
-                    <input type="password" id="confirm-password" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
+                    <div class="password-wrapper">
+                        <input type="password" id="confirm-password" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirm-password', this)" aria-label="Toggle password visibility">👁️</button>
+                    </div>
                     <div class="field-error" id="err-confirm-password">Passwords do not match</div>
                 </div>
 
@@ -669,6 +709,24 @@
         });
 
         // ============================================================
+        // Password visibility toggle
+        // ============================================================
+        window.togglePassword = function(inputId, btnElement) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (btnElement) btnElement.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                if (btnElement) btnElement.textContent = '👁️';
+            }
+
+            input.focus();
+        };
+
+        // ============================================================
         // Redirect target
         // ============================================================
         function getRedirectTarget() {
@@ -686,24 +744,23 @@
         }
 
         // ============================================================
-        // Smooth redirect — fade the page out before navigating
+        // Plain redirect — no fade
         // ============================================================
-        function smoothRedirect(url, delay = 800) {
-            document.body.classList.add('page-leaving');
+        function plainRedirect(url, delay = 0) {
             setTimeout(() => {
                 window.location.href = url;
             }, delay);
         }
 
         // ============================================================
-        // If already logged in → redirect immediately
+        // If already logged in → redirect immediately (no fade)
         // ============================================================
         (async function checkSession() {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session && session.user) {
                     console.log('✅ Already logged in:', session.user.email);
-                    smoothRedirect(getRedirectTarget(), 200);
+                    plainRedirect(getRedirectTarget(), 200);
                 }
             } catch (err) {
                 console.warn('Session check failed:', err);
@@ -730,7 +787,6 @@
             if (!errorMessage) errorMessage = document.getElementById('error-message');
             if (!successMessage) successMessage = document.getElementById('success-message');
             if (!infoMessage) infoMessage = document.getElementById('info-message');
-            if (!signupCard) signupCard = document.getElementById('signup-card');
 
             const fullname = document.getElementById('fullname').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -740,6 +796,7 @@
             errorMessage.classList.remove('show');
             successMessage.classList.remove('show');
             infoMessage.classList.remove('show');
+            infoMessage.classList.remove('shake');
 
             ['fullname', 'email', 'password', 'confirm-password'].forEach(id => {
                 const el = document.getElementById(id);
@@ -791,7 +848,7 @@
                     console.error('Signup error:', error);
 
                     // ============================================================
-                    // EMAIL ALREADY REGISTERED → auto-redirect to login
+                    // EMAIL ALREADY REGISTERED → shake 2.5s, then redirect
                     // ============================================================
                     const isAlreadyRegistered =
                         error.message.includes('already registered') ||
@@ -801,14 +858,16 @@
                         error.status === 422;
 
                     if (isAlreadyRegistered) {
-                        console.log('📧 Email already registered → redirecting to login');
+                        console.log('📧 Email already registered → shaking, then redirecting to login');
 
-                        // Clean professional message
+                        // Professional message
                         infoMessage.innerHTML = `An account already exists with this email`;
                         infoMessage.classList.add('show');
 
-                        // Fade the card
-                        signupCard.classList.add('signup-success');
+                        // Trigger shake for 2.5 seconds
+                        setTimeout(() => {
+                            infoMessage.classList.add('shake');
+                        }, 50);
 
                         // Update button state
                         btn.innerHTML = 'Please wait…';
@@ -823,10 +882,10 @@
                             loginUrl += `&redirect=${encodeURIComponent(redirectParam)}`;
                         }
 
-                        // Smooth fade + redirect
+                        // Wait for the shake to finish (2.5s), then redirect (no fade)
                         setTimeout(() => {
-                            smoothRedirect(loginUrl, 400);
-                        }, 1400);
+                            window.location.href = loginUrl;
+                        }, 2500);
 
                         return;
                     }
@@ -870,10 +929,10 @@
                     btn.innerHTML = '✅ Welcome!';
                     btn.style.background = 'linear-gradient(135deg, #28a745, #1e7e34)';
 
-                    signupCard.classList.add('signup-success');
-
                     const target = getRedirectTarget();
-                    smoothRedirect(target, 1000);
+                    setTimeout(() => {
+                        window.location.href = target;
+                    }, 1200);
                 } else {
                     // Email confirmation required
                     successMessage.innerHTML = `✅ Check your email to confirm your account!`;
@@ -899,8 +958,8 @@
         }
 
         console.log('💎 Pro Love Hub Sign Up — pink + blue palette');
-        console.log('✅ Email already registered → auto-redirect to login with pre-filled email');
-        console.log('✅ Supports ?redirect= parameter');
+        console.log('✅ Email already registered → shake 2.5s → plain redirect to login');
+        console.log('✅ Password visibility toggle enabled');
     </script>
 
 </body>
