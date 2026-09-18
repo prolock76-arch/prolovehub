@@ -7,6 +7,9 @@
     <meta name="description" content="Join Pro Love Hub and start your journey to meaningful connections.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 
+    <!-- ⚡ Preload login page for instant redirect when email already exists -->
+    <link rel="prefetch" href="login.html">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -26,12 +29,23 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            animation: pageFadeIn 0.35s ease;
+        }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        body.page-leaving {
+            opacity: 0;
+            transition: opacity 0.25s ease;
         }
 
         a { text-decoration: none; color: inherit; }
 
         /* ============================================================ */
-        /* BRAND LOGO — Pro + L♥ve + Hub                                 */
+        /* BRAND LOGO                                                    */
         /* ============================================================ */
         .brand-logo {
             display: inline-flex;
@@ -233,6 +247,13 @@
             padding: 40px 32px 32px;
             border: 1px solid rgba(247, 38, 109, 0.15);
             box-shadow: 0 20px 60px rgba(247, 38, 109, 0.12);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .signup-card.signup-success {
+            transform: scale(0.96);
+            opacity: 0.6;
+            pointer-events: none;
         }
 
         .signup-card__header {
@@ -331,7 +352,8 @@
             border-radius: 4px;
             transition: all 0.3s ease;
         }
-        .pwd-strength.medium .bar { width: 50%; background: #ffa500; }
+        .pwd-strength.weak .bar { width: 33%; background: #dc3545; }
+        .pwd-strength.medium .bar { width: 66%; background: #ffa500; }
         .pwd-strength.strong .bar { width: 100%; background: #28a745; }
 
         /* BUTTONS */
@@ -365,7 +387,8 @@
 
         /* MESSAGES */
         .error-message,
-        .success-message {
+        .success-message,
+        .info-message {
             display: none;
             border-radius: 12px;
             padding: 12px 16px;
@@ -386,8 +409,15 @@
             color: #28a745;
         }
 
+        .info-message {
+            background: rgba(247, 38, 109, 0.08);
+            border: 1px solid rgba(247, 38, 109, 0.2);
+            color: #F7266D;
+        }
+
         .error-message.show,
-        .success-message.show {
+        .success-message.show,
+        .info-message.show {
             display: block;
         }
 
@@ -509,7 +539,7 @@
             <span class="heart" style="left:93%;animation-delay:3.5s;font-size:18px;">💕</span>
         </div>
 
-        <div class="signup-card">
+        <div class="signup-card" id="signup-card">
             <div class="signup-card__header">
                 <span class="icon">💎</span>
                 <h1>Create Account</h1>
@@ -518,6 +548,7 @@
 
             <div class="error-message" id="error-message"></div>
             <div class="success-message" id="success-message"></div>
+            <div class="info-message" id="info-message"></div>
 
             <form id="signup-form" onsubmit="handleSignup(event)" novalidate>
                 <div class="form-group">
@@ -544,7 +575,7 @@
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password <span class="required">*</span></label>
                     <input type="password" id="confirm-password" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
-                    <div class="field-error" id="err-confirm">Passwords do not match</div>
+                    <div class="field-error" id="err-confirm-password">Passwords do not match</div>
                 </div>
 
                 <button type="submit" class="btn-signup" id="signup-btn">
@@ -563,7 +594,7 @@
     </main>
 
     <!-- ============================================================ -->
-    <!-- SCRIPTS - Supabase Auth                                      -->
+    <!-- SCRIPTS                                                       -->
     <!-- ============================================================ -->
     <script type="importmap">
         {
@@ -583,13 +614,63 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        const form = document.getElementById('signup-form');
-        const btn = document.getElementById('signup-btn');
-        const errorMessage = document.getElementById('error-message');
-        const successMessage = document.getElementById('success-message');
-        const passwordInput = document.getElementById('password');
-        const pwdStrength = document.getElementById('pwd-strength');
+        // ============================================================
+        // Cache DOM references
+        // ============================================================
+        let form, btn, errorMessage, successMessage, infoMessage;
+        let passwordInput, pwdStrength, signupCard;
 
+        document.addEventListener('DOMContentLoaded', () => {
+            form = document.getElementById('signup-form');
+            btn = document.getElementById('signup-btn');
+            errorMessage = document.getElementById('error-message');
+            successMessage = document.getElementById('success-message');
+            infoMessage = document.getElementById('info-message');
+            passwordInput = document.getElementById('password');
+            pwdStrength = document.getElementById('pwd-strength');
+            signupCard = document.getElementById('signup-card');
+
+            // Password strength meter
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const val = this.value;
+                    pwdStrength.classList.remove('show', 'weak', 'medium', 'strong');
+
+                    if (val.length === 0) return;
+
+                    pwdStrength.classList.add('show');
+
+                    let score = 0;
+                    if (val.length >= 6) score++;
+                    if (val.length >= 10) score++;
+                    if (/[A-Z]/.test(val)) score++;
+                    if (/[0-9]/.test(val)) score++;
+                    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+                    if (score >= 4) pwdStrength.classList.add('strong');
+                    else if (score >= 2) pwdStrength.classList.add('medium');
+                    else pwdStrength.classList.add('weak');
+                });
+            }
+
+            // Clear error states on input
+            ['fullname', 'email', 'password', 'confirm-password'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', () => {
+                    el.classList.remove('error');
+                    const err = document.getElementById('err-' + id);
+                    if (err) err.classList.remove('show');
+                    if (errorMessage) errorMessage.classList.remove('show');
+                    if (successMessage) successMessage.classList.remove('show');
+                    if (infoMessage) infoMessage.classList.remove('show');
+                });
+            });
+        });
+
+        // ============================================================
+        // Redirect target
+        // ============================================================
         function getRedirectTarget() {
             const params = new URLSearchParams(window.location.search);
             const redirect = params.get('redirect');
@@ -604,54 +685,34 @@
             return 'members.html';
         }
 
+        // ============================================================
+        // Smooth redirect — fade the page out before navigating
+        // ============================================================
+        function smoothRedirect(url, delay = 800) {
+            document.body.classList.add('page-leaving');
+            setTimeout(() => {
+                window.location.href = url;
+            }, delay);
+        }
+
+        // ============================================================
+        // If already logged in → redirect immediately
+        // ============================================================
         (async function checkSession() {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session && session.user) {
                     console.log('✅ Already logged in:', session.user.email);
-                    window.location.href = getRedirectTarget();
+                    smoothRedirect(getRedirectTarget(), 200);
                 }
             } catch (err) {
                 console.warn('Session check failed:', err);
             }
         })();
 
-        passwordInput.addEventListener('input', function() {
-            const val = this.value;
-            if (val.length === 0) {
-                pwdStrength.classList.remove('show', 'medium', 'strong');
-                return;
-            }
-            pwdStrength.classList.add('show');
-            pwdStrength.classList.remove('medium', 'strong');
-
-            let score = 0;
-            if (val.length >= 6) score++;
-            if (val.length >= 10) score++;
-            if (/[A-Z]/.test(val)) score++;
-            if (/[0-9]/.test(val)) score++;
-            if (/[^A-Za-z0-9]/.test(val)) score++;
-
-            if (score >= 4) {
-                pwdStrength.classList.add('strong');
-            } else if (score >= 2) {
-                pwdStrength.classList.add('medium');
-            }
-        });
-
-        ['fullname', 'email', 'password', 'confirm-password'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.addEventListener('input', () => {
-                    el.classList.remove('error');
-                    const err = document.getElementById('err-' + id);
-                    if (err) err.classList.remove('show');
-                    errorMessage.classList.remove('show');
-                    successMessage.classList.remove('show');
-                });
-            }
-        });
-
+        // ============================================================
+        // Show field-level error
+        // ============================================================
         function showFieldError(id) {
             const el = document.getElementById(id);
             const err = document.getElementById('err-' + id);
@@ -659,8 +720,17 @@
             if (err) err.classList.add('show');
         }
 
+        // ============================================================
+        // SIGNUP HANDLER
+        // ============================================================
         window.handleSignup = async function(event) {
             event.preventDefault();
+
+            if (!btn) btn = document.getElementById('signup-btn');
+            if (!errorMessage) errorMessage = document.getElementById('error-message');
+            if (!successMessage) successMessage = document.getElementById('success-message');
+            if (!infoMessage) infoMessage = document.getElementById('info-message');
+            if (!signupCard) signupCard = document.getElementById('signup-card');
 
             const fullname = document.getElementById('fullname').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -669,6 +739,8 @@
 
             errorMessage.classList.remove('show');
             successMessage.classList.remove('show');
+            infoMessage.classList.remove('show');
+
             ['fullname', 'email', 'password', 'confirm-password'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.remove('error');
@@ -711,22 +783,64 @@
                     email: email,
                     password: password,
                     options: {
-                        data: {
-                            full_name: fullname
-                        }
+                        data: { full_name: fullname }
                     }
                 });
 
                 if (error) {
                     console.error('Signup error:', error);
 
+                    // ============================================================
+                    // EMAIL ALREADY REGISTERED → auto-redirect to login
+                    // ============================================================
+                    const isAlreadyRegistered =
+                        error.message.includes('already registered') ||
+                        error.message.includes('already been registered') ||
+                        error.message.includes('User already registered') ||
+                        error.code === 'user_already_exists' ||
+                        error.status === 422;
+
+                    if (isAlreadyRegistered) {
+                        console.log('📧 Email already registered → redirecting to login');
+
+                        // Show a friendly info message briefly
+                        infoMessage.innerHTML = `👋 <strong>${email}</strong> is already registered. Taking you to log in...`;
+                        infoMessage.classList.add('show');
+
+                        // Fade the card
+                        signupCard.classList.add('signup-success');
+
+                        // Update button state
+                        btn.innerHTML = '👋 Redirecting to Log In...';
+                        btn.style.background = 'linear-gradient(135deg, #F7266D, #C41E56)';
+
+                        // Build login URL with prefilled email + preserved redirect
+                        const params = new URLSearchParams(window.location.search);
+                        const redirectParam = params.get('redirect');
+
+                        let loginUrl = `login.html?email=${encodeURIComponent(email)}`;
+                        if (redirectParam) {
+                            loginUrl += `&redirect=${encodeURIComponent(redirectParam)}`;
+                        }
+
+                        // Smooth fade + redirect
+                        setTimeout(() => {
+                            smoothRedirect(loginUrl, 400);
+                        }, 900);
+
+                        return;
+                    }
+
+                    // ============================================================
+                    // Other signup errors — show inline
+                    // ============================================================
                     let msg = '⚠️ ';
-                    if (error.message.includes('already registered') || error.message.includes('already been registered')) {
-                        msg += 'This email is already registered. Please log in.';
-                    } else if (error.message.includes('Password should be')) {
+                    if (error.message.includes('Password should be')) {
                         msg += 'Password is too weak. Use at least 6 characters.';
                     } else if (error.message.includes('rate limit')) {
                         msg += 'Too many attempts. Please try again in a few minutes.';
+                    } else if (error.message.includes('valid email')) {
+                        msg += 'Please enter a valid email address.';
                     } else {
                         msg += error.message;
                     }
@@ -749,17 +863,19 @@
                 console.log('✅ Account created:', data.user.email);
 
                 if (data.session) {
-                    successMessage.innerHTML = `✅ Welcome, ${fullname}! Redirecting...`;
+                    // Logged in immediately → redirect to members
+                    successMessage.innerHTML = `✅ Welcome, ${fullname}! Taking you in...`;
                     successMessage.classList.add('show');
 
                     btn.innerHTML = '✅ Welcome!';
                     btn.style.background = 'linear-gradient(135deg, #28a745, #1e7e34)';
 
+                    signupCard.classList.add('signup-success');
+
                     const target = getRedirectTarget();
-                    setTimeout(() => {
-                        window.location.href = target;
-                    }, 1200);
+                    smoothRedirect(target, 1000);
                 } else {
+                    // Email confirmation required
                     successMessage.innerHTML = `✅ Check your email to confirm your account!`;
                     successMessage.classList.add('show');
 
@@ -783,10 +899,8 @@
         }
 
         console.log('💎 Pro Love Hub Sign Up — pink + blue palette');
-        console.log('✅ Real authentication via supabase.auth.signUp');
-        console.log('✅ Password stored securely by Supabase');
+        console.log('✅ Email already registered → auto-redirect to login');
         console.log('✅ Supports ?redirect= parameter');
-        console.log('✅ Email confirmation: OFF (users logged in immediately)');
     </script>
 
 </body>
