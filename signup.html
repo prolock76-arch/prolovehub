@@ -803,15 +803,15 @@
                     if (isAlreadyRegistered) {
                         console.log('📧 Email already registered → redirecting to login');
 
-                        // Show a friendly info message briefly
-                        infoMessage.innerHTML = `👋 <strong>${email}</strong> is already registered. Taking you to log in...`;
+                        // Clean professional message
+                        infoMessage.innerHTML = `An account already exists with this email`;
                         infoMessage.classList.add('show');
 
                         // Fade the card
                         signupCard.classList.add('signup-success');
 
                         // Update button state
-                        btn.innerHTML = '👋 Redirecting to Log In...';
+                        btn.innerHTML = 'Please wait…';
                         btn.style.background = 'linear-gradient(135deg, #F7266D, #C41E56)';
 
                         // Build login URL with prefilled email + preserved redirect
@@ -826,7 +826,7 @@
                         // Smooth fade + redirect
                         setTimeout(() => {
                             smoothRedirect(loginUrl, 400);
-                        }, 900);
+                        }, 1400);
 
                         return;
                     }
@@ -899,7 +899,7 @@
         }
 
         console.log('💎 Pro Love Hub Sign Up — pink + blue palette');
-        console.log('✅ Email already registered → auto-redirect to login');
+        console.log('✅ Email already registered → auto-redirect to login with pre-filled email');
         console.log('✅ Supports ?redirect= parameter');
     </script>
 
