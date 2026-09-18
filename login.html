@@ -530,11 +530,36 @@
 
         console.log('🔗 Supabase connected:', SUPABASE_URL);
 
-        const form = document.getElementById('login-form');
-        const btn = document.getElementById('login-btn');
-        const errorMessage = document.getElementById('error-message');
-        const successMessage = document.getElementById('success-message');
-        const loginCard = document.getElementById('login-card');
+        // ============================================================
+        // Cache DOM references after DOM is ready
+        // ============================================================
+        let form, btn, errorMessage, successMessage, loginCard;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            form = document.getElementById('login-form');
+            btn = document.getElementById('login-btn');
+            errorMessage = document.getElementById('error-message');
+            successMessage = document.getElementById('success-message');
+            loginCard = document.getElementById('login-card');
+
+            // ============================================================
+            // Reset error state on new input
+            // ============================================================
+            ['email', 'password'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', () => {
+                    if (errorMessage) errorMessage.classList.remove('show');
+                    if (successMessage) successMessage.classList.remove('show');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = '🔐 Log In';
+                        btn.style.background = '';
+                    }
+                    if (loginCard) loginCard.classList.remove('login-success');
+                });
+            });
+        });
 
         // ============================================================
         // Resolve redirect target — default members.html, supports ?redirect=
@@ -564,7 +589,7 @@
         }
 
         // ============================================================
-        // SESSION CHECK — runs immediately (not inside IIFE wait)
+        // SESSION CHECK — runs immediately
         // If already logged in → smooth redirect
         // ============================================================
         (async function checkSession() {
@@ -584,6 +609,11 @@
         // ============================================================
         window.handleLogin = async function(event) {
             event.preventDefault();
+
+            if (!btn) btn = document.getElementById('login-btn');
+            if (!errorMessage) errorMessage = document.getElementById('error-message');
+            if (!successMessage) successMessage = document.getElementById('success-message');
+            if (!loginCard) loginCard = document.getElementById('login-card');
 
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
@@ -640,16 +670,13 @@
 
                 console.log('✅ Login successful:', data.user.email);
 
-                // Instant visual feedback
                 successMessage.textContent = '✅ Login successful! Taking you in...';
                 successMessage.classList.add('show');
                 btn.textContent = '✅ Logged In!';
                 btn.style.background = 'linear-gradient(135deg, #28a745, #1e7e34)';
 
-                // Dim the card gracefully
                 loginCard.classList.add('login-success');
 
-                // ⚡ FAST redirect — 400ms feels instant but visible
                 const target = getRedirectTarget();
                 smoothRedirect(target, 400);
 
@@ -661,20 +688,6 @@
                 btn.textContent = '🔐 Log In';
             }
         }
-
-        // ============================================================
-        // Reset error state on new input
-        // ============================================================
-        ['email', 'password'].forEach(id => {
-            document.getElementById(id).addEventListener('input', () => {
-                errorMessage.classList.remove('show');
-                successMessage.classList.remove('show');
-                btn.disabled = false;
-                btn.textContent = '🔐 Log In';
-                btn.style.background = '';
-                loginCard.classList.remove('login-success');
-            });
-        });
 
         console.log('💎 Pro Love Hub Login — pink + blue palette');
         console.log('✅ Redirect target: members.html (default)');
