@@ -762,9 +762,6 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        /* ============================================================ */
-        /* COUNTRY MODAL                                                */
-        /* ============================================================ */
         .country-modal-overlay {
             display: none;
             position: fixed;
@@ -1006,9 +1003,6 @@
             .country-modal__icon { font-size: 38px; }
         }
 
-        /* ============================================================ */
-        /* SMOOTH TRANSITION OVERLAY                                    */
-        /* ============================================================ */
         .smooth-transition-overlay {
             position: fixed;
             inset: 0;
@@ -1255,7 +1249,6 @@
         </div>
     </div>
 
-    <!-- Smooth transition overlay -->
     <div class="smooth-transition-overlay" id="transitionOverlay">
         <div class="spinner"></div>
         <div class="label">Preparing secure checkout</div>
@@ -1288,17 +1281,19 @@
         // 💵 Base USD price — the value users see everywhere
         const BOOKING_FEE_USD = 12.99;
 
-        // 💱 FX rates (per 1 USD) — used for both display and KES charge
+        // 💱 FX rates (per 1 USD) — used for local currency preview
         const FX_RATES = {
             KES: 129.5, NGN: 1550, GHS: 15.2, ZAR: 18.6, USD: 1
         };
 
-        // 🔁 KES equivalent of $12.99 — this is what Paystack actually charges
+        // 🔁 Kenya: charged in KES equivalent of $12.99
         const BOOKING_FEE_KES = Math.round(BOOKING_FEE_USD * FX_RATES.KES); // = 1682
-        const BOOKING_FEE_CENTS = BOOKING_FEE_KES * 100;
-        const CURRENCY = 'KES';
+        const BOOKING_FEE_KES_CENTS = BOOKING_FEE_KES * 100;
 
-        console.log(`💰 USD display: $${BOOKING_FEE_USD} · KES charged: ${BOOKING_FEE_KES}`);
+        // 🔁 Others: charged in USD directly
+        const BOOKING_FEE_USD_CENTS = Math.round(BOOKING_FEE_USD * 100); // = 1299
+
+        console.log(`💰 USD display: $${BOOKING_FEE_USD} · KES for Kenya: ${BOOKING_FEE_KES}`);
 
         // ============================================================
         // COUNTRY CONFIG
@@ -1361,24 +1356,47 @@
         }
 
         // ============================================================
-        // COUNTRY PRICE — always shows $12.99 equivalent in local currency
+        // COUNTRY PRICE — returns both USD and local currency display
         // ============================================================
         function getCountryPrice(countryCode) {
             const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
-            const rate = FX_RATES[config.currency] || 1;
-            const amount = BOOKING_FEE_USD * rate;
 
-            let formatted;
-            if (amount >= 1000) {
-                formatted = amount.toLocaleString(undefined, { maximumFractionDigits: 0 });
-            } else {
-                formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            // 🇰🇪 Kenya → show KES (charged KES)
+            if (countryCode === 'KE') {
+                const kesFormatted = BOOKING_FEE_KES.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                return {
+                    display: `KSh${kesFormatted} KES`,
+                    secondary: `≈ $${BOOKING_FEE_USD} USD`,
+                    code: 'KES',
+                    amount: BOOKING_FEE_KES
+                };
             }
 
+            // 🌍 Others → show USD (charged USD), with local equivalent for clarity
+            const rate = FX_RATES[config.currency] || 1;
+            const localAmount = BOOKING_FEE_USD * rate;
+
+            let localFormatted;
+            if (localAmount >= 1000) {
+                localFormatted = localAmount.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            } else {
+                localFormatted = localAmount.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            const usdFormatted = BOOKING_FEE_USD.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
             return {
-                display: `${config.symbol}${formatted} ${config.currency}`,
-                code: config.currency,
-                amount: amount
+                display: `$${usdFormatted} USD`,
+                secondary: `≈ ${config.symbol}${localFormatted} ${config.currency}`,
+                code: 'USD',
+                amount: BOOKING_FEE_USD,
+                localAmount: localAmount
             };
         }
 
@@ -1818,12 +1836,7 @@
                 const config = COUNTRY_CONFIG[countryCode] || COUNTRY_CONFIG.OTHER;
 
                 usdEl.textContent = price.display;
-
-                if (countryCode === 'KE') {
-                    kesEl.textContent = `Pay KES ${price.amount.toLocaleString()} on checkout`;
-                } else {
-                    kesEl.textContent = `≈ $${BOOKING_FEE_USD} USD · charged as KES ${BOOKING_FEE_KES.toLocaleString()}`;
-                }
+                kesEl.textContent = price.secondary;
 
                 if (methodRow && methodText && methodIcon) {
                     methodText.textContent = config.hint;
@@ -1846,9 +1859,6 @@
             else updateModalPrice('', true);
         });
 
-        // ============================================================
-        // CONFIRM — no jarring button text, smooth overlay takes over
-        // ============================================================
         window.confirmCountryAndPay = async function() {
             const countrySelect = document.getElementById('modalCountrySelect');
             const country = countrySelect.value;
@@ -1863,7 +1873,6 @@
             }
 
             inlineError.classList.remove('show');
-            // Close the modal — the smooth overlay will take over
             countryModalOverlay.classList.remove('show');
 
             const reference = `PLH_${conversationId.slice(0, 8)}_${Date.now()}`;
@@ -1878,20 +1887,25 @@
         async function executePaystackPayment(reference, country) {
             paymentInFlight = true;
             const config = COUNTRY_CONFIG[country] || COUNTRY_CONFIG.OTHER;
+            const isKenya = country === 'KE';
+
+            // Kenya → KES, everyone else → USD
+            const amountCents = isKenya ? BOOKING_FEE_KES_CENTS : BOOKING_FEE_USD_CENTS;
+            const currency = isKenya ? 'KES' : 'USD';
             const countryPrice = getCountryPrice(country);
 
-            // Show smooth full-screen overlay (no "Preparing..." button text)
+            // Show smooth overlay
             transitionOverlay.classList.add('show');
 
             try {
-                console.log('💳 Initializing Paystack:', { reference, country, amount: BOOKING_FEE_CENTS });
+                console.log('💳 Initializing Paystack:', { reference, country, currency, amountCents });
 
                 const { data, error } = await supabase.functions.invoke('paystack-initialize', {
                     body: {
-                        amount: BOOKING_FEE_CENTS,
+                        amount: amountCents,
                         email: currentUser.email,
                         reference: reference,
-                        currency: CURRENCY,
+                        currency: currency,
                         country: country,
                         callback_url: `${window.location.origin}/chat.html?conversation=${conversationId}&reference=${reference}`,
                         metadata: {
@@ -1901,8 +1915,8 @@
                             full_name: conversation.full_name || '',
                             country: country,
                             country_name: config.name,
-                            local_currency: countryPrice.code,
-                            local_amount: countryPrice.amount,
+                            charged_currency: currency,
+                            charged_amount: amountCents,
                             usd_display: BOOKING_FEE_USD,
                             payment_reason: 'Private connection booking fee'
                         }
@@ -1926,7 +1940,6 @@
 
                 console.log('✅ Redirecting to Paystack:', data.authorization_url);
 
-                // Smooth handoff — hold overlay briefly, then redirect
                 setTimeout(() => {
                     window.location.href = data.authorization_url;
                 }, 600);
