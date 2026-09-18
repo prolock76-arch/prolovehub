@@ -335,32 +335,50 @@
 
         .password-toggle {
             position: absolute;
-            right: 12px;
+            right: 6px;
             top: 50%;
             transform: translateY(-50%);
-            background: none;
+            background: transparent;
             border: none;
             cursor: pointer;
-            font-size: 18px;
-            line-height: 1;
-            padding: 6px;
-            color: rgba(26, 10, 20, 0.5);
-            transition: color 0.2s ease, transform 0.2s ease;
-            font-family: "Inter", sans-serif;
+            padding: 8px;
+            color: rgba(26, 10, 20, 0.45);
+            transition: color 0.2s ease, background 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 8px;
+            width: 36px;
+            height: 36px;
         }
 
         .password-toggle:hover {
             color: #F7266D;
-            background: rgba(247, 38, 109, 0.08);
+            background: rgba(247, 38, 109, 0.06);
         }
 
         .password-toggle:active {
-            transform: translateY(-50%) scale(0.92);
+            background: rgba(247, 38, 109, 0.12);
         }
+
+        .password-toggle svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* When password is VISIBLE, show the "eye-off" (crossed) icon */
+        .password-toggle.is-visible .eye-open { display: none; }
+        .password-toggle.is-visible .eye-slash { display: block; }
+
+        /* When password is HIDDEN, show the "eye" icon */
+        .password-toggle:not(.is-visible) .eye-open { display: block; }
+        .password-toggle:not(.is-visible) .eye-slash { display: none; }
 
         /* PASSWORD STRENGTH */
         .pwd-strength {
@@ -449,7 +467,7 @@
             display: block;
         }
 
-        /* Shake animation — used on the info message */
+        /* Shake animation — ONLY applied to the info message */
         @keyframes shakeInfo {
             0%, 100% { transform: translateX(0); }
             10% { transform: translateX(-10px); }
@@ -600,8 +618,17 @@
                 <div class="form-group">
                     <label for="password">Password <span class="required">*</span></label>
                     <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
-                        <button type="button" class="password-toggle" onclick="togglePassword('password', this)" aria-label="Toggle password visibility">👁️</button>
+                        <input type="text" id="password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
+                        <button type="button" class="password-toggle is-visible" onclick="togglePassword('password', this)" aria-label="Toggle password visibility">
+                            <svg class="eye-open" viewBox="0 0 24 24">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-slash" viewBox="0 0 24 24">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
                     </div>
                     <div class="pwd-strength" id="pwd-strength">
                         <div class="bar" id="pwd-bar"></div>
@@ -612,8 +639,17 @@
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password <span class="required">*</span></label>
                     <div class="password-wrapper">
-                        <input type="password" id="confirm-password" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
-                        <button type="button" class="password-toggle" onclick="togglePassword('confirm-password', this)" aria-label="Toggle password visibility">👁️</button>
+                        <input type="text" id="confirm-password" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
+                        <button type="button" class="password-toggle is-visible" onclick="togglePassword('confirm-password', this)" aria-label="Toggle password visibility">
+                            <svg class="eye-open" viewBox="0 0 24 24">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-slash" viewBox="0 0 24 24">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
                     </div>
                     <div class="field-error" id="err-confirm-password">Passwords do not match</div>
                 </div>
@@ -710,17 +746,21 @@
 
         // ============================================================
         // Password visibility toggle
+        // Default state: VISIBLE (input type="text", button has .is-visible)
+        // Clicking toggles: HIDDEN ↔ VISIBLE
         // ============================================================
         window.togglePassword = function(inputId, btnElement) {
             const input = document.getElementById(inputId);
             if (!input) return;
 
-            if (input.type === 'password') {
-                input.type = 'text';
-                if (btnElement) btnElement.textContent = '🙈';
-            } else {
+            if (input.type === 'text') {
+                // Currently visible → hide
                 input.type = 'password';
-                if (btnElement) btnElement.textContent = '👁️';
+                if (btnElement) btnElement.classList.remove('is-visible');
+            } else {
+                // Currently hidden → show
+                input.type = 'text';
+                if (btnElement) btnElement.classList.add('is-visible');
             }
 
             input.focus();
@@ -858,20 +898,16 @@
                         error.status === 422;
 
                     if (isAlreadyRegistered) {
-                        console.log('📧 Email already registered → shaking, then redirecting to login');
+                        console.log('📧 Email already registered → shaking message, then redirecting to login');
 
-                        // Professional message
+                        // Show the message
                         infoMessage.innerHTML = `An account already exists with this email`;
                         infoMessage.classList.add('show');
 
-                        // Trigger shake for 2.5 seconds
+                        // Shake ONLY the message
                         setTimeout(() => {
                             infoMessage.classList.add('shake');
                         }, 50);
-
-                        // Update button state
-                        btn.innerHTML = 'Please wait…';
-                        btn.style.background = 'linear-gradient(135deg, #F7266D, #C41E56)';
 
                         // Build login URL with prefilled email + preserved redirect
                         const params = new URLSearchParams(window.location.search);
@@ -959,7 +995,7 @@
 
         console.log('💎 Pro Love Hub Sign Up — pink + blue palette');
         console.log('✅ Email already registered → shake 2.5s → plain redirect to login');
-        console.log('✅ Password visibility toggle enabled');
+        console.log('✅ Password visible by default with professional SVG toggle');
     </script>
 
 </body>
