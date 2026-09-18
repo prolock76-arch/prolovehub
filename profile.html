@@ -1072,10 +1072,10 @@
                     💬 Request Connection
                 </button>
 
-                <!-- Shareable short URL -->
+                <!-- Shareable profile link -->
                 <div class="share-link-row" id="share-link-row" style="display:none;">
                     <span class="link-icon">🔗</span>
-                    <span class="link-text" id="share-link-text">prolovehub.com/u/...</span>
+                    <span class="link-text" id="share-link-text">prolovehub.com/profile.html?id=...</span>
                     <button class="copy-btn" id="copy-link-btn" onclick="copyProfileLink()">Copy</button>
                 </div>
             </div>
@@ -1129,123 +1129,37 @@
         // EMOJI MAP for interests & looking-for items
         // ============================================================
         const EMOJI_MAP = {
-            // Looking for
-            'serious relationship': '❤️',
-            'serious': '❤️',
-            'relationship': '❤️',
-            'marriage': '💍',
-            'married': '💍',
-            'friendship': '🤝',
-            'friends': '🤝',
-            'casual': '😎',
-            'long term': '❤️',
-            'long-term': '❤️',
-            'life partner': '💞',
-            'companionship': '👫',
-            'dating': '💕',
-            'love': '❤️',
-            'travel partner': '✈️',
-
-            // Interests
-            'beach': '🏖️',
-            'fishing': '🎣',
-            'travel': '✈️',
-            'traveling': '✈️',
-            'family': '👨‍👩‍👧',
-            'business': '💼',
-            'reading': '📚',
-            'books': '📚',
-            'music': '🎵',
-            'singing': '🎤',
-            'dancing': '💃',
-            'cooking': '🍳',
-            'food': '🍔',
-            'gym': '💪',
-            'fitness': '💪',
-            'running': '🏃',
-            'sports': '⚽',
-            'football': '⚽',
-            'soccer': '⚽',
-            'basketball': '🏀',
-            'tennis': '🎾',
-            'swimming': '🏊',
-            'hiking': '🥾',
-            'camping': '⛺',
-            'outdoors': '🌿',
-            'nature': '🌳',
-            'photography': '📷',
-            'art': '🎨',
-            'painting': '🎨',
-            'movies': '🎬',
-            'cinema': '🎬',
-            'gaming': '🎮',
-            'games': '🎮',
-            'technology': '💻',
-            'tech': '💻',
-            'coding': '💻',
-            'programming': '💻',
-            'fashion': '👗',
-            'shopping': '🛍️',
-            'pets': '🐶',
-            'dogs': '🐶',
-            'dog': '🐶',
-            'cats': '🐱',
-            'cat': '🐱',
-            'coffee': '☕',
-            'wine': '🍷',
-            'beer': '🍺',
-            'party': '🎉',
-            'partying': '🎉',
-            'church': '⛪',
-            'god': '🙏',
-            'faith': '🙏',
-            'yoga': '🧘',
-            'meditation': '🧘',
-            'writing': '✍️',
-            'gardening': '🌱',
-            'cars': '🚗',
-            'bikes': '🏍️',
-            'motorcycles': '🏍️',
-            'yachting': '🛥️',
-            'boats': '⛵',
-            'sailing': '⛵',
-            'horses': '🐴',
-            'animals': '🐾',
-            'volunteering': '🤲',
-            'charity': '🤲',
-            'crypto': '🪙',
-            'investing': '📈',
-            'stocks': '📈',
-            'real estate': '🏠',
-            'science': '🔬',
-            'history': '📜',
-            'languages': '🗣️'
+            'serious relationship': '❤️', 'serious': '❤️', 'relationship': '❤️',
+            'marriage': '💍', 'married': '💍', 'friendship': '🤝', 'friends': '🤝',
+            'casual': '😎', 'long term': '❤️', 'long-term': '❤️', 'life partner': '💞',
+            'companionship': '👫', 'dating': '💕', 'love': '❤️', 'travel partner': '✈️',
+            'beach': '🏖️', 'fishing': '🎣', 'travel': '✈️', 'traveling': '✈️',
+            'family': '👨‍👩‍👧', 'business': '💼', 'reading': '📚', 'books': '📚',
+            'music': '🎵', 'singing': '🎤', 'dancing': '💃', 'cooking': '🍳',
+            'food': '🍔', 'gym': '💪', 'fitness': '💪', 'running': '🏃',
+            'sports': '⚽', 'football': '⚽', 'soccer': '⚽', 'basketball': '🏀',
+            'tennis': '🎾', 'swimming': '🏊', 'hiking': '🥾', 'camping': '⛺',
+            'outdoors': '🌿', 'nature': '🌳', 'photography': '📷', 'art': '🎨',
+            'painting': '🎨', 'movies': '🎬', 'cinema': '🎬', 'gaming': '🎮',
+            'games': '🎮', 'technology': '💻', 'tech': '💻', 'coding': '💻',
+            'programming': '💻', 'fashion': '👗', 'shopping': '🛍️', 'pets': '🐶',
+            'dogs': '🐶', 'dog': '🐶', 'cats': '🐱', 'cat': '🐱', 'coffee': '☕',
+            'wine': '🍷', 'beer': '🍺', 'party': '🎉', 'partying': '🎉',
+            'church': '⛪', 'god': '🙏', 'faith': '🙏', 'yoga': '🧘',
+            'meditation': '🧘', 'writing': '✍️', 'gardening': '🌱', 'cars': '🚗',
+            'bikes': '🏍️', 'motorcycles': '🏍️', 'yachting': '🛥️', 'boats': '⛵',
+            'sailing': '⛵', 'horses': '🐴', 'animals': '🐾', 'volunteering': '🤲',
+            'charity': '🤲', 'crypto': '🪙', 'investing': '📈', 'stocks': '📈',
+            'real estate': '🏠', 'science': '🔬', 'history': '📜', 'languages': '🗣️'
         };
 
         function emojiFor(text) {
             const key = String(text).toLowerCase().trim();
             if (EMOJI_MAP[key]) return EMOJI_MAP[key];
-            // Try partial match
             for (const k in EMOJI_MAP) {
                 if (key.includes(k)) return EMOJI_MAP[k];
             }
             return '✨';
-        }
-
-        // ============================================================
-        // SLUG for shareable URL
-        // ============================================================
-        function slugify(name, age) {
-            let slug = String(name || 'member')
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '') // strip accents
-                .replace(/[^a-z0-9\s-]/g, '')    // keep only letters, numbers, spaces, hyphens
-                .trim()
-                .replace(/\s+/g, '-')            // spaces → hyphens
-                .replace(/-+/g, '-');            // collapse hyphens
-            if (age) slug = `${slug}-${age}`;
-            return slug || 'member';
         }
 
         // ============================================================
@@ -1362,7 +1276,6 @@
                 bioEl.textContent = bio;
                 bioEl.classList.remove('empty');
 
-                // Check if bio needs collapsing
                 requestAnimationFrame(() => {
                     if (bioEl.scrollHeight > bioEl.clientHeight + 4) {
                         readMoreBtn.classList.add('show');
@@ -1388,8 +1301,10 @@
             // Photo mosaic
             renderPhotoMosaic(photos, name);
 
-            // Shareable URL
-            shortUrl = `${window.location.origin}/u/${slugify(name, age)}`;
+            // ============================================================
+            // SHAREABLE URL — REAL, WORKING URL using member ID
+            // ============================================================
+            shortUrl = `${window.location.origin}/profile.html?id=${member.id}`;
             document.getElementById('share-link-text').textContent = shortUrl.replace(/^https?:\/\//, '');
             document.getElementById('share-link-row').style.display = 'flex';
 
@@ -1412,7 +1327,6 @@
                 return;
             }
 
-            // Split on commas, semicolons, "and", "&", newlines
             const items = String(text)
                 .split(/[,;&\n]|\band\b/gi)
                 .map(s => s.trim())
@@ -1456,7 +1370,7 @@
         }
 
         // ============================================================
-        // PHOTO MOSAIC — 2-column mixed sizes
+        // PHOTO MOSAIC
         // ============================================================
         function renderPhotoMosaic(photos, memberName) {
             const mosaic = document.getElementById('photo-mosaic');
@@ -1466,9 +1380,7 @@
                 return;
             }
 
-            // Pattern: alternate square / tall
             const html = photos.map((url, i) => {
-                // Make every 3rd item tall for visual rhythm
                 const tall = (i % 3 === 2);
                 const cls = tall ? 'photo-mosaic-item tall' : 'photo-mosaic-item';
                 return `
@@ -1516,7 +1428,6 @@
                     btn.classList.remove('copied');
                 }, 2000);
             } catch (err) {
-                // Fallback
                 const ta = document.createElement('textarea');
                 ta.value = shortUrl;
                 document.body.appendChild(ta);
@@ -1579,7 +1490,7 @@
         }
 
         // ============================================================
-        // SHARE
+        // SHARE — uses real working URL
         // ============================================================
         window.shareProfile = async function() {
             if (!memberData) return;
@@ -1686,8 +1597,8 @@ ${shareUrl}
         loadProfile();
 
         console.log('💎 Pro Love Hub Profile — editorial layout');
+        console.log('✅ Shareable URL: real working profile.html?id=XYZ link');
         console.log('✅ Auto-emoji for interests & looking-for');
-        console.log('✅ Shareable short URL displayed');
         console.log('✅ $14.99 matching fee');
     </script>
 
