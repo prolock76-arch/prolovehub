@@ -1003,9 +1003,6 @@
             .country-modal__icon { font-size: 38px; }
         }
 
-        /* ============================================================ */
-        /* SMOOTH TRANSITION OVERLAY — for Kenya → Paystack             */
-        /* ============================================================ */
         .smooth-transition-overlay {
             position: fixed;
             inset: 0;
@@ -1044,9 +1041,6 @@
             font-weight: 600;
         }
 
-        /* ============================================================ */
-        /* CASHIER OVERLAY — for non-Kenya → WhatsApp                   */
-        /* ============================================================ */
         .cashier-overlay {
             position: fixed;
             inset: 0;
@@ -1391,6 +1385,9 @@
         </div>
     </div>
 
+    <!-- ⚙️ Global config — edit config.js to change WhatsApp number, etc. -->
+    <script src="config.js"></script>
+
     <script type="importmap">
         {
             "imports": {
@@ -1411,11 +1408,17 @@
 
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
 
-        // 💵 Base USD price — the value users see everywhere
-        const BOOKING_FEE_USD = 12.99;
+        // ============================================================
+        // GLOBAL CONFIG — pulled from config.js (window.PLH_CONFIG)
+        // Falls back to safe defaults if config.js didn't load.
+        // ============================================================
+        const CFG = window.PLH_CONFIG || {};
 
-        // 💱 FX rates (per 1 USD) — used for local currency preview
-        const FX_RATES = {
+        // 💵 Base USD price
+        const BOOKING_FEE_USD = CFG.BOOKING_FEE_USD || 12.99;
+
+        // 💱 FX rates (per 1 USD)
+        const FX_RATES = CFG.FX_RATES || {
             KES: 129.5, NGN: 1550, GHS: 15.2, ZAR: 18.6, USD: 1
         };
 
@@ -1437,8 +1440,10 @@
             OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll continue on WhatsApp with our cashier", icon: '💬', isMpesa: false, method: 'whatsapp' }
         };
 
-        const WHATSAPP_NUMBER = '254117044510';
-        const WHATSAPP_MESSAGE = "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
+        // Pulled from config.js with safe fallbacks
+        const WHATSAPP_NUMBER  = CFG.WHATSAPP_NUMBER  || '254117044510';
+        const WHATSAPP_MESSAGE = CFG.WHATSAPP_MESSAGE || "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
+        const SUPPORT_EMAIL    = CFG.SUPPORT_EMAIL    || 'support@prolovehub.com';
 
         const ADMIN_AUTO_REPLY = `Hi 👋 Welcome to Pro Love Hub. We've received your details and your match request is being reviewed. For a faster and more private experience, tap 🔓 Unlock Private Connection below. Our team will reach out on WhatsApp once payment is confirmed. 💎`;
 
@@ -1673,7 +1678,7 @@
             } else {
                 document.getElementById('chat-name').textContent = 'Pro Love Hub Support Team';
                 document.getElementById('chat-subtext').innerHTML = `
-                    <span>📧 support@prolovehub.com</span>
+                    <span>📧 ${SUPPORT_EMAIL}</span>
                 `;
                 document.getElementById('support-avatar').textContent = '💬';
                 chatHeaderStatus.style.display = 'flex';
