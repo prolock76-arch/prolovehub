@@ -14,7 +14,7 @@ window.PLH_CONFIG = {
     SUPPORT_EMAIL: 'support@prolovehub.com',
 
     // 💵 BOOKING FEE (USD)
-    BOOKING_FEE_USD: 12.99,
+    BOOKING_FEE_USD: 8.99,
 
     // 💱 FX RATES (per 1 USD)
     FX_RATES: {
