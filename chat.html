@@ -1385,8 +1385,8 @@
         </div>
     </div>
 
-    <!-- ⚙️ Global config — edit config.js to change WhatsApp number, etc. -->
-    <script src="config.js"></script>
+    <!-- ⚙️ Global config — edit config-v4.js to change WhatsApp number, etc. -->
+    <script src="config-v4.js"></script>
 
     <script type="importmap">
         {
@@ -1409,8 +1409,8 @@
         const PAYSTACK_PUBLIC_KEY = 'pk_live_2a77ad50cc96def095f88981263831db88ca5101';
 
         // ============================================================
-        // GLOBAL CONFIG — pulled from config.js (window.PLH_CONFIG)
-        // Falls back to safe defaults if config.js didn't load.
+        // GLOBAL CONFIG — pulled from config-v4.js (window.PLH_CONFIG)
+        // Falls back to safe defaults if config-v4.js didn't load.
         // ============================================================
         const CFG = window.PLH_CONFIG || {};
 
@@ -1440,7 +1440,7 @@
             OTHER: { name: 'International', flag: '🌍', currency: 'USD', symbol: '$',    hint: "You'll continue on WhatsApp with our cashier", icon: '💬', isMpesa: false, method: 'whatsapp' }
         };
 
-        // Pulled from config.js with safe fallbacks
+        // Pulled from config-v4.js with safe fallbacks
         const WHATSAPP_NUMBER  = CFG.WHATSAPP_NUMBER  || '254117044510';
         const WHATSAPP_MESSAGE = CFG.WHATSAPP_MESSAGE || "Hi Pro Love Hub, I'd like to book a private connection. I am ready with the required fee";
         const SUPPORT_EMAIL    = CFG.SUPPORT_EMAIL    || 'support@prolovehub.com';
