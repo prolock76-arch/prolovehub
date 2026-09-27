@@ -371,6 +371,7 @@
 
         .member-card:active { transform: scale(0.98); }
 
+        /* Long-press visual feedback */
         .member-card.pressing {
             transform: scale(0.97);
             border-color: rgba(247, 38, 109, 0.5);
@@ -727,377 +728,6 @@
         }
 
         /* ============================================================ */
-        /* NEW FEATURE — QUIZ MODAL                                      */
-        /* ============================================================ */
-        .header-filter-btn {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            background: rgba(247, 38, 109, 0.08);
-            border: 1px solid rgba(247, 38, 109, 0.2);
-            border-radius: 50px;
-            font-family: "Inter", sans-serif;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #F7266D;
-            cursor: pointer;
-        }
-        .header-filter-btn:hover { background: rgba(247, 38, 109, 0.14); }
-        .header-filter-btn.show { display: inline-flex; }
-
-        .filter-chip-row {
-            display: none;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-        .filter-chip-row.show { display: flex; }
-        .filter-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #fff;
-            border: 1px solid rgba(247, 38, 109, 0.2);
-            border-radius: 50px;
-            padding: 8px 8px 8px 16px;
-            font-family: "Inter", sans-serif;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: #1a0a14;
-            box-shadow: 0 4px 16px rgba(247, 38, 109, 0.08);
-            flex-wrap: wrap;
-        }
-        .filter-chip__label { color: #666; font-weight: 500; }
-        .filter-chip__values { color: #1a0a14; font-weight: 700; }
-        .filter-chip__change {
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-family: "Inter", sans-serif;
-            font-size: 11.5px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .filter-chip__change:hover { transform: translateY(-1px); }
-
-        .quiz-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(20, 5, 15, 0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            overflow-y: auto;
-        }
-        .quiz-overlay.is-open { display: flex; animation: quizFadeIn 0.25s ease; }
-        @keyframes quizFadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .quiz-modal {
-            background: #fff;
-            border-radius: 22px;
-            max-width: 460px;
-            width: 100%;
-            max-height: calc(100vh - 32px);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            animation: quizSlideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @keyframes quizSlideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .quiz-close {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.18);
-            border: none;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3;
-        }
-        .quiz-close:hover { background: rgba(255, 255, 255, 0.3); }
-
-        .quiz-header {
-            background: linear-gradient(135deg, #F7266D 0%, #C41E56 100%);
-            padding: 30px 24px 22px;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .quiz-header::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15), transparent 60%);
-            pointer-events: none;
-        }
-        .quiz-header__icon {
-            font-size: 34px;
-            display: block;
-            margin-bottom: 6px;
-            position: relative;
-            z-index: 1;
-        }
-        .quiz-header__title {
-            font-family: "Playfair Display", serif;
-            font-size: 21px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            line-height: 1.25;
-            position: relative;
-            z-index: 1;
-        }
-        .quiz-header__sub {
-            font-size: 12.5px;
-            opacity: 0.92;
-            position: relative;
-            z-index: 1;
-        }
-
-        .quiz-progress {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        .quiz-progress__bar {
-            flex: 1;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.22);
-            border-radius: 50px;
-            overflow: hidden;
-        }
-        .quiz-progress__fill {
-            height: 100%;
-            background: #fff;
-            border-radius: 50px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 33.333%;
-        }
-        .quiz-progress__text {
-            font-size: 11px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .quiz-body {
-            padding: 22px 20px 18px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .quiz-step {
-            display: none;
-            animation: stepIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .quiz-step.is-active { display: block; }
-        @keyframes stepIn {
-            from { opacity: 0; transform: translateX(10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .quiz-q-label {
-            font-family: "Playfair Display", serif;
-            font-size: 19px;
-            font-weight: 700;
-            color: #1a0a14;
-            line-height: 1.3;
-            margin-bottom: 6px;
-        }
-        .quiz-q-hint {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .quiz-options {
-            display: grid;
-            gap: 10px;
-        }
-        .quiz-options.two { grid-template-columns: 1fr 1fr; }
-        .quiz-options.three { grid-template-columns: 1fr 1fr 1fr; }
-
-        @media (max-width: 400px) {
-            .quiz-options.three { grid-template-columns: 1fr; }
-            .quiz-options.two { grid-template-columns: 1fr; }
-        }
-
-        .quiz-opt {
-            background: #fff;
-            border: 2px solid rgba(247, 38, 109, 0.15);
-            border-radius: 14px;
-            padding: 16px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: "Inter", sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            min-height: 90px;
-        }
-        .quiz-opt:hover {
-            border-color: rgba(247, 38, 109, 0.4);
-            background: #FFF9FB;
-        }
-        .quiz-opt.is-selected {
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            border-color: #F7266D;
-            box-shadow: 0 6px 18px rgba(247, 38, 109, 0.25);
-        }
-        .quiz-opt__icon {
-            font-size: 24px;
-            line-height: 1;
-        }
-        .quiz-opt__label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #1a0a14;
-        }
-        .quiz-opt.is-selected .quiz-opt__label { color: #fff; }
-
-        .quiz-slider {
-            background: #FFF9FB;
-            border: 1.5px solid rgba(247, 38, 109, 0.12);
-            border-radius: 14px;
-            padding: 20px 18px 18px;
-        }
-        .quiz-slider__value {
-            font-family: "Playfair Display", serif;
-            font-size: 34px;
-            font-weight: 700;
-            color: #1a0a14;
-            text-align: center;
-            margin-bottom: 14px;
-            letter-spacing: -1px;
-            line-height: 1;
-        }
-        .quiz-slider__value span { color: #F7266D; }
-        .quiz-slider input[type="range"] {
-            width: 100%;
-            height: 6px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(247, 38, 109, 0.15);
-            border-radius: 50px;
-            outline: none;
-            display: block;
-        }
-        .quiz-slider input[type="range"] + input[type="range"] { margin-top: 14px; }
-        .quiz-slider input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 26px;
-            height: 26px;
-            background: #fff;
-            border: 2.5px solid #F7266D;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(247, 38, 109, 0.28);
-        }
-        .quiz-slider input[type="range"]::-moz-range-thumb {
-            width: 26px;
-            height: 26px;
-            background: #fff;
-            border: 2.5px solid #F7266D;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .quiz-footer {
-            padding: 16px 20px 20px;
-            border-top: 1px solid rgba(247, 38, 109, 0.08);
-            background: #fff;
-            flex-shrink: 0;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .quiz-back {
-            display: none;
-            align-items: center;
-            padding: 12px 14px;
-            border-radius: 12px;
-            background: #F5F0F2;
-            color: #555;
-            font-family: "Inter", sans-serif;
-            font-size: 13.5px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .quiz-back.show { display: inline-flex; }
-        .quiz-back:hover { background: #ECE6EA; color: #1a0a14; }
-
-        .quiz-next {
-            flex: 1;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border-radius: 12px;
-            font-family: "Inter", sans-serif;
-            font-weight: 700;
-            font-size: 14.5px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 8px 22px rgba(247, 38, 109, 0.28);
-            transition: all 0.2s ease;
-            min-height: 50px;
-        }
-        .quiz-next:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 12px 30px rgba(247, 38, 109, 0.38);
-        }
-        .quiz-next:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .quiz-skip-row {
-            padding: 0 20px 18px;
-            text-align: center;
-            background: #fff;
-        }
-        .quiz-skip {
-            display: inline-block;
-            font-size: 12.5px;
-            color: #888;
-            font-family: "Inter", sans-serif;
-            text-decoration: underline;
-            text-decoration-color: rgba(136, 136, 136, 0.4);
-            text-underline-offset: 3px;
-            cursor: pointer;
-        }
-        .quiz-skip:hover { color: #F7266D; text-decoration-color: #F7266D; }
-
-        /* ============================================================ */
         /* RESPONSIVE                                                    */
         /* ============================================================ */
         @media (min-width: 600px) {
@@ -1201,17 +831,6 @@
                 <h1>Browse <span>Members</span></h1>
                 <span class="member-count">Showing <strong id="total-count">0</strong> members</span>
             </div>
-            <button class="header-filter-btn" id="header-filter-btn" onclick="openQuiz()">
-                <span>⚙️</span> Filters
-            </button>
-        </div>
-
-        <div class="filter-chip-row" id="filter-chip-row">
-            <div class="filter-chip">
-                <span class="filter-chip__label">Showing:</span>
-                <span class="filter-chip__values" id="filter-chip-values">—</span>
-                <button class="filter-chip__change" onclick="openQuiz()">Change</button>
-            </div>
         </div>
 
         <div class="bento-grid" id="members-grid">
@@ -1233,82 +852,6 @@
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- QUIZ MODAL — NEW FEATURE -->
-    <div class="quiz-overlay" id="quiz-overlay" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="quiz-modal">
-            <button class="quiz-close" id="quiz-close" aria-label="Close">✕</button>
-
-            <div class="quiz-header">
-                <span class="quiz-header__icon">💎</span>
-                <h2 class="quiz-header__title">Find your match</h2>
-                <p class="quiz-header__sub">Answer 3 quick questions and we'll show you people who fit.</p>
-                <div class="quiz-progress">
-                    <div class="quiz-progress__bar">
-                        <div class="quiz-progress__fill" id="quiz-progress-fill"></div>
-                    </div>
-                    <span class="quiz-progress__text" id="quiz-progress-text">Step 1 of 3</span>
-                </div>
-            </div>
-
-            <div class="quiz-body">
-                <div class="quiz-step is-active" data-step="1">
-                    <div class="quiz-q-label">Who are you looking for?</div>
-                    <p class="quiz-q-hint">Choose the one that fits best. You can change this anytime.</p>
-                    <div class="quiz-options three" data-group="gender">
-                        <div class="quiz-opt" data-value="man">
-                            <span class="quiz-opt__icon">👨</span>
-                            <span class="quiz-opt__label">Men</span>
-                        </div>
-                        <div class="quiz-opt" data-value="woman">
-                            <span class="quiz-opt__icon">👩</span>
-                            <span class="quiz-opt__label">Women</span>
-                        </div>
-                        <div class="quiz-opt" data-value="any">
-                            <span class="quiz-opt__icon">🌈</span>
-                            <span class="quiz-opt__label">Anyone</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quiz-step" data-step="2">
-                    <div class="quiz-q-label">What age range?</div>
-                    <p class="quiz-q-hint">Drag either circle to set the range.</p>
-                    <div class="quiz-slider">
-                        <div class="quiz-slider__value">
-                            <span id="age-min-d">25</span> – <span id="age-max-d">45</span>
-                        </div>
-                        <input type="range" id="age-min" min="18" max="70" value="25" step="1">
-                        <input type="range" id="age-max" min="18" max="70" value="45" step="1">
-                    </div>
-                </div>
-
-                <div class="quiz-step" data-step="3">
-                    <div class="quiz-q-label">Where should they be?</div>
-                    <p class="quiz-q-hint">Choose how far you're willing to look.</p>
-                    <div class="quiz-options two" data-group="location">
-                        <div class="quiz-opt" data-value="nearby">
-                            <span class="quiz-opt__icon">📍</span>
-                            <span class="quiz-opt__label">Near me</span>
-                        </div>
-                        <div class="quiz-opt" data-value="anywhere">
-                            <span class="quiz-opt__icon">🌍</span>
-                            <span class="quiz-opt__label">Anywhere</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="quiz-footer">
-                <button class="quiz-back" id="quiz-back">← Back</button>
-                <button class="quiz-next" id="quiz-next">Continue</button>
-            </div>
-
-            <div class="quiz-skip-row">
-                <a class="quiz-skip" id="quiz-skip">Skip and browse everyone</a>
-            </div>
-        </div>
-    </div>
-
     <!-- ============================================================ -->
     <!-- SCRIPTS                                                       -->
     <!-- ============================================================ -->
@@ -1323,7 +866,7 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
-        // ⚠️ CORRECTED URL — has "nnaw" not "naw"
+        // ✅ CORRECTED URL
         const SUPABASE_URL = 'https://eyoxtxnnawahaqgewckrk.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
@@ -1339,16 +882,6 @@
 
         const grid = document.getElementById('members-grid');
         const totalCount = document.getElementById('total-count');
-
-        // Quiz state
-        let quizState = {
-            gender: null,
-            ageMin: 25,
-            ageMax: 45,
-            location: null,
-        };
-        let currentStep = 1;
-        const TOTAL_STEPS = 3;
 
         /* ============================================================ */
         /* TICKER                                                        */
@@ -1400,7 +933,6 @@
             `).join('');
         }
 
-        renderTicker();
         setInterval(renderTicker, 45000);
 
         /* ============================================================ */
@@ -1423,6 +955,9 @@
             window.location.href = 'index.html';
         }
 
+        /* ============================================================ */
+        /* SUPPORT FLOAT                                                 */
+        /* ============================================================ */
         window.openSupport = async function() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
@@ -1518,8 +1053,8 @@
                 grid.innerHTML = `
                     <div class="empty-state">
                         <div class="icon">💎</div>
-                        <h3>No members match</h3>
-                        <p>Try widening your filters, or browse everyone.</p>
+                        <h3>No members yet</h3>
+                        <p>Check back soon for amazing people!</p>
                     </div>
                 `;
                 return;
@@ -1675,18 +1210,21 @@
         }
 
         /* ============================================================ */
-        /* LONG PRESS TO SHARE                                           */
+        /* LONG PRESS TO SHARE — prevents accidental connect             */
         /* ============================================================ */
         let longPressTimer = null;
         let longPressFired = false;
+        let pressStartTime = 0;
 
         function setupLongPress(card) {
             const memberId = card.dataset.id;
 
             function startPress(e) {
+                // Ignore if user pressed the Connect button
                 if (e.target.closest('.btn-connect')) return;
 
                 longPressFired = false;
+                pressStartTime = Date.now();
                 card.classList.add('pressing');
 
                 longPressTimer = setTimeout(() => {
@@ -1701,14 +1239,17 @@
                 card.classList.remove('pressing');
             }
 
+            // Touch
             card.addEventListener('touchstart', startPress, { passive: true });
             card.addEventListener('touchend', cancelPress);
             card.addEventListener('touchmove', cancelPress);
 
+            // Mouse
             card.addEventListener('mousedown', startPress);
             card.addEventListener('mouseup', cancelPress);
             card.addEventListener('mouseleave', cancelPress);
 
+            // Prevent the click from firing if a long press just happened
             card.addEventListener('click', function(e) {
                 if (longPressFired) {
                     e.preventDefault();
@@ -1731,14 +1272,18 @@
                     await navigator.share({ title: name, text: msg, url });
                     if (navigator.vibrate) navigator.vibrate(30);
                     return;
-                } catch (e) {}
+                } catch (e) {
+                    // User cancelled or share failed → fall through to copy
+                }
             }
 
+            // Fallback: copy link to clipboard
             try {
                 await navigator.clipboard.writeText(url);
                 showToast('🔗 Profile link copied', 'success');
                 if (navigator.vibrate) navigator.vibrate(30);
             } catch (e) {
+                // Last resort: open WhatsApp with the message
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             }
         }
@@ -1757,210 +1302,10 @@
         }
 
         /* ============================================================ */
-        /* QUIZ LOGIC                                                    */
-        /* ============================================================ */
-        const quizOverlay = document.getElementById('quiz-overlay');
-        const quizClose = document.getElementById('quiz-close');
-        const quizBack = document.getElementById('quiz-back');
-        const quizNext = document.getElementById('quiz-next');
-        const quizSkip = document.getElementById('quiz-skip');
-        const progressFill = document.getElementById('quiz-progress-fill');
-        const progressText = document.getElementById('quiz-progress-text');
-        const filterChipRow = document.getElementById('filter-chip-row');
-        const filterChipValues = document.getElementById('filter-chip-values');
-        const headerFilterBtn = document.getElementById('header-filter-btn');
-
-        const ageMinSlider = document.getElementById('age-min');
-        const ageMaxSlider = document.getElementById('age-max');
-        const ageMinDisplay = document.getElementById('age-min-d');
-        const ageMaxDisplay = document.getElementById('age-max-d');
-
-        function goToStep(n) {
-            currentStep = Math.max(1, Math.min(TOTAL_STEPS, n));
-            document.querySelectorAll('.quiz-step').forEach(s => {
-                s.classList.toggle('is-active', parseInt(s.dataset.step, 10) === currentStep);
-            });
-            progressFill.style.width = (currentStep / TOTAL_STEPS * 100) + '%';
-            progressText.textContent = `Step ${currentStep} of ${TOTAL_STEPS}`;
-            quizBack.classList.toggle('show', currentStep > 1);
-            quizNext.textContent = currentStep === TOTAL_STEPS ? 'Show My Matches →' : 'Continue';
-            updateNextState();
-        }
-
-        function updateNextState() {
-            let ok = true;
-            if (currentStep === 1) ok = !!quizState.gender;
-            if (currentStep === 3) ok = !!quizState.location;
-            quizNext.disabled = !ok;
-        }
-
-        quizNext.addEventListener('click', () => {
-            if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
-            else finishQuiz();
-        });
-
-        quizBack.addEventListener('click', () => {
-            if (currentStep > 1) goToStep(currentStep - 1);
-        });
-
-        document.querySelectorAll('.quiz-options').forEach(group => {
-            const groupName = group.dataset.group;
-            group.querySelectorAll('.quiz-opt').forEach(opt => {
-                opt.addEventListener('click', () => {
-                    group.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
-                    opt.classList.add('is-selected');
-                    quizState[groupName] = opt.dataset.value;
-                    updateNextState();
-                    if (currentStep < TOTAL_STEPS) {
-                        setTimeout(() => {
-                            if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
-                        }, 380);
-                    }
-                });
-            });
-        });
-
-        ageMinSlider.addEventListener('input', () => {
-            let v = parseInt(ageMinSlider.value, 10);
-            if (v > parseInt(ageMaxSlider.value, 10)) {
-                ageMaxSlider.value = v;
-                ageMaxDisplay.textContent = v;
-                quizState.ageMax = v;
-            }
-            quizState.ageMin = v;
-            ageMinDisplay.textContent = v;
-        });
-
-        ageMaxSlider.addEventListener('input', () => {
-            let v = parseInt(ageMaxSlider.value, 10);
-            if (v < parseInt(ageMinSlider.value, 10)) {
-                ageMinSlider.value = v;
-                ageMinDisplay.textContent = v;
-                quizState.ageMin = v;
-            }
-            quizState.ageMax = v;
-            ageMaxDisplay.textContent = v;
-        });
-
-        window.openQuiz = function() {
-            document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
-            if (quizState.gender) {
-                const g = document.querySelector(`.quiz-options[data-group="gender"] .quiz-opt[data-value="${quizState.gender}"]`);
-                if (g) g.classList.add('is-selected');
-            }
-            if (quizState.location) {
-                const l = document.querySelector(`.quiz-options[data-group="location"] .quiz-opt[data-value="${quizState.location}"]`);
-                if (l) l.classList.add('is-selected');
-            }
-            ageMinSlider.value = quizState.ageMin;
-            ageMaxSlider.value = quizState.ageMax;
-            ageMinDisplay.textContent = quizState.ageMin;
-            ageMaxDisplay.textContent = quizState.ageMax;
-
-            goToStep(1);
-            quizOverlay.classList.add('is-open');
-            quizOverlay.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-        };
-
-        function closeQuiz() {
-            quizOverlay.classList.remove('is-open');
-            quizOverlay.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-
-        quizClose.addEventListener('click', closeQuiz);
-        quizOverlay.addEventListener('click', (e) => {
-            if (e.target === quizOverlay) closeQuiz();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && quizOverlay.classList.contains('is-open')) closeQuiz();
-        });
-
-        quizSkip.addEventListener('click', () => {
-            try {
-                sessionStorage.setItem('plh_quiz_skipped', '1');
-                sessionStorage.removeItem('plh_quiz_state');
-            } catch (e) {}
-            filterChipRow.classList.remove('show');
-            headerFilterBtn.classList.remove('show');
-            renderMembers(allMembers);
-            closeQuiz();
-        });
-
-        function finishQuiz() {
-            try {
-                sessionStorage.setItem('plh_quiz_state', JSON.stringify(quizState));
-                sessionStorage.removeItem('plh_quiz_skipped');
-            } catch (e) {}
-
-            applyFilters();
-            closeQuiz();
-        }
-
-        function applyFilters() {
-            const filtered = allMembers.filter(m => {
-                if (quizState.gender && quizState.gender !== 'any') {
-                    const g = (m.gender || '').toLowerCase();
-                    if (g && g !== quizState.gender) return false;
-                }
-                if (m.age) {
-                    if (m.age < quizState.ageMin || m.age > quizState.ageMax) return false;
-                }
-                return true;
-            });
-
-            renderMembers(filtered);
-            updateFilterChip();
-            headerFilterBtn.classList.add('show');
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">💎</div>
-                        <h3>No members match your filters</h3>
-                        <p>Try widening your age range, or browse everyone.</p>
-                        <button onclick="openQuiz()" style="margin-top:16px;padding:12px 24px;background:linear-gradient(135deg,#F7266D,#C41E56);color:#fff;border:none;border-radius:50px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer;">Change filters</button>
-                    </div>
-                `;
-            }
-        }
-
-        function updateFilterChip() {
-            const parts = [];
-            if (quizState.gender) {
-                const label = quizState.gender === 'man' ? 'Men'
-                             : quizState.gender === 'woman' ? 'Women'
-                             : 'Anyone';
-                parts.push(label);
-            }
-            parts.push(`${quizState.ageMin}–${quizState.ageMax}`);
-            if (quizState.location === 'nearby') parts.push('📍 Near me');
-            else if (quizState.location === 'anywhere') parts.push('🌍 Anywhere');
-
-            filterChipValues.textContent = parts.join(' · ');
-            filterChipRow.classList.add('show');
-        }
-
-        /* ============================================================ */
         /* INIT                                                          */
         /* ============================================================ */
-        try {
-            const saved = sessionStorage.getItem('plh_quiz_state');
-            if (saved) Object.assign(quizState, JSON.parse(saved));
-        } catch (e) {}
-
-        loadMembers().then(() => {
-            const answered = sessionStorage.getItem('plh_quiz_state');
-            const skipped = sessionStorage.getItem('plh_quiz_skipped');
-
-            if (answered) {
-                applyFilters();
-            } else if (!skipped && allMembers.length > 0) {
-                setTimeout(() => openQuiz(), 500);
-            }
-        });
-
+        renderTicker();
+        loadMembers();
         saveLikes();
 
         window.addEventListener('beforeunload', () => {
@@ -1968,7 +1313,8 @@
             carouselTimers.forEach(t => { try { t.clear(); } catch (e) {} });
         });
 
-        console.log('💎 Pro Love Hub — Members ready');
+        console.log('💎 Pro Love Hub — Members (auto-sliding carousels)');
+        console.log('✅ Long-press to share, tap Connect to view profile');
     </script>
 
 </body>
