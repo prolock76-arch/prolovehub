@@ -327,63 +327,6 @@
             font-weight: 700;
         }
 
-        .header-filter-btn {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            background: rgba(247, 38, 109, 0.08);
-            border: 1px solid rgba(247, 38, 109, 0.2);
-            border-radius: 50px;
-            font-family: "Inter", sans-serif;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #F7266D;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .header-filter-btn:hover { background: rgba(247, 38, 109, 0.14); }
-        .header-filter-btn.show { display: inline-flex; }
-
-        /* ============================================================ */
-        /* FILTER CHIP                                                  */
-        /* ============================================================ */
-        .filter-chip-row {
-            display: none;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-        .filter-chip-row.show { display: flex; }
-        .filter-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #fff;
-            border: 1px solid rgba(247, 38, 109, 0.2);
-            border-radius: 50px;
-            padding: 8px 8px 8px 16px;
-            font-family: "Inter", sans-serif;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: #1a0a14;
-            box-shadow: 0 4px 16px rgba(247, 38, 109, 0.08);
-            flex-wrap: wrap;
-        }
-        .filter-chip__label { color: #666; font-weight: 500; }
-        .filter-chip__values { color: #1a0a14; font-weight: 700; }
-        .filter-chip__change {
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-family: "Inter", sans-serif;
-            font-size: 11.5px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .filter-chip__change:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(247, 38, 109, 0.3); }
-
         /* ============================================================ */
         /* BENTO GRID                                                    */
         /* ============================================================ */
@@ -428,6 +371,7 @@
 
         .member-card:active { transform: scale(0.98); }
 
+        /* Long-press visual feedback */
         .member-card.pressing {
             transform: scale(0.97);
             border-color: rgba(247, 38, 109, 0.5);
@@ -689,7 +633,7 @@
             color: #1a0a14;
             margin-bottom: 6px;
         }
-        .empty-state p { font-size: 14px; color: #666; }
+        .empty-state p { font-size: 14px; }
 
         .loading-state {
             grid-column: 1 / -1;
@@ -737,8 +681,108 @@
         .toast.error { background: #dc3545; }
 
         /* ============================================================ */
-        /* QUIZ MODAL                                                    */
+        /* FLOATING SUPPORT BUTTON                                       */
         /* ============================================================ */
+        .support-float {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 500;
+        }
+
+        .support-float__btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: float-support 3s ease-in-out infinite;
+        }
+
+        @keyframes float-support {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .support-float__btn:active { transform: scale(0.92); }
+
+        .support-float__dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            border: 2px solid #fff;
+            animation: pulse-online 1.8s infinite;
+        }
+
+        /* ============================================================ */
+        /* QUIZ MODAL — NEW FEATURE                                      */
+        /* ============================================================ */
+        .header-filter-btn {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(247, 38, 109, 0.08);
+            border: 1px solid rgba(247, 38, 109, 0.2);
+            border-radius: 50px;
+            font-family: "Inter", sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #F7266D;
+            cursor: pointer;
+        }
+        .header-filter-btn:hover { background: rgba(247, 38, 109, 0.14); }
+        .header-filter-btn.show { display: inline-flex; }
+
+        .filter-chip-row {
+            display: none;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        .filter-chip-row.show { display: flex; }
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid rgba(247, 38, 109, 0.2);
+            border-radius: 50px;
+            padding: 8px 8px 8px 16px;
+            font-family: "Inter", sans-serif;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #1a0a14;
+            box-shadow: 0 4px 16px rgba(247, 38, 109, 0.08);
+            flex-wrap: wrap;
+        }
+        .filter-chip__label { color: #666; font-weight: 500; }
+        .filter-chip__values { color: #1a0a14; font-weight: 700; }
+        .filter-chip__change {
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-family: "Inter", sans-serif;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .filter-chip__change:hover { transform: translateY(-1px); }
+
         .quiz-overlay {
             position: fixed;
             inset: 0;
@@ -916,7 +960,6 @@
             justify-content: center;
             gap: 6px;
             min-height: 90px;
-            position: relative;
         }
         .quiz-opt:hover {
             border-color: rgba(247, 38, 109, 0.4);
@@ -1056,53 +1099,6 @@
         .quiz-skip:hover { color: #F7266D; text-decoration-color: #F7266D; }
 
         /* ============================================================ */
-        /* FLOATING SUPPORT BUTTON                                       */
-        /* ============================================================ */
-        .support-float {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 500;
-        }
-
-        .support-float__btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            animation: float-support 3s ease-in-out infinite;
-        }
-
-        @keyframes float-support {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .support-float__btn:active { transform: scale(0.92); }
-
-        .support-float__dot {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #28a745;
-            border: 2px solid #fff;
-            animation: pulse-online 1.8s infinite;
-        }
-
-        /* ============================================================ */
         /* RESPONSIVE                                                    */
         /* ============================================================ */
         @media (min-width: 600px) {
@@ -1182,10 +1178,13 @@
             <div class="menu-container">
                 <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</button>
                 <div class="menu-dropdown" id="menuDropdown">
-                    <a href="index.html"><span>🏠</span> Home</a>
-                    <a href="#" onclick="openQuiz(); return false;"><span>⚙️</span> Filter Members</a>
+                    <a href="chat.html" id="menu-support-link">
+                        <span>💬</span> Chat with Support
+                    </a>
                     <div class="menu-divider"></div>
-                    <a href="#" onclick="logoutUser()" class="logout-btn"><span>🚪</span> Log out</a>
+                    <a href="#" onclick="logoutUser()" class="logout-btn">
+                        <span>🚪</span> Log out
+                    </a>
                 </div>
             </div>
         </div>
@@ -1232,9 +1231,14 @@
         </button>
     </div>
 
-    <!-- QUIZ MODAL -->
-    <div class="quiz-overlay" id="quiz-overlay" aria-hidden="true">
-        <div class="quiz-modal" role="dialog" aria-modal="true">
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ============================================================ -->
+    <!-- NEW: QUIZ MODAL                                               -->
+    <!-- ============================================================ -->
+    <div class="quiz-overlay" id="quiz-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="quiz-modal">
             <button class="quiz-close" id="quiz-close" aria-label="Close">✕</button>
 
             <div class="quiz-header">
@@ -1250,8 +1254,6 @@
             </div>
 
             <div class="quiz-body">
-
-                <!-- STEP 1 -->
                 <div class="quiz-step is-active" data-step="1">
                     <div class="quiz-q-label">Who are you looking for?</div>
                     <p class="quiz-q-hint">Choose the one that fits best. You can change this anytime.</p>
@@ -1271,7 +1273,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 2 -->
                 <div class="quiz-step" data-step="2">
                     <div class="quiz-q-label">What age range?</div>
                     <p class="quiz-q-hint">Drag either circle to set the range.</p>
@@ -1284,7 +1285,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 3 -->
                 <div class="quiz-step" data-step="3">
                     <div class="quiz-q-label">Where should they be?</div>
                     <p class="quiz-q-hint">Choose how far you're willing to look.</p>
@@ -1299,7 +1299,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="quiz-footer">
@@ -1312,9 +1311,6 @@
             </div>
         </div>
     </div>
-
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
 
     <!-- ============================================================ -->
     <!-- SCRIPTS                                                       -->
@@ -1346,56 +1342,15 @@
         const grid = document.getElementById('members-grid');
         const totalCount = document.getElementById('total-count');
 
-        // Quiz state
+        // NEW: quiz state
         let quizState = {
             gender: null,
             ageMin: 25,
             ageMax: 45,
             location: null,
         };
-
         let currentStep = 1;
         const TOTAL_STEPS = 3;
-
-        // Quiz elements
-        const quizOverlay = document.getElementById('quiz-overlay');
-        const quizClose = document.getElementById('quiz-close');
-        const quizBack = document.getElementById('quiz-back');
-        const quizNext = document.getElementById('quiz-next');
-        const quizSkip = document.getElementById('quiz-skip');
-        const progressFill = document.getElementById('quiz-progress-fill');
-        const progressText = document.getElementById('quiz-progress-text');
-        const filterChipRow = document.getElementById('filter-chip-row');
-        const filterChipValues = document.getElementById('filter-chip-values');
-        const headerFilterBtn = document.getElementById('header-filter-btn');
-
-        const ageMinSlider = document.getElementById('age-min');
-        const ageMaxSlider = document.getElementById('age-max');
-        const ageMinDisplay = document.getElementById('age-min-d');
-        const ageMaxDisplay = document.getElementById('age-max-d');
-
-        /* ============================================================ */
-        /* MENU                                                          */
-        /* ============================================================ */
-        window.toggleMenu = function() {
-            document.getElementById('menuDropdown').classList.toggle('show');
-        }
-
-        document.addEventListener('click', function(e) {
-            const c = document.querySelector('.menu-container');
-            if (c && !c.contains(e.target)) {
-                document.getElementById('menuDropdown').classList.remove('show');
-            }
-        });
-
-        window.logoutUser = function() {
-            sessionStorage.removeItem('prolovehub_likes');
-            window.location.href = 'index.html';
-        }
-
-        window.openSupport = function() {
-            window.location.href = 'index.html';
-        }
 
         /* ============================================================ */
         /* TICKER                                                        */
@@ -1447,190 +1402,50 @@
             `).join('');
         }
 
-        renderTicker();
         setInterval(renderTicker, 45000);
 
         /* ============================================================ */
-        /* QUIZ — STEP NAVIGATION                                        */
+        /* MENU                                                          */
         /* ============================================================ */
-        function goToStep(n) {
-            currentStep = Math.max(1, Math.min(TOTAL_STEPS, n));
-            document.querySelectorAll('.quiz-step').forEach(s => {
-                s.classList.toggle('is-active', parseInt(s.dataset.step, 10) === currentStep);
-            });
-            progressFill.style.width = (currentStep / TOTAL_STEPS * 100) + '%';
-            progressText.textContent = `Step ${currentStep} of ${TOTAL_STEPS}`;
-            quizBack.classList.toggle('show', currentStep > 1);
-            quizNext.textContent = currentStep === TOTAL_STEPS ? 'Show My Matches →' : 'Continue';
-            updateNextState();
+        window.toggleMenu = function() {
+            document.getElementById('menuDropdown').classList.toggle('show');
         }
 
-        function updateNextState() {
-            let ok = true;
-            if (currentStep === 1) ok = !!quizState.gender;
-            if (currentStep === 3) ok = !!quizState.location;
-            quizNext.disabled = !ok;
-        }
-
-        quizNext.addEventListener('click', () => {
-            if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
-            else finishQuiz();
-        });
-
-        quizBack.addEventListener('click', () => {
-            if (currentStep > 1) goToStep(currentStep - 1);
-        });
-
-        // Option selection
-        document.querySelectorAll('.quiz-options').forEach(group => {
-            const groupName = group.dataset.group;
-            group.querySelectorAll('.quiz-opt').forEach(opt => {
-                opt.addEventListener('click', () => {
-                    group.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
-                    opt.classList.add('is-selected');
-                    quizState[groupName] = opt.dataset.value;
-                    updateNextState();
-
-                    if (currentStep < TOTAL_STEPS) {
-                        setTimeout(() => {
-                            if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
-                        }, 380);
-                    }
-                });
-            });
-        });
-
-        // Age sliders
-        ageMinSlider.addEventListener('input', () => {
-            let v = parseInt(ageMinSlider.value, 10);
-            if (v > parseInt(ageMaxSlider.value, 10)) {
-                ageMaxSlider.value = v;
-                ageMaxDisplay.textContent = v;
-                quizState.ageMax = v;
+        document.addEventListener('click', function(e) {
+            const c = document.querySelector('.menu-container');
+            if (c && !c.contains(e.target)) {
+                document.getElementById('menuDropdown').classList.remove('show');
             }
-            quizState.ageMin = v;
-            ageMinDisplay.textContent = v;
-        });
-        ageMaxSlider.addEventListener('input', () => {
-            let v = parseInt(ageMaxSlider.value, 10);
-            if (v < parseInt(ageMinSlider.value, 10)) {
-                ageMinSlider.value = v;
-                ageMinDisplay.textContent = v;
-                quizState.ageMin = v;
-            }
-            quizState.ageMax = v;
-            ageMaxDisplay.textContent = v;
         });
 
-        window.openQuiz = function() {
-            document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
-            if (quizState.gender) {
-                const g = document.querySelector(`.quiz-options[data-group="gender"] .quiz-opt[data-value="${quizState.gender}"]`);
-                if (g) g.classList.add('is-selected');
-            }
-            if (quizState.location) {
-                const l = document.querySelector(`.quiz-options[data-group="location"] .quiz-opt[data-value="${quizState.location}"]`);
-                if (l) l.classList.add('is-selected');
-            }
-            ageMinSlider.value = quizState.ageMin;
-            ageMaxSlider.value = quizState.ageMax;
-            ageMinDisplay.textContent = quizState.ageMin;
-            ageMaxDisplay.textContent = quizState.ageMax;
-
-            goToStep(1);
-            quizOverlay.classList.add('is-open');
-            quizOverlay.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-
-            if (typeof fbq === 'function') {
-                fbq('track', 'InitiateCheckout', { content_name: 'member_quiz_opened' });
-            }
-        };
-
-        function closeQuiz() {
-            quizOverlay.classList.remove('is-open');
-            quizOverlay.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-
-        quizClose.addEventListener('click', closeQuiz);
-        quizOverlay.addEventListener('click', (e) => {
-            if (e.target === quizOverlay) closeQuiz();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && quizOverlay.classList.contains('is-open')) closeQuiz();
-        });
-
-        quizSkip.addEventListener('click', () => {
-            try {
-                sessionStorage.setItem('plh_quiz_skipped', '1');
-                sessionStorage.removeItem('plh_quiz_state');
-            } catch (e) {}
-            filterChipRow.classList.remove('show');
-            headerFilterBtn.classList.remove('show');
-            renderMembers(allMembers);
-            closeQuiz();
-        });
-
-        function finishQuiz() {
-            try {
-                sessionStorage.setItem('plh_quiz_state', JSON.stringify(quizState));
-                sessionStorage.removeItem('plh_quiz_skipped');
-            } catch (e) {}
-
-            applyFilters();
-            closeQuiz();
-
-            if (typeof fbq === 'function') {
-                fbq('track', 'CompleteRegistration', { content_name: 'member_quiz_completed' });
-            }
+        window.logoutUser = async function() {
+            try { await supabase.auth.signOut(); } catch (e) {}
+            sessionStorage.removeItem('prolovehub_likes');
+            window.location.href = 'index.html';
         }
 
         /* ============================================================ */
-        /* FILTERS                                                       */
+        /* SUPPORT FLOAT                                                 */
         /* ============================================================ */
-        function applyFilters() {
-            const filtered = allMembers.filter(m => {
-                if (quizState.gender && quizState.gender !== 'any') {
-                    const g = (m.gender || '').toLowerCase();
-                    if (g && g !== quizState.gender) return false;
-                }
-                if (m.age) {
-                    if (m.age < quizState.ageMin || m.age > quizState.ageMax) return false;
-                }
-                return true;
-            });
-
-            renderMembers(filtered);
-            updateFilterChip();
-            headerFilterBtn.classList.add('show');
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">💎</div>
-                        <h3>No members match your filters</h3>
-                        <p>Try widening your age range, or browse everyone.</p>
-                        <button onclick="openQuiz()" style="margin-top:16px;padding:12px 24px;background:linear-gradient(135deg,#F7266D,#C41E56);color:#fff;border:none;border-radius:50px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer;">Change filters</button>
-                    </div>
-                `;
+        window.openSupport = async function() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html?redirect=chat.html';
+                return;
             }
-        }
+            const { data: conv } = await supabase
+                .from('conversations')
+                .select('id')
+                .eq('user_id', session.user.id)
+                .order('updated_at', { ascending: false })
+                .limit(1)
+                .maybeSingle();
 
-        function updateFilterChip() {
-            const parts = [];
-            if (quizState.gender) {
-                const label = quizState.gender === 'man' ? 'Men'
-                             : quizState.gender === 'woman' ? 'Women'
-                             : 'Anyone';
-                parts.push(label);
+            if (conv) {
+                window.location.href = `chat.html?conversation=${conv.id}`;
+            } else {
+                window.location.href = 'chat.html';
             }
-            parts.push(`${quizState.ageMin}–${quizState.ageMax}`);
-            if (quizState.location === 'nearby') parts.push('📍 Near me');
-            else if (quizState.location === 'anywhere') parts.push('🌍 Anywhere');
-
-            filterChipValues.textContent = parts.join(' · ');
-            filterChipRow.classList.add('show');
         }
 
         /* ============================================================ */
@@ -1668,46 +1483,27 @@
         /* ============================================================ */
         async function loadMembers() {
             try {
-                console.log('🔗 Loading members from:', SUPABASE_URL);
-
                 const { data, error } = await supabase
                     .from('members')
                     .select('*')
                     .eq('verified', true)
                     .order('created_at', { ascending: false });
 
-                console.log('📊 Supabase response:', { count: data?.length, error });
-
-                if (error) {
-                    console.error('❌ Supabase error:', error);
-                    throw error;
-                }
+                if (error) throw error;
 
                 allMembers = data || [];
                 isLoading = false;
                 console.log('📊 Members loaded:', allMembers.length);
                 totalCount.textContent = allMembers.length;
-
-                if (allMembers.length === 0) {
-                    grid.innerHTML = `
-                        <div class="empty-state">
-                            <div class="icon">💎</div>
-                            <h3>No members yet</h3>
-                            <p>New profiles are being reviewed. Check back soon.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
                 renderMembers(allMembers);
             } catch (err) {
-                console.error('❌ Load failed:', err);
+                console.error('Error loading members:', err);
                 isLoading = false;
                 grid.innerHTML = `
                     <div class="empty-state">
                         <div class="icon">⚠️</div>
                         <h3>Could not load members</h3>
-                        <p>${escapeHtml(err.message || String(err))}</p>
+                        <p>Please check your connection and refresh.</p>
                     </div>
                 `;
             }
@@ -1722,7 +1518,16 @@
             carouselTimers.forEach(t => { try { t.clear(); } catch (e) {} });
             carouselTimers.clear();
 
-            if (members.length === 0) return;
+            if (members.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💎</div>
+                        <h3>No members match</h3>
+                        <p>Try widening your filters, or browse everyone.</p>
+                    </div>
+                `;
+                return;
+            }
 
             const pattern = ['big', 'med', 'small', 'small', 'med', 'wide'];
 
@@ -1874,10 +1679,11 @@
         }
 
         /* ============================================================ */
-        /* LONG PRESS SHARE                                              */
+        /* LONG PRESS TO SHARE                                           */
         /* ============================================================ */
         let longPressTimer = null;
         let longPressFired = false;
+        let pressStartTime = 0;
 
         function setupLongPress(card) {
             const memberId = card.dataset.id;
@@ -1886,6 +1692,7 @@
                 if (e.target.closest('.btn-connect')) return;
 
                 longPressFired = false;
+                pressStartTime = Date.now();
                 card.classList.add('pressing');
 
                 longPressTimer = setTimeout(() => {
@@ -1955,16 +1762,199 @@
             toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
         }
 
-        function escapeHtml(s) {
-            return String(s).replace(/[&<>"']/g, c => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;',
-                '"': '&quot;', "'": '&#39;'
-            }[c]));
+        /* ============================================================ */
+        /* NEW: QUIZ LOGIC                                               */
+        /* ============================================================ */
+        const quizOverlay = document.getElementById('quiz-overlay');
+        const quizClose = document.getElementById('quiz-close');
+        const quizBack = document.getElementById('quiz-back');
+        const quizNext = document.getElementById('quiz-next');
+        const quizSkip = document.getElementById('quiz-skip');
+        const progressFill = document.getElementById('quiz-progress-fill');
+        const progressText = document.getElementById('quiz-progress-text');
+        const filterChipRow = document.getElementById('filter-chip-row');
+        const filterChipValues = document.getElementById('filter-chip-values');
+        const headerFilterBtn = document.getElementById('header-filter-btn');
+
+        const ageMinSlider = document.getElementById('age-min');
+        const ageMaxSlider = document.getElementById('age-max');
+        const ageMinDisplay = document.getElementById('age-min-d');
+        const ageMaxDisplay = document.getElementById('age-max-d');
+
+        function goToStep(n) {
+            currentStep = Math.max(1, Math.min(TOTAL_STEPS, n));
+            document.querySelectorAll('.quiz-step').forEach(s => {
+                s.classList.toggle('is-active', parseInt(s.dataset.step, 10) === currentStep);
+            });
+            progressFill.style.width = (currentStep / TOTAL_STEPS * 100) + '%';
+            progressText.textContent = `Step ${currentStep} of ${TOTAL_STEPS}`;
+            quizBack.classList.toggle('show', currentStep > 1);
+            quizNext.textContent = currentStep === TOTAL_STEPS ? 'Show My Matches →' : 'Continue';
+            updateNextState();
+        }
+
+        function updateNextState() {
+            let ok = true;
+            if (currentStep === 1) ok = !!quizState.gender;
+            if (currentStep === 3) ok = !!quizState.location;
+            quizNext.disabled = !ok;
+        }
+
+        quizNext.addEventListener('click', () => {
+            if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
+            else finishQuiz();
+        });
+
+        quizBack.addEventListener('click', () => {
+            if (currentStep > 1) goToStep(currentStep - 1);
+        });
+
+        document.querySelectorAll('.quiz-options').forEach(group => {
+            const groupName = group.dataset.group;
+            group.querySelectorAll('.quiz-opt').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    group.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
+                    opt.classList.add('is-selected');
+                    quizState[groupName] = opt.dataset.value;
+                    updateNextState();
+                    if (currentStep < TOTAL_STEPS) {
+                        setTimeout(() => {
+                            if (currentStep < TOTAL_STEPS) goToStep(currentStep + 1);
+                        }, 380);
+                    }
+                });
+            });
+        });
+
+        ageMinSlider.addEventListener('input', () => {
+            let v = parseInt(ageMinSlider.value, 10);
+            if (v > parseInt(ageMaxSlider.value, 10)) {
+                ageMaxSlider.value = v;
+                ageMaxDisplay.textContent = v;
+                quizState.ageMax = v;
+            }
+            quizState.ageMin = v;
+            ageMinDisplay.textContent = v;
+        });
+
+        ageMaxSlider.addEventListener('input', () => {
+            let v = parseInt(ageMaxSlider.value, 10);
+            if (v < parseInt(ageMinSlider.value, 10)) {
+                ageMinSlider.value = v;
+                ageMinDisplay.textContent = v;
+                quizState.ageMin = v;
+            }
+            quizState.ageMax = v;
+            ageMaxDisplay.textContent = v;
+        });
+
+        window.openQuiz = function() {
+            document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
+            if (quizState.gender) {
+                const g = document.querySelector(`.quiz-options[data-group="gender"] .quiz-opt[data-value="${quizState.gender}"]`);
+                if (g) g.classList.add('is-selected');
+            }
+            if (quizState.location) {
+                const l = document.querySelector(`.quiz-options[data-group="location"] .quiz-opt[data-value="${quizState.location}"]`);
+                if (l) l.classList.add('is-selected');
+            }
+            ageMinSlider.value = quizState.ageMin;
+            ageMaxSlider.value = quizState.ageMax;
+            ageMinDisplay.textContent = quizState.ageMin;
+            ageMaxDisplay.textContent = quizState.ageMax;
+
+            goToStep(1);
+            quizOverlay.classList.add('is-open');
+            quizOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function closeQuiz() {
+            quizOverlay.classList.remove('is-open');
+            quizOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        quizClose.addEventListener('click', closeQuiz);
+        quizOverlay.addEventListener('click', (e) => {
+            if (e.target === quizOverlay) closeQuiz();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && quizOverlay.classList.contains('is-open')) closeQuiz();
+        });
+
+        quizSkip.addEventListener('click', () => {
+            try {
+                sessionStorage.setItem('plh_quiz_skipped', '1');
+                sessionStorage.removeItem('plh_quiz_state');
+            } catch (e) {}
+            filterChipRow.classList.remove('show');
+            headerFilterBtn.classList.remove('show');
+            renderMembers(allMembers);
+            closeQuiz();
+        });
+
+        function finishQuiz() {
+            try {
+                sessionStorage.setItem('plh_quiz_state', JSON.stringify(quizState));
+                sessionStorage.removeItem('plh_quiz_skipped');
+            } catch (e) {}
+
+            applyFilters();
+            closeQuiz();
+        }
+
+        function applyFilters() {
+            const filtered = allMembers.filter(m => {
+                if (quizState.gender && quizState.gender !== 'any') {
+                    const g = (m.gender || '').toLowerCase();
+                    if (g && g !== quizState.gender) return false;
+                }
+                if (m.age) {
+                    if (m.age < quizState.ageMin || m.age > quizState.ageMax) return false;
+                }
+                return true;
+            });
+
+            renderMembers(filtered);
+            updateFilterChip();
+            headerFilterBtn.classList.add('show');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💎</div>
+                        <h3>No members match your filters</h3>
+                        <p>Try widening your age range, or browse everyone.</p>
+                        <button onclick="openQuiz()" style="margin-top:16px;padding:12px 24px;background:linear-gradient(135deg,#F7266D,#C41E56);color:#fff;border:none;border-radius:50px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer;">Change filters</button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateFilterChip() {
+            const parts = [];
+            if (quizState.gender) {
+                const label = quizState.gender === 'man' ? 'Men'
+                             : quizState.gender === 'woman' ? 'Women'
+                             : 'Anyone';
+                parts.push(label);
+            }
+            parts.push(`${quizState.ageMin}–${quizState.ageMax}`);
+            if (quizState.location === 'nearby') parts.push('📍 Near me');
+            else if (quizState.location === 'anywhere') parts.push('🌍 Anywhere');
+
+            filterChipValues.textContent = parts.join(' · ');
+            filterChipRow.classList.add('show');
         }
 
         /* ============================================================ */
         /* INIT                                                          */
         /* ============================================================ */
+        renderTicker();
+        saveLikes();
+
+        // Restore quiz state if user answered before
         try {
             const saved = sessionStorage.getItem('plh_quiz_state');
             if (saved) Object.assign(quizState, JSON.parse(saved));
@@ -1980,8 +1970,6 @@
                 setTimeout(() => openQuiz(), 500);
             }
         });
-
-        saveLikes();
 
         window.addEventListener('beforeunload', () => {
             saveLikes();
