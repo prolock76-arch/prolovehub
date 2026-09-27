@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
     <title>Members | Pro Love Hub</title>
-    <meta name="description" content="Browse Pro Love Hub members and find meaningful connections.">
+    <meta name="description" content="Browse verified Pro Love Hub members from around the world. Find meaningful connections.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,11 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -31,7 +27,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* ============================================================ */
-        /* BRAND LOGO                                                   */
+        /* BRAND LOGO                                                    */
         /* ============================================================ */
         .brand-logo {
             display: inline-flex;
@@ -46,285 +42,168 @@
         }
         .brand-logo:hover { transform: translateY(-1px); }
         .brand-logo__pro {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 20px;
-            font-weight: 900;
-            color: #F7266D;
-            letter-spacing: -1px;
-            line-height: 1;
-            position: relative;
-            top: -5px;
+            font-family: "Inter", sans-serif;
+            font-size: 20px; font-weight: 900; color: #F7266D;
+            letter-spacing: -1px; line-height: 1;
+            position: relative; top: -5px;
         }
         .brand-logo__stack {
-            position: relative;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: flex-start;
-            line-height: 0.9;
-            margin-left: 1px;
-        }
-        .brand-logo__hearts {
-            position: absolute;
-            top: -12px;
-            left: 5px;
-            font-size: 8px;
-            color: #F7266D;
-            line-height: 1;
-            font-family: "Inter", sans-serif;
-            pointer-events: none;
-        }
-        .brand-logo__hearts::before {
-            content: '♥';
-            font-size: 10px;
-            position: absolute;
-            top: -4px;
-            left: 9px;
-        }
-        .brand-logo__hearts::after {
-            content: '♥';
-            font-size: 6px;
-            position: absolute;
-            top: 0;
-            left: 18px;
+            position: relative; display: inline-flex; flex-direction: column;
+            align-items: flex-start; line-height: 0.9; margin-left: 1px;
         }
         .brand-logo__love {
             font-family: "Playfair Display", Georgia, serif;
-            font-size: 18px;
-            font-weight: 700;
-            font-style: italic;
-            color: #1E88E5;
-            letter-spacing: -1px;
-            line-height: 1;
-            position: relative;
-            top: -3px;
-            display: inline-flex;
-            align-items: baseline;
+            font-size: 18px; font-weight: 700; font-style: italic;
+            color: #1E88E5; letter-spacing: -1px; line-height: 1;
+            position: relative; top: -3px;
+            display: inline-flex; align-items: baseline;
         }
-        .brand-logo__love .l { color: #1E88E5; }
         .brand-logo__love .heart-o {
-            color: #F7266D;
-            font-style: normal;
+            color: #F7266D; font-style: normal;
             font-family: "Inter", sans-serif;
-            font-size: 13px;
-            font-weight: 900;
+            font-size: 13px; font-weight: 900;
             display: inline-block;
             transform: translateY(-1px) scaleX(1.1);
-            margin: 0 1px;
-            line-height: 1;
-            text-shadow: 0 0 6px rgba(247, 38, 109, 0.35);
+            margin: 0 1px; line-height: 1;
         }
         .brand-logo__hub {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 11px;
-            font-weight: 900;
-            color: #F7266D;
-            letter-spacing: -0.5px;
-            line-height: 1;
-            margin-top: 2px;
-            margin-left: 4px;
+            font-family: "Inter", sans-serif;
+            font-size: 11px; font-weight: 900; color: #F7266D;
+            letter-spacing: -0.5px; line-height: 1;
+            margin-top: 2px; margin-left: 4px;
         }
         @media (max-width: 480px) {
             .brand-logo__pro { font-size: 17px; top: -4px; }
             .brand-logo__love { font-size: 15px; top: -3px; }
             .brand-logo__love .heart-o { font-size: 11px; }
             .brand-logo__hub { font-size: 9px; }
-            .brand-logo__hearts { font-size: 6px; top: -10px; left: 4px; }
-            .brand-logo__hearts::before { font-size: 8px; top: -3px; left: 7px; }
-            .brand-logo__hearts::after { font-size: 5px; top: 0; left: 14px; }
         }
 
         /* ============================================================ */
-        /* HEADER                                                       */
+        /* HEADER                                                        */
         /* ============================================================ */
         .cb-shell-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(247, 38, 109, 0.12);
         }
-
         .cb-shell-header__inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 12px;
-            height: 56px;
-            display: flex;
-            align-items: center;
+            max-width: 1200px; margin: 0 auto; padding: 0 12px;
+            height: 56px; display: flex; align-items: center;
             justify-content: space-between;
         }
-
-        .menu-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
+        .header-filter-btn {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background: rgba(247, 38, 109, 0.08);
+            border: 1px solid rgba(247, 38, 109, 0.2);
+            border-radius: 50px;
+            font-family: "Inter", sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #F7266D;
             cursor: pointer;
-            padding: 6px 10px;
-            font-size: 24px;
-            color: #1a0a14;
-            transition: all 0.3s ease;
-            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .header-filter-btn:hover { background: rgba(247, 38, 109, 0.15); }
+        .header-filter-btn.show { display: inline-flex; }
+
+        .menu-container { position: relative; display: inline-block; }
+        .menu-btn {
+            background: none; border: none; cursor: pointer;
+            padding: 6px 10px; font-size: 24px; color: #1a0a14;
+            transition: all 0.3s ease; border-radius: 8px;
         }
         .menu-btn:hover { background: rgba(247, 38, 109, 0.08); }
-
         .menu-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 44px;
+            display: none; position: absolute; right: 0; top: 44px;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(16px);
-            min-width: 200px;
-            border-radius: 12px;
+            min-width: 200px; border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
-            z-index: 200;
+            overflow: hidden; z-index: 200;
         }
-
-        .menu-dropdown.show {
-            display: block;
-            animation: slideDown 0.2s ease;
-        }
-
+        .menu-dropdown.show { display: block; animation: slideDown 0.2s ease; }
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .menu-dropdown a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 18px;
-            color: #1a0a14;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 18px; color: #1a0a14; font-size: 14px;
+            font-weight: 500; transition: all 0.2s ease;
             border-bottom: 1px solid rgba(247, 38, 109, 0.06);
         }
         .menu-dropdown a:last-child { border-bottom: none; }
         .menu-dropdown a:hover { background: rgba(247, 38, 109, 0.06); }
 
-        .menu-dropdown .logout-btn { color: #dc3545; font-weight: 600; }
-        .menu-dropdown .logout-btn:hover { background: rgba(220, 53, 69, 0.06); }
-
-        .menu-dropdown .menu-divider {
-            height: 1px;
-            background: rgba(247, 38, 109, 0.06);
-            margin: 4px 0;
-        }
-
         /* ============================================================ */
-        /* TICKER                                                       */
+        /* FILTER CHIP (appears after quiz)                              */
         /* ============================================================ */
-        .activity-ticker {
-            position: fixed;
-            top: 56px;
-            left: 0;
-            right: 0;
-            z-index: 99;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            padding: 8px 0;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(247, 38, 109, 0.3);
+        .filter-chip-row {
+            display: none;
+            justify-content: center;
+            padding: 0 12px;
+            margin-bottom: 12px;
         }
-
-        .ticker-content {
-            display: flex;
+        .filter-chip-row.show { display: flex; }
+        .filter-chip {
+            display: inline-flex;
             align-items: center;
-            white-space: nowrap;
-            animation: ticker-scroll 35s linear infinite;
-            gap: 40px;
-            padding: 0 16px;
-        }
-
-        @keyframes ticker-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #fff;
-            flex-shrink: 0;
-        }
-
-        .ticker-item .live-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #ff6b6b;
-            animation: live-pulse 1s infinite;
-        }
-
-        @keyframes live-pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
-        }
-
-        .ticker-item .name-hl { color: #ffdd57; font-weight: 700; }
-        .ticker-item .name-hl2 { color: #a5d8ff; font-weight: 700; }
-        .ticker-item .sep { color: rgba(255, 255, 255, 0.4); font-weight: 400; }
-
-        .ticker-item .time-badge {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 1px 8px;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid rgba(247, 38, 109, 0.2);
             border-radius: 50px;
-            font-size: 9px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 8px 8px 16px;
+            font-family: "Inter", sans-serif;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #1a0a14;
+            box-shadow: 0 4px 16px rgba(247, 38, 109, 0.08);
         }
-
-        .activity-ticker:hover .ticker-content { animation-play-state: paused; }
+        .filter-chip__label { color: #666; font-weight: 500; }
+        .filter-chip__values { color: #1a0a14; font-weight: 700; }
+        .filter-chip__change {
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-family: "Inter", sans-serif;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-chip__change:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(247, 38, 109, 0.3); }
 
         /* ============================================================ */
-        /* MEMBERS WRAPPER                                              */
+        /* MEMBERS WRAPPER                                               */
         /* ============================================================ */
         .members-wrapper {
             flex: 1;
-            padding: 108px 8px 80px;
+            padding: 76px 8px 80px;
             max-width: 100%;
             width: 100%;
         }
-
         .members-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 12px;
-            padding: 0 4px;
+            display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 12px; padding: 0 4px;
         }
-
         .members-header h1 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 20px;
-            color: #1a0a14;
-            font-weight: 700;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 20px; color: #1a0a14; font-weight: 700;
         }
-
         .members-header .member-count {
-            color: rgba(26, 10, 20, 0.5);
-            font-size: 12px;
+            color: rgba(26, 10, 20, 0.5); font-size: 12px;
         }
-
         .members-header .member-count strong {
-            color: #1a0a14;
-            font-weight: 700;
+            color: #1a0a14; font-weight: 700;
         }
 
         /* ============================================================ */
@@ -336,11 +215,10 @@
             gap: 6px;
             width: 100%;
         }
-
-        .bento-tile--big  { grid-column: span 2; grid-row: span 2; }
-        .bento-tile--med  { grid-column: span 1; grid-row: span 1; }
+        .bento-tile--big   { grid-column: span 2; grid-row: span 2; }
+        .bento-tile--med   { grid-column: span 1; grid-row: span 1; }
         .bento-tile--small { grid-column: span 1; grid-row: span 1; }
-        .bento-tile--wide { grid-column: span 2; grid-row: span 1; }
+        .bento-tile--wide  { grid-column: span 2; grid-row: span 1; }
 
         /* ============================================================ */
         /* CARD                                                          */
@@ -362,25 +240,13 @@
             flex-direction: column;
             position: relative;
         }
-
         .member-card:hover {
             transform: translateY(-2px);
             border-color: rgba(247, 38, 109, 0.3);
             box-shadow: 0 8px 30px rgba(247, 38, 109, 0.15);
         }
-
         .member-card:active { transform: scale(0.98); }
 
-        /* Long-press visual feedback */
-        .member-card.pressing {
-            transform: scale(0.97);
-            border-color: rgba(247, 38, 109, 0.5);
-            box-shadow: 0 6px 20px rgba(247, 38, 109, 0.25);
-        }
-
-        /* ============================================================ */
-        /* IMAGE WRAPPER                                                 */
-        /* ============================================================ */
         .member-card__image-wrapper {
             position: relative;
             overflow: hidden;
@@ -388,239 +254,143 @@
             background: #ffe0eb;
             flex-shrink: 0;
         }
-
         .bento-tile--med .member-card__image-wrapper,
-        .bento-tile--small .member-card__image-wrapper {
-            aspect-ratio: 1/1;
-        }
-
+        .bento-tile--small .member-card__image-wrapper { aspect-ratio: 1/1; }
         .bento-tile--big .member-card__image-wrapper {
-            aspect-ratio: 1/1;
-            max-height: 340px;
+            aspect-ratio: 1/1; max-height: 340px;
         }
-
-        .bento-tile--wide .member-card {
-            flex-direction: row;
-        }
+        .bento-tile--wide .member-card { flex-direction: row; }
         .bento-tile--wide .member-card__image-wrapper {
-            width: 40%;
-            aspect-ratio: 1/1;
-            max-width: 160px;
+            width: 40%; aspect-ratio: 1/1; max-width: 160px;
         }
-
         .member-card__image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.5s ease;
         }
-
         .member-card:hover .member-card__image-wrapper img { transform: scale(1.05); }
 
         /* ============================================================ */
         /* CAROUSEL                                                      */
         /* ============================================================ */
         .carousel-slides {
-            display: flex;
-            height: 100%;
-            width: 100%;
+            display: flex; height: 100%; width: 100%;
             transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
         }
-
         .carousel-slides.single { transition: none; }
-
         .carousel-slide {
-            min-width: 100%;
-            height: 100%;
-            overflow: hidden;
-            flex-shrink: 0;
-            position: relative;
+            min-width: 100%; height: 100%; overflow: hidden;
+            flex-shrink: 0; position: relative;
         }
-
         .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            width: 100%; height: 100%; object-fit: cover; display: block;
         }
-
         .carousel-dots {
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
+            position: absolute; bottom: 6px; left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            gap: 3px;
-            z-index: 6;
+            display: flex; gap: 3px; z-index: 6;
             padding: 3px 6px;
             background: rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(6px);
             border-radius: 50px;
-            pointer-events: none;
-            opacity: 0.9;
+            pointer-events: none; opacity: 0.9;
         }
-
         .carousel-dots .dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
+            width: 5px; height: 5px; border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
         }
-
         .carousel-dots .dot.active {
-            background: #ffffff;
-            width: 12px;
-            border-radius: 50px;
+            background: #ffffff; width: 12px; border-radius: 50px;
         }
-
         .member-card[data-photos="1"] .carousel-dots { display: none; }
 
         .online-dot {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            z-index: 5;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #28a745;
-            border: 2px solid #fff;
+            position: absolute; top: 6px; right: 6px; z-index: 5;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #28a745; border: 2px solid #fff;
             box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
             animation: pulse-online 1.8s infinite;
         }
         .online-dot.offline { background: #adb5bd; animation: none; box-shadow: none; }
-
         @keyframes pulse-online {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.15); opacity: 0.7; }
         }
 
         .verified-badge {
-            position: absolute;
-            top: 6px;
-            left: 6px;
-            z-index: 5;
-            background: rgba(30, 136, 229, 0.95);
-            color: #fff;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            border: 2px solid #fff;
+            position: absolute; top: 6px; left: 6px; z-index: 5;
+            background: rgba(30, 136, 229, 0.95); color: #fff;
+            border-radius: 50%; width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; border: 2px solid #fff;
             box-shadow: 0 2px 8px rgba(30, 136, 229, 0.4);
         }
-
         .like-pill {
-            position: absolute;
-            top: 6px;
-            right: 26px;
-            z-index: 5;
+            position: absolute; top: 6px; right: 26px; z-index: 5;
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(4px);
-            border-radius: 50px;
-            padding: 2px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 3px;
+            border-radius: 50px; padding: 2px 8px;
+            font-size: 10px; font-weight: 700; color: #fff;
+            display: flex; align-items: center; gap: 3px;
         }
-        .like-pill .heart { font-size: 10px; }
 
         /* ============================================================ */
         /* CARD INFO                                                     */
         /* ============================================================ */
         .member-card__info {
             padding: 8px 10px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex: 1;
-            min-width: 0;
+            display: flex; flex-direction: column;
+            gap: 4px; flex: 1; min-width: 0;
         }
-
         .member-card__name {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #1a0a14;
-            line-height: 1.2;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 14px; font-weight: 700; color: #1a0a14;
+            line-height: 1.2; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap;
         }
-
         .bento-tile--big .member-card__name { font-size: 17px; }
         .bento-tile--wide .member-card__name { font-size: 15px; }
-
         .member-card__detail {
-            font-size: 11px;
-            color: rgba(26, 10, 20, 0.6);
-            font-weight: 500;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 11px; color: rgba(26, 10, 20, 0.6);
+            font-weight: 500; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap;
         }
-
         .bento-tile--big .member-card__detail { font-size: 12px; }
-
         .member-card__occupation {
-            display: none;
-            font-size: 11px;
-            color: rgba(26, 10, 20, 0.55);
-            font-weight: 500;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: none; font-size: 11px;
+            color: rgba(26, 10, 20, 0.55); font-weight: 500;
+            overflow: hidden; text-overflow: ellipsis;
             white-space: nowrap;
         }
-
         .bento-tile--big .member-card__occupation,
-        .bento-tile--wide .member-card__occupation {
-            display: block;
-        }
+        .bento-tile--wide .member-card__occupation { display: block; }
 
         .btn-connect {
             margin-top: auto;
             padding: 10px 12px;
             background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: #fff; border: none; border-radius: 10px;
+            font-weight: 700; font-size: 12px;
+            cursor: pointer; transition: all 0.3s ease;
             font-family: "Inter", sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            width: 100%;
-            min-height: 40px;
+            display: flex; align-items: center;
+            justify-content: center; gap: 5px;
+            width: 100%; min-height: 40px;
             letter-spacing: 0.3px;
         }
-
         .btn-connect:hover {
             background: linear-gradient(135deg, #C41E56, #F7266D);
             transform: translateY(-1px);
             box-shadow: 0 4px 16px rgba(247, 38, 109, 0.3);
         }
-
         .btn-connect:active { transform: scale(0.97); }
-
         .bento-tile--big .btn-connect { font-size: 13px; padding: 12px; }
 
         /* ============================================================ */
-        /* EMPTY STATE                                                   */
+        /* EMPTY / LOADING                                               */
         /* ============================================================ */
-        .empty-state {
+        .empty-state, .loading-state {
             grid-column: 1 / -1;
             text-align: center;
             padding: 60px 20px;
@@ -629,23 +399,11 @@
         .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
         .empty-state h3 {
             font-family: "Playfair Display", Georgia, serif;
-            font-size: 20px;
-            color: #1a0a14;
-            margin-bottom: 6px;
+            font-size: 20px; color: #1a0a14; margin-bottom: 6px;
         }
         .empty-state p { font-size: 14px; }
-
-        .loading-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 20px;
-            color: rgba(26, 10, 20, 0.3);
-        }
-
         .loading-spinner {
-            display: inline-block;
-            width: 26px;
-            height: 26px;
+            display: inline-block; width: 26px; height: 26px;
             border: 3px solid rgba(247, 38, 109, 0.15);
             border-top-color: #F7266D;
             border-radius: 50%;
@@ -654,13 +412,249 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ============================================================ */
+        /* QUIZ MODAL                                                    */
+        /* ============================================================ */
+        .quiz-overlay {
+            position: fixed; inset: 0;
+            background: rgba(20, 5, 15, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        .quiz-overlay.is-open { display: flex; animation: quizFadeIn 0.25s ease; }
+        @keyframes quizFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .quiz-modal {
+            background: #fff;
+            border-radius: 22px;
+            max-width: 480px;
+            width: 100%;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            animation: quizSlideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        @keyframes quizSlideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .quiz-close {
+            position: absolute;
+            top: 14px; right: 14px;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 3;
+            transition: background 0.2s ease;
+        }
+        .quiz-close:hover { background: rgba(255, 255, 255, 0.25); }
+
+        .quiz-header {
+            background: linear-gradient(135deg, #F7266D 0%, #C41E56 100%);
+            padding: 32px 26px 22px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .quiz-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15), transparent 60%);
+            pointer-events: none;
+        }
+        .quiz-header__icon {
+            font-size: 38px;
+            display: block;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+        .quiz-header__title {
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.25;
+            position: relative;
+            z-index: 2;
+        }
+        @media (max-width: 480px) {
+            .quiz-header__title { font-size: 19px; }
+        }
+        .quiz-header__sub {
+            font-size: 13px;
+            opacity: 0.92;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quiz-body {
+            padding: 24px 22px 20px;
+        }
+
+        .quiz-question {
+            margin-bottom: 22px;
+        }
+        .quiz-question:last-of-type { margin-bottom: 16px; }
+
+        .quiz-question__label {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #F7266D;
+            margin-bottom: 10px;
+            font-family: "Inter", sans-serif;
+            display: block;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 8px;
+        }
+        .quiz-options.two { grid-template-columns: 1fr 1fr; }
+        .quiz-options.three { grid-template-columns: 1fr 1fr 1fr; }
+        @media (max-width: 400px) {
+            .quiz-options.three { grid-template-columns: 1fr 1fr 1fr; }
+        }
+
+        .quiz-opt {
+            background: #FFF9FB;
+            border: 2px solid rgba(247, 38, 109, 0.15);
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: "Inter", sans-serif;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 84px;
+            gap: 4px;
+        }
+        .quiz-opt:hover { border-color: rgba(247, 38, 109, 0.4); background: #fff; }
+        .quiz-opt.is-selected {
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            border-color: #F7266D;
+            box-shadow: 0 6px 18px rgba(247, 38, 109, 0.25);
+        }
+        .quiz-opt__icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+        .quiz-opt__label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a0a14;
+        }
+        .quiz-opt.is-selected .quiz-opt__label { color: #fff; }
+
+        /* Slider */
+        .quiz-slider {
+            background: #FFF9FB;
+            border-radius: 14px;
+            padding: 16px 16px 14px;
+            border: 1.5px solid rgba(247, 38, 109, 0.12);
+        }
+        .quiz-slider__value {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #F7266D;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .quiz-slider input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(247, 38, 109, 0.15);
+            border-radius: 50px;
+            outline: none;
+        }
+        .quiz-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(247, 38, 109, 0.4);
+            border: 3px solid #fff;
+        }
+        .quiz-slider input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid #fff;
+        }
+
+        .quiz-footer {
+            padding: 18px 22px 22px;
+            border-top: 1px solid rgba(247, 38, 109, 0.08);
+            text-align: center;
+        }
+        .quiz-submit {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #F7266D, #C41E56);
+            color: #fff;
+            border-radius: 14px;
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            font-size: 15.5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(247, 38, 109, 0.3);
+            transition: all 0.25s ease;
+        }
+        .quiz-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(247, 38, 109, 0.4);
+        }
+        .quiz-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .quiz-skip {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #888;
+            font-family: "Inter", sans-serif;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .quiz-skip:hover { color: #F7266D; }
+
+        /* ============================================================ */
         /* TOAST                                                         */
         /* ============================================================ */
         .toast {
             position: fixed;
-            bottom: 80px;
-            right: 16px;
-            left: 16px;
+            bottom: 80px; right: 16px; left: 16px;
             padding: 12px 20px;
             background: #14050f;
             color: #fff;
@@ -681,80 +675,23 @@
         .toast.error { background: #dc3545; }
 
         /* ============================================================ */
-        /* FLOATING SUPPORT BUTTON                                       */
-        /* ============================================================ */
-        .support-float {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 500;
-        }
-
-        .support-float__btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            animation: float-support 3s ease-in-out infinite;
-        }
-
-        @keyframes float-support {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .support-float__btn:active { transform: scale(0.92); }
-
-        .support-float__dot {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #28a745;
-            border: 2px solid #fff;
-            animation: pulse-online 1.8s infinite;
-        }
-
-        /* ============================================================ */
         /* RESPONSIVE                                                    */
         /* ============================================================ */
         @media (min-width: 600px) {
             .cb-shell-header__inner { height: 60px; padding: 0 16px; }
-            .activity-ticker { top: 60px; padding: 10px 0; }
-            .ticker-item { font-size: 12px; gap: 7px; }
-            .ticker-item .time-badge { font-size: 10px; padding: 2px 10px; }
-
-            .members-wrapper { padding: 120px 14px 90px; }
+            .members-wrapper { padding: 96px 14px 90px; }
             .members-header h1 { font-size: 24px; }
             .members-header .member-count { font-size: 13px; }
-
             .bento-grid { gap: 10px; }
-
             .member-card__name { font-size: 15px; }
             .bento-tile--big .member-card__name { font-size: 20px; }
-
             .member-card__detail { font-size: 12px; }
             .member-card__occupation { font-size: 12px; }
-
             .btn-connect { font-size: 13px; padding: 11px 14px; }
             .bento-tile--big .btn-connect { font-size: 14px; padding: 14px; }
-
             .online-dot { width: 14px; height: 14px; top: 8px; right: 8px; }
             .verified-badge { width: 22px; height: 22px; font-size: 12px; top: 8px; left: 8px; }
             .like-pill { font-size: 11px; padding: 3px 10px; top: 8px; right: 30px; }
-
             .carousel-dots { bottom: 8px; padding: 4px 8px; gap: 4px; }
             .carousel-dots .dot { width: 6px; height: 6px; }
             .carousel-dots .dot.active { width: 14px; }
@@ -767,18 +704,15 @@
         }
 
         @media (min-width: 1024px) {
-            .members-wrapper { padding: 130px 20px 100px; max-width: 1200px; margin: 0 auto; }
+            .members-wrapper { padding: 106px 20px 100px; max-width: 1200px; margin: 0 auto; }
             .bento-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
-
             .bento-tile--big { grid-column: span 2; grid-row: span 2; }
             .bento-tile--med { grid-column: span 2; grid-row: span 1; }
             .bento-tile--small { grid-column: span 1; grid-row: span 1; }
             .bento-tile--wide { grid-column: span 4; grid-row: span 1; }
-
             .bento-tile--wide .member-card { flex-direction: row; }
             .bento-tile--wide .member-card__image-wrapper { width: 30%; aspect-ratio: 16/9; max-width: 240px; }
             .bento-tile--wide .member-card__info { padding: 14px 18px; }
-
             .bento-tile--med .member-card__image-wrapper { aspect-ratio: 16/10; }
         }
 
@@ -797,32 +731,24 @@
             <a class="brand-logo" href="index.html" aria-label="Pro Love Hub">
                 <span class="brand-logo__pro">Pro</span>
                 <span class="brand-logo__stack">
-                    <span class="brand-logo__hearts">♥</span>
                     <span class="brand-logo__love">
-                        <span class="l">L</span><span class="heart-o">♥</span><span class="l">ve</span>
+                        <span>L</span><span class="heart-o">♥</span><span>ve</span>
                     </span>
                     <span class="brand-logo__hub">Hub</span>
                 </span>
             </a>
+            <button class="header-filter-btn" id="header-filter-btn" onclick="openQuiz()">
+                <span>⚙️</span> Filters
+            </button>
             <div class="menu-container">
                 <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</button>
                 <div class="menu-dropdown" id="menuDropdown">
-                    <a href="chat.html" id="menu-support-link">
-                        <span>💬</span> Chat with Support
-                    </a>
-                    <div class="menu-divider"></div>
-                    <a href="#" onclick="logoutUser()" class="logout-btn">
-                        <span>🚪</span> Log out
-                    </a>
+                    <a href="index.html"><span>🏠</span> Home</a>
+                    <a href="#" onclick="openQuiz(); return false;"><span>⚙️</span> Filter Members</a>
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- TICKER -->
-    <div class="activity-ticker" id="activityTicker">
-        <div class="ticker-content" id="tickerContent"></div>
-    </div>
 
     <!-- MAIN -->
     <main class="members-wrapper">
@@ -830,6 +756,15 @@
             <div>
                 <h1>Browse <span>Members</span></h1>
                 <span class="member-count">Showing <strong id="total-count">0</strong> members</span>
+            </div>
+        </div>
+
+        <!-- FILTER CHIP (shows after quiz) -->
+        <div class="filter-chip-row" id="filter-chip-row">
+            <div class="filter-chip">
+                <span class="filter-chip__label">Showing:</span>
+                <span class="filter-chip__values" id="filter-chip-values">—</span>
+                <button class="filter-chip__change" onclick="openQuiz()">Change</button>
             </div>
         </div>
 
@@ -841,12 +776,76 @@
         </div>
     </main>
 
-    <!-- SUPPORT FLOAT -->
-    <div class="support-float">
-        <button class="support-float__btn" onclick="openSupport()" aria-label="Contact Support">
-            💬
-            <span class="support-float__dot"></span>
-        </button>
+    <!-- QUIZ MODAL -->
+    <div class="quiz-overlay" id="quiz-overlay" aria-hidden="true">
+        <div class="quiz-modal" role="dialog" aria-modal="true">
+            <button class="quiz-close" id="quiz-close" aria-label="Close">✕</button>
+
+            <div class="quiz-header">
+                <span class="quiz-header__icon">💎</span>
+                <h2 class="quiz-header__title">Let's find your match</h2>
+                <p class="quiz-header__sub">Three quick questions. Takes 20 seconds.</p>
+            </div>
+
+            <div class="quiz-body">
+
+                <!-- Q1: WHO THEY WANT -->
+                <div class="quiz-question">
+                    <span class="quiz-question__label">You're looking for</span>
+                    <div class="quiz-options three" data-group="want-gender">
+                        <div class="quiz-opt" data-value="man">
+                            <span class="quiz-opt__icon">👨</span>
+                            <span class="quiz-opt__label">A man</span>
+                        </div>
+                        <div class="quiz-opt" data-value="woman">
+                            <span class="quiz-opt__icon">👩</span>
+                            <span class="quiz-opt__label">A woman</span>
+                        </div>
+                        <div class="quiz-opt" data-value="any">
+                            <span class="quiz-opt__icon">🌈</span>
+                            <span class="quiz-opt__label">Either</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2: AGE RANGE -->
+                <div class="quiz-question">
+                    <span class="quiz-question__label">They should be between</span>
+                    <div class="quiz-slider">
+                        <div class="quiz-slider__value">
+                            <span id="quiz-age-min-d">24</span> – <span id="quiz-age-max-d">38</span>
+                        </div>
+                        <input type="range" id="quiz-age-min" min="18" max="70" value="24" step="1" style="margin-bottom:10px;">
+                        <input type="range" id="quiz-age-max" min="18" max="70" value="38" step="1">
+                    </div>
+                </div>
+
+                <!-- Q3: LOCATION -->
+                <div class="quiz-question">
+                    <span class="quiz-question__label">Where should they be?</span>
+                    <div class="quiz-options three" data-group="want-location">
+                        <div class="quiz-opt" data-value="nearby">
+                            <span class="quiz-opt__icon">📍</span>
+                            <span class="quiz-opt__label">Near me</span>
+                        </div>
+                        <div class="quiz-opt" data-value="country">
+                            <span class="quiz-opt__icon">🌍</span>
+                            <span class="quiz-opt__label">Anywhere</span>
+                        </div>
+                        <div class="quiz-opt" data-value="anywhere">
+                            <span class="quiz-opt__icon">✈️</span>
+                            <span class="quiz-opt__label">Global</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="quiz-footer">
+                <button class="quiz-submit" id="quiz-submit" disabled>Show My Matches →</button>
+                <a class="quiz-skip" id="quiz-skip">Skip and browse everyone</a>
+            </div>
+        </div>
     </div>
 
     <!-- TOAST -->
@@ -871,68 +870,22 @@
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        console.log('🔗 Supabase connected:', SUPABASE_URL);
-
         let allMembers = [];
+        let filteredMembers = [];
         let isLoading = true;
         const carouselTimers = new Map();
-
         const likeCounts = JSON.parse(sessionStorage.getItem('prolovehub_likes') || '{}');
 
         const grid = document.getElementById('members-grid');
         const totalCount = document.getElementById('total-count');
 
-        /* ============================================================ */
-        /* TICKER                                                        */
-        /* ============================================================ */
-        const firstNames = ['Mark','Judith','Sarah','James','Emma','David','Lisa','Michael','Maria','John','Anna','Chris','Jessica','Daniel','Sophie','Peter','Linda','Robert','Grace','William','Karen','Joseph','Nancy','Charles','Betty','Thomas','Helen','Christopher','Sandra','Matthew'];
-        const countries = ['USA','UK','Canada','Australia','Germany','France','Italy','Spain','Kenya','Nigeria','South Africa','Ghana','Uganda','Tanzania','Zimbabwe','Brazil','Mexico','Japan','India','Sweden','Norway','Netherlands'];
-        const timeAgo = ['2 mins ago','5 mins ago','15 mins ago','30 mins ago','1 hour ago','2 hours ago','4 hours ago','8 hours ago','12 hours ago','1 day ago','2 days ago','3 days ago','1 week ago'];
-
-        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-        function generateTickerItems(count = 10) {
-            const items = [];
-            const used = new Set();
-            for (let i = 0; i < count; i++) {
-                let n1, n2, key, att = 0;
-                do {
-                    n1 = getRandom(firstNames);
-                    n2 = getRandom(firstNames);
-                    key = [n1, n2].sort().join('-');
-                    att++;
-                } while ((n1 === n2 || used.has(key)) && att < 30);
-                used.add(key);
-                items.push({
-                    name1: n1, name2: n2,
-                    country1: getRandom(countries),
-                    country2: getRandom(countries),
-                    time: getRandom(timeAgo)
-                });
-            }
-            return items;
-        }
-
-        function renderTicker() {
-            const items = generateTickerItems(10);
-            const doubled = [...items, ...items];
-            document.getElementById('tickerContent').innerHTML = doubled.map(item => `
-                <div class="ticker-item">
-                    <span class="live-dot"></span>
-                    <span>✨</span>
-                    <span class="name-hl">${item.name1}</span>
-                    <span class="sep">(${item.country1})</span>
-                    <span class="sep">and</span>
-                    <span class="name-hl2">${item.name2}</span>
-                    <span class="sep">(${item.country2})</span>
-                    <span class="sep">got connected</span>
-                    <span class="time-badge">${item.time}</span>
-                    <span>❤️</span>
-                </div>
-            `).join('');
-        }
-
-        setInterval(renderTicker, 45000);
+        // Quiz state
+        let quizState = {
+            wantGender: null,
+            wantAgeMin: 24,
+            wantAgeMax: 38,
+            wantLocation: null,
+        };
 
         /* ============================================================ */
         /* MENU                                                          */
@@ -940,7 +893,6 @@
         window.toggleMenu = function() {
             document.getElementById('menuDropdown').classList.toggle('show');
         }
-
         document.addEventListener('click', function(e) {
             const c = document.querySelector('.menu-container');
             if (c && !c.contains(e.target)) {
@@ -948,34 +900,184 @@
             }
         });
 
-        window.logoutUser = async function() {
-            try { await supabase.auth.signOut(); } catch (e) {}
-            sessionStorage.removeItem('prolovehub_likes');
-            window.location.href = 'index.html';
+        /* ============================================================ */
+        /* QUIZ MODAL                                                    */
+        /* ============================================================ */
+        const quizOverlay = document.getElementById('quiz-overlay');
+        const quizClose = document.getElementById('quiz-close');
+        const quizSubmit = document.getElementById('quiz-submit');
+        const quizSkip = document.getElementById('quiz-skip');
+        const filterChipRow = document.getElementById('filter-chip-row');
+        const filterChipValues = document.getElementById('filter-chip-values');
+        const headerFilterBtn = document.getElementById('header-filter-btn');
+
+        // Age sliders
+        const ageMinSlider = document.getElementById('quiz-age-min');
+        const ageMaxSlider = document.getElementById('quiz-age-max');
+        const ageMinDisplay = document.getElementById('quiz-age-min-d');
+        const ageMaxDisplay = document.getElementById('quiz-age-max-d');
+
+        ageMinSlider.addEventListener('input', () => {
+            let v = parseInt(ageMinSlider.value, 10);
+            if (v > parseInt(ageMaxSlider.value, 10)) ageMaxSlider.value = v;
+            ageMinDisplay.textContent = v;
+            ageMaxDisplay.textContent = ageMaxSlider.value;
+            quizState.wantAgeMin = v;
+            quizState.wantAgeMax = parseInt(ageMaxSlider.value, 10);
+        });
+        ageMaxSlider.addEventListener('input', () => {
+            let v = parseInt(ageMaxSlider.value, 10);
+            if (v < parseInt(ageMinSlider.value, 10)) ageMinSlider.value = v;
+            ageMinDisplay.textContent = ageMinSlider.value;
+            ageMaxDisplay.textContent = v;
+            quizState.wantAgeMin = parseInt(ageMinSlider.value, 10);
+            quizState.wantAgeMax = v;
+        });
+
+        // Tap-to-select options
+        document.querySelectorAll('.quiz-options').forEach(group => {
+            const groupName = group.dataset.group;
+            group.querySelectorAll('.quiz-opt').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    group.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('is-selected'));
+                    opt.classList.add('is-selected');
+                    const value = opt.dataset.value;
+                    if (groupName === 'want-gender') quizState.wantGender = value;
+                    if (groupName === 'want-location') quizState.wantLocation = value;
+                    updateQuizSubmit();
+                });
+            });
+        });
+
+        function updateQuizSubmit() {
+            // All three questions need answers
+            const ready = quizState.wantGender && quizState.wantLocation;
+            quizSubmit.disabled = !ready;
+        }
+
+        window.openQuiz = function() {
+            quizOverlay.classList.add('is-open');
+            quizOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            // Pre-fill from previous state if any
+            if (quizState.wantGender) {
+                const el = document.querySelector(`.quiz-options[data-group="want-gender"] .quiz-opt[data-value="${quizState.wantGender}"]`);
+                if (el) el.classList.add('is-selected');
+            }
+            if (quizState.wantLocation) {
+                const el = document.querySelector(`.quiz-options[data-group="want-location"] .quiz-opt[data-value="${quizState.wantLocation}"]`);
+                if (el) el.classList.add('is-selected');
+            }
+            ageMinSlider.value = quizState.wantAgeMin;
+            ageMaxSlider.value = quizState.wantAgeMax;
+            ageMinDisplay.textContent = quizState.wantAgeMin;
+            ageMaxDisplay.textContent = quizState.wantAgeMax;
+            updateQuizSubmit();
+
+            // Meta Pixel: track that user engaged with the quiz
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout', { content_name: 'member_quiz_opened' });
+            }
+        };
+
+        function closeQuiz() {
+            quizOverlay.classList.remove('is-open');
+            quizOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        quizClose.addEventListener('click', closeQuiz);
+        quizOverlay.addEventListener('click', (e) => {
+            if (e.target === quizOverlay) closeQuiz();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && quizOverlay.classList.contains('is-open')) closeQuiz();
+        });
+
+        quizSubmit.addEventListener('click', () => {
+            saveQuizToSession();
+            applyFilters();
+            closeQuiz();
+
+            // Meta Pixel: quiz completed
+            if (typeof fbq === 'function') {
+                fbq('track', 'CompleteRegistration', { content_name: 'member_quiz_completed' });
+            }
+        });
+
+        quizSkip.addEventListener('click', () => {
+            // Mark as skipped so we don't nag
+            sessionStorage.setItem('plh_quiz_skipped', '1');
+            filterChipRow.classList.remove('show');
+            headerFilterBtn.classList.remove('show');
+            renderMembers(allMembers);
+            closeQuiz();
+        });
+
+        /* ============================================================ */
+        /* QUIZ SESSION STORAGE                                          */
+        /* ============================================================ */
+        function saveQuizToSession() {
+            try {
+                sessionStorage.setItem('plh_quiz_state', JSON.stringify(quizState));
+                sessionStorage.removeItem('plh_quiz_skipped');
+            } catch (e) {}
+        }
+
+        function loadQuizFromSession() {
+            try {
+                const saved = sessionStorage.getItem('plh_quiz_state');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    quizState = { ...quizState, ...parsed };
+                }
+            } catch (e) {}
         }
 
         /* ============================================================ */
-        /* SUPPORT FLOAT                                                 */
+        /* APPLY FILTERS                                                 */
         /* ============================================================ */
-        window.openSupport = async function() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                window.location.href = 'login.html?redirect=chat.html';
-                return;
-            }
-            const { data: conv } = await supabase
-                .from('conversations')
-                .select('id')
-                .eq('user_id', session.user.id)
-                .order('updated_at', { ascending: false })
-                .limit(1)
-                .maybeSingle();
+        function applyFilters() {
+            const filtered = allMembers.filter(m => {
+                // Gender
+                if (quizState.wantGender && quizState.wantGender !== 'any') {
+                    const g = (m.gender || '').toLowerCase();
+                    if (g !== quizState.wantGender) return false;
+                }
+                // Age
+                if (m.age) {
+                    if (m.age < quizState.wantAgeMin || m.age > quizState.wantAgeMax) return false;
+                }
+                // Location
+                if (quizState.wantLocation === 'nearby') {
+                    // Requires a city match; if we don't have the user's city, skip this filter
+                    // (For now, treat 'nearby' as a soft filter — no effect unless you have user city)
+                }
+                return true;
+            });
 
-            if (conv) {
-                window.location.href = `chat.html?conversation=${conv.id}`;
-            } else {
-                window.location.href = 'chat.html';
+            filteredMembers = filtered;
+            renderMembers(filtered);
+            updateFilterChip();
+            headerFilterBtn.classList.add('show');
+        }
+
+        function updateFilterChip() {
+            const parts = [];
+            if (quizState.wantGender) {
+                const label = quizState.wantGender === 'man' ? 'Men'
+                             : quizState.wantGender === 'woman' ? 'Women'
+                             : 'Everyone';
+                parts.push(label);
             }
+            parts.push(`${quizState.wantAgeMin}–${quizState.wantAgeMax}`);
+            if (quizState.wantLocation === 'nearby') parts.push('📍 Near me');
+            else if (quizState.wantLocation === 'country') parts.push('🌍 Anywhere');
+            else if (quizState.wantLocation === 'anywhere') parts.push('✈️ Global');
+
+            filterChipValues.textContent = parts.join(' · ');
+            filterChipRow.classList.add('show');
         }
 
         /* ============================================================ */
@@ -992,13 +1094,12 @@
             likeCounts[memberId] = count;
             return count;
         }
-
         function saveLikes() {
             try { sessionStorage.setItem('prolovehub_likes', JSON.stringify(likeCounts)); } catch (e) {}
         }
 
         /* ============================================================ */
-        /* PHOTO URL HELPER                                              */
+        /* PHOTO HELPER                                                  */
         /* ============================================================ */
         function getPhotoUrl(fileId) {
             if (!fileId) return null;
@@ -1023,7 +1124,6 @@
 
                 allMembers = data || [];
                 isLoading = false;
-                console.log('📊 Members loaded:', allMembers.length);
                 totalCount.textContent = allMembers.length;
                 renderMembers(allMembers);
             } catch (err) {
@@ -1052,8 +1152,9 @@
                 grid.innerHTML = `
                     <div class="empty-state">
                         <div class="icon">💎</div>
-                        <h3>No members yet</h3>
-                        <p>Check back soon for amazing people!</p>
+                        <h3>No members match your filters</h3>
+                        <p>Try widening your filters or browse everyone.</p>
+                        <button onclick="openQuiz()" style="margin-top:16px;padding:12px 24px;background:linear-gradient(135deg,#F7266D,#C41E56);color:#fff;border:none;border-radius:50px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer;">Change filters</button>
                     </div>
                 `;
                 return;
@@ -1081,17 +1182,12 @@
 
             let photos = [];
             if (member.photo_file_ids && member.photo_file_ids.length > 0) {
-                photos = member.photo_file_ids
-                    .map(id => getPhotoUrl(id))
-                    .filter(u => u);
+                photos = member.photo_file_ids.map(id => getPhotoUrl(id)).filter(u => u);
             }
             if (photos.length === 0) {
                 photos = [`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`];
             }
-
-            if (window.innerWidth < 768 && photos.length > 4) {
-                photos = photos.slice(0, 4);
-            }
+            if (window.innerWidth < 768 && photos.length > 4) photos = photos.slice(0, 4);
 
             const slidesHTML = photos.map(url => `
                 <div class="carousel-slide">
@@ -1109,7 +1205,6 @@
             const onlineDot = `<span class="online-dot ${isOnline ? '' : 'offline'}"></span>`;
             const verifiedBadge = isVerified ? `<span class="verified-badge">✓</span>` : '';
             const likePill = `<span class="like-pill"><span class="heart">❤️</span> ${likeCount}</span>`;
-
             const tileClass = `bento-tile--${tileSize}`;
 
             return `
@@ -1139,7 +1234,6 @@
         function setupCarousel(card) {
             const memberId = card.dataset.id;
             const totalPhotos = parseInt(card.dataset.photos, 10);
-
             if (!totalPhotos || totalPhotos <= 1) return;
 
             const slidesEl = card.querySelector('.carousel-slides');
@@ -1156,22 +1250,15 @@
                 slidesEl.style.transform = `translateX(-${current * 100}%)`;
                 dots.forEach((d, i) => d.classList.toggle('active', i === current));
             }
-
-            function advance() {
-                if (paused) return;
-                goTo(current + 1);
-            }
-
+            function advance() { if (!paused) goTo(current + 1); }
             function scheduleNext() {
                 const delay = 3500 + Math.random() * 3500;
                 const startOffset = Math.random() * 2000;
-
                 initialTimeoutId = setTimeout(() => {
                     advance();
                     intervalId = setInterval(advance, delay);
                 }, startOffset + delay);
             }
-
             function pause() { paused = true; }
             function resume() { paused = false; }
 
@@ -1179,19 +1266,11 @@
             card.addEventListener('mouseleave', resume);
             card.addEventListener('focusin', pause);
             card.addEventListener('focusout', resume);
-
             card.addEventListener('touchstart', pause, { passive: true });
-            card.addEventListener('touchend', () => {
-                setTimeout(resume, 4000);
-            }, { passive: true });
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) pause();
-                else resume();
-            });
+            card.addEventListener('touchend', () => setTimeout(resume, 4000), { passive: true });
+            document.addEventListener('visibilitychange', () => document.hidden ? pause() : resume());
 
             scheduleNext();
-
             carouselTimers.set(memberId, {
                 clear: () => {
                     if (intervalId) clearInterval(intervalId);
@@ -1209,50 +1288,31 @@
         }
 
         /* ============================================================ */
-        /* LONG PRESS TO SHARE — prevents accidental connect             */
+        /* LONG PRESS SHARE                                              */
         /* ============================================================ */
         let longPressTimer = null;
         let longPressFired = false;
-        let pressStartTime = 0;
 
         function setupLongPress(card) {
             const memberId = card.dataset.id;
-
             function startPress(e) {
-                // Ignore if user pressed the Connect button
                 if (e.target.closest('.btn-connect')) return;
-
                 longPressFired = false;
-                pressStartTime = Date.now();
-                card.classList.add('pressing');
-
                 longPressTimer = setTimeout(() => {
                     longPressFired = true;
-                    card.classList.remove('pressing');
                     shareMember(memberId);
                 }, 600);
             }
-
-            function cancelPress() {
-                clearTimeout(longPressTimer);
-                card.classList.remove('pressing');
-            }
-
-            // Touch
+            function cancelPress() { clearTimeout(longPressTimer); }
             card.addEventListener('touchstart', startPress, { passive: true });
             card.addEventListener('touchend', cancelPress);
             card.addEventListener('touchmove', cancelPress);
-
-            // Mouse
             card.addEventListener('mousedown', startPress);
             card.addEventListener('mouseup', cancelPress);
             card.addEventListener('mouseleave', cancelPress);
-
-            // Prevent the click from firing if a long press just happened
             card.addEventListener('click', function(e) {
                 if (longPressFired) {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    e.preventDefault(); e.stopPropagation();
                     longPressFired = false;
                 }
             }, true);
@@ -1261,28 +1321,16 @@
         async function shareMember(memberId) {
             const member = allMembers.find(m => m.id === memberId);
             if (!member) return;
-
             const name = member.name || 'Member';
             const url = `${window.location.origin}/profile.html?id=${member.id}`;
             const msg = `Check out ${name} on Pro Love Hub! 💎\n${url}`;
-
             if (navigator.share) {
-                try {
-                    await navigator.share({ title: name, text: msg, url });
-                    if (navigator.vibrate) navigator.vibrate(30);
-                    return;
-                } catch (e) {
-                    // User cancelled or share failed → fall through to copy
-                }
+                try { await navigator.share({ title: name, text: msg, url }); return; } catch (e) {}
             }
-
-            // Fallback: copy link to clipboard
             try {
                 await navigator.clipboard.writeText(url);
                 showToast('🔗 Profile link copied', 'success');
-                if (navigator.vibrate) navigator.vibrate(30);
             } catch (e) {
-                // Last resort: open WhatsApp with the message
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             }
         }
@@ -1303,17 +1351,25 @@
         /* ============================================================ */
         /* INIT                                                          */
         /* ============================================================ */
-        renderTicker();
-        loadMembers();
-        saveLikes();
+        loadQuizFromSession();
+        loadMembers().then(() => {
+            // Auto-open quiz on first visit to this page in this session
+            const alreadyAnswered = sessionStorage.getItem('plh_quiz_state');
+            const alreadySkipped = sessionStorage.getItem('plh_quiz_skipped');
 
+            if (alreadyAnswered) {
+                applyFilters();
+            } else if (!alreadySkipped) {
+                // Small delay so the grid loads first
+                setTimeout(() => openQuiz(), 400);
+            }
+        });
+
+        saveLikes();
         window.addEventListener('beforeunload', () => {
             saveLikes();
             carouselTimers.forEach(t => { try { t.clear(); } catch (e) {} });
         });
-
-        console.log('💎 Pro Love Hub — Members (auto-sliding carousels)');
-        console.log('✅ Long-press to share, tap Connect to view profile');
     </script>
 
 </body>
