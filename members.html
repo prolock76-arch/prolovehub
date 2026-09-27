@@ -371,7 +371,6 @@
 
         .member-card:active { transform: scale(0.98); }
 
-        /* Long-press visual feedback */
         .member-card.pressing {
             transform: scale(0.97);
             border-color: rgba(247, 38, 109, 0.5);
@@ -728,7 +727,7 @@
         }
 
         /* ============================================================ */
-        /* QUIZ MODAL — NEW FEATURE                                      */
+        /* NEW FEATURE — QUIZ MODAL                                      */
         /* ============================================================ */
         .header-filter-btn {
             display: none;
@@ -1234,9 +1233,7 @@
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- ============================================================ -->
-    <!-- NEW: QUIZ MODAL                                               -->
-    <!-- ============================================================ -->
+    <!-- QUIZ MODAL — NEW FEATURE -->
     <div class="quiz-overlay" id="quiz-overlay" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="quiz-modal">
             <button class="quiz-close" id="quiz-close" aria-label="Close">✕</button>
@@ -1326,6 +1323,7 @@
     <script type="module">
         import { createClient } from "@supabase/supabase-js";
 
+        // ⚠️ CORRECTED URL — has "nnaw" not "naw"
         const SUPABASE_URL = 'https://eyoxtxnnawahaqgewckrk.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
@@ -1342,7 +1340,7 @@
         const grid = document.getElementById('members-grid');
         const totalCount = document.getElementById('total-count');
 
-        // NEW: quiz state
+        // Quiz state
         let quizState = {
             gender: null,
             ageMin: 25,
@@ -1402,6 +1400,7 @@
             `).join('');
         }
 
+        renderTicker();
         setInterval(renderTicker, 45000);
 
         /* ============================================================ */
@@ -1424,9 +1423,6 @@
             window.location.href = 'index.html';
         }
 
-        /* ============================================================ */
-        /* SUPPORT FLOAT                                                 */
-        /* ============================================================ */
         window.openSupport = async function() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
@@ -1683,7 +1679,6 @@
         /* ============================================================ */
         let longPressTimer = null;
         let longPressFired = false;
-        let pressStartTime = 0;
 
         function setupLongPress(card) {
             const memberId = card.dataset.id;
@@ -1692,7 +1687,6 @@
                 if (e.target.closest('.btn-connect')) return;
 
                 longPressFired = false;
-                pressStartTime = Date.now();
                 card.classList.add('pressing');
 
                 longPressTimer = setTimeout(() => {
@@ -1763,7 +1757,7 @@
         }
 
         /* ============================================================ */
-        /* NEW: QUIZ LOGIC                                               */
+        /* QUIZ LOGIC                                                    */
         /* ============================================================ */
         const quizOverlay = document.getElementById('quiz-overlay');
         const quizClose = document.getElementById('quiz-close');
@@ -1951,10 +1945,6 @@
         /* ============================================================ */
         /* INIT                                                          */
         /* ============================================================ */
-        renderTicker();
-        saveLikes();
-
-        // Restore quiz state if user answered before
         try {
             const saved = sessionStorage.getItem('plh_quiz_state');
             if (saved) Object.assign(quizState, JSON.parse(saved));
@@ -1970,6 +1960,8 @@
                 setTimeout(() => openQuiz(), 500);
             }
         });
+
+        saveLikes();
 
         window.addEventListener('beforeunload', () => {
             saveLikes();
