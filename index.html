@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title>Pro Love Hub❤️ | Premium Dating &amp; Meaningful Relationships</title>
-    <meta name="description" content="Pro Love Hub helps people find meaningful relationships. Real members, serious connections, and trusted matchmaking.">
-    <meta name="keywords" content="dating, dating site, premium dating, singles, serious relationships, Pro Love Hub, meaningful connections">
+    <title>Pro Love Hub ❤️ | Meet Real, Verified Singles Worldwide</title>
+    <meta name="description" content="Pro Love Hub connects verified singles worldwide looking for serious relationships. Browse real profiles, choose someone you like, and we make the introduction personally.">
+    <meta name="keywords" content="international dating, verified singles, serious relationships, matchmaking, Pro Love Hub">
     <meta name="author" content="Pro Love Hub">
     <meta name="theme-color" content="#F7266D">
     <meta name="robots" content="index, follow">
@@ -14,93 +14,56 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-
         body {
             font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 400;
-            font-style: normal;
             background: #FFF5F8;
             color: #1a0a14;
             line-height: 1.6;
             overflow-x: hidden;
         }
-
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; display: block; }
         ul { list-style: none; }
 
-        /* FONT SYSTEM */
-        h1, h2, h3, .cb-hero-title, .how-it-works-section h2,
-        .match-preview-section h2, .trust-signals-section h2,
-        .video-section h2, .stacked-cards-copy h2,
-        .cta-content h2, .app-section h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+        h1, h2, h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 700; }
+
+        .shell { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .section-kicker {
+            font-size: 13px;
             font-weight: 700;
-        }
-
-        h4, h5, h6, .card-2up .card-body h3,
-        .how-it-works-card h3, .stat-card h3 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-weight: 600;
-        }
-
-        .romantic-accent, .quote-text blockquote::before {
-            font-family: "Great Vibes", cursive;
-        }
-
-        .btn-primary, .btn-secondary, .cb-btn, .btn-stacked,
-        .btn-cta, .btn-app, .cb-shell-button {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #F7266D;
+            margin-bottom: 10px;
             font-family: "Inter", sans-serif;
-            font-weight: 700;
         }
 
-        .cb-line2, .cb-action, .hero-subtitle,
-        .match-card-overlay p, .social-proof p {
-            font-family: "Inter", sans-serif;
-            font-weight: 400;
-        }
-
-        /* ============================================================ */
-        /* BRAND LOGO — Pro + L♥ve + Hub (matches uploaded logo)        */
-        /* ============================================================ */
+        /* ============ BRAND LOGO ============ */
         .brand-logo {
             display: inline-flex;
             align-items: flex-end;
             gap: 4px;
-            text-decoration: none;
             line-height: 1;
             position: relative;
             padding: 8px 0 4px;
-            transition: transform 0.25s ease;
             flex-shrink: 0;
         }
-
-        .brand-logo:hover { transform: translateY(-1px); }
-
         .brand-logo__pro {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: "Inter", sans-serif;
             font-size: 30px;
             font-weight: 900;
             color: #F7266D;
             letter-spacing: -1.5px;
-            line-height: 1;
             position: relative;
             top: -8px;
         }
-
         .brand-logo__stack {
             position: relative;
             display: inline-flex;
@@ -109,35 +72,6 @@
             line-height: 0.9;
             margin-left: 2px;
         }
-
-        .brand-logo__hearts {
-            position: absolute;
-            top: -18px;
-            left: 8px;
-            font-size: 11px;
-            color: #F7266D;
-            line-height: 1;
-            font-family: "Inter", sans-serif;
-            pointer-events: none;
-            letter-spacing: 0;
-        }
-
-        .brand-logo__hearts::before {
-            content: '♥';
-            font-size: 15px;
-            position: absolute;
-            top: -6px;
-            left: 14px;
-        }
-
-        .brand-logo__hearts::after {
-            content: '♥';
-            font-size: 9px;
-            position: absolute;
-            top: -1px;
-            left: 28px;
-        }
-
         .brand-logo__love {
             font-family: "Playfair Display", Georgia, serif;
             font-size: 28px;
@@ -145,17 +79,11 @@
             font-style: italic;
             color: #1E88E5;
             letter-spacing: -1.5px;
-            line-height: 1;
             position: relative;
             top: -5px;
             display: inline-flex;
             align-items: baseline;
         }
-
-        .brand-logo__love .l {
-            color: #1E88E5;
-        }
-
         .brand-logo__love .heart-o {
             color: #F7266D;
             font-style: normal;
@@ -165,473 +93,32 @@
             display: inline-block;
             transform: translateY(-1px) scaleX(1.1);
             margin: 0 1px;
-            line-height: 1;
-            text-shadow: 0 0 8px rgba(247, 38, 109, 0.35);
         }
-
         .brand-logo__hub {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: "Inter", sans-serif;
             font-size: 17px;
             font-weight: 900;
             color: #F7266D;
             letter-spacing: -0.8px;
-            line-height: 1;
             margin-top: 2px;
             margin-left: 6px;
         }
-
         @media (max-width: 480px) {
             .brand-logo__pro { font-size: 22px; top: -6px; }
             .brand-logo__love { font-size: 20px; top: -4px; }
             .brand-logo__love .heart-o { font-size: 15px; }
             .brand-logo__hub { font-size: 13px; margin-left: 4px; }
-            .brand-logo__hearts { font-size: 8px; top: -13px; left: 5px; }
-            .brand-logo__hearts::before { font-size: 11px; top: -4px; left: 10px; }
-            .brand-logo__hearts::after { font-size: 7px; top: 0; left: 20px; }
         }
 
-        /* Footer variant */
-        .cb-shell-footer__brand .brand-logo__love { color: #42A5F5; }
-        .cb-shell-footer__brand .brand-logo__love .l { color: #42A5F5; }
-
-        /* THEME */
-        .gradient-text {
-            background: linear-gradient(135deg, #F7266D, #C41E56, #1E88E5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hot-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 16px;
-            animation: badgePulse 2s infinite;
-            letter-spacing: 0.5px;
-            font-family: "Inter", sans-serif;
-        }
-        @keyframes badgePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(247, 38, 109, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(247, 38, 109, 0.6); }
-        }
-
-        .hero-subtitle {
-            font-size: 18px;
-            color: #1a0a14;
-            margin-bottom: 20px;
-            font-weight: 400;
-            max-width: 450px;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Floating Hearts */
-        .floating-hearts {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .heart {
-            position: absolute;
-            animation: floatUp 12s infinite linear;
-            opacity: 0;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
-            10% { opacity: 0.7; transform: translateY(90vh) rotate(10deg) scale(1); }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-10vh) rotate(720deg) scale(0.5); opacity: 0; }
-        }
-
-        .pulse-glow { animation: glowPulse 3s infinite !important; }
-        @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(247, 38, 109, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(247, 38, 109, 0.5), 0 0 80px rgba(30, 136, 229, 0.1); }
-        }
-
-        .social-proof {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            justify-content: center;
-            margin-top: 20px;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(247, 38, 109, 0.1);
-            flex-wrap: wrap;
-        }
-        .social-proof__avatars { display: flex; align-items: center; }
-        .social-proof__avatars img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid #FFF5F8;
-            margin-right: -8px;
-        }
-        .social-proof__avatars img:last-child { margin-right: 0; }
-        .social-proof__count {
-            background: #F7266D;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 50px;
-            margin-left: 4px;
-        }
-        .social-proof p {
-            font-size: 13px;
-            color: rgba(26, 10, 20, 0.6);
-        }
-        .social-proof strong { color: #1a0a14; }
-
-        /* ============================================================ */
-        /* HERO — DARK with pink + blue glow                            */
-        /* ============================================================ */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-top: 64px;
-            overflow: hidden;
-            background: #0a0410;
-        }
-
-        .hero__grid {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-        }
-
-        .hero__backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            z-index: 0;
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.35) saturate(0.9);
-        }
-        .hero__backdrop::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 30%, rgba(247, 38, 109, 0.35) 0%, transparent 55%),
-                radial-gradient(circle at 80% 70%, rgba(30, 136, 229, 0.30) 0%, transparent 55%),
-                linear-gradient(135deg, rgba(10, 4, 16, 0.92) 0%, rgba(20, 5, 15, 0.88) 40%, rgba(10, 4, 16, 0.94) 100%);
-            z-index: 1;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.5), transparent),
-                radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.4), transparent),
-                radial-gradient(1.5px 1.5px at 80% 20%, rgba(247, 38, 109, 0.7), transparent),
-                radial-gradient(1px 1px at 35% 80%, rgba(255, 255, 255, 0.3), transparent),
-                radial-gradient(1.5px 1.5px at 90% 50%, rgba(30, 136, 229, 0.7), transparent),
-                radial-gradient(1px 1px at 10% 60%, rgba(247, 38, 109, 0.5), transparent);
-            background-size: 400px 400px;
-            background-repeat: repeat;
-            z-index: 1;
-            animation: starDrift 60s linear infinite;
-            opacity: 0.6;
-        }
-        @keyframes starDrift {
-            from { background-position: 0 0; }
-            to { background-position: 400px 400px; }
-        }
-
-        .cb-hero-box {
-            max-width: 560px;
-            margin: 0 auto;
-            padding: 44px 32px 36px;
-            background: rgba(20, 5, 15, 0.55);
-            backdrop-filter: blur(24px) saturate(1.2);
-            border-radius: 26px;
-            border: 1px solid rgba(247, 38, 109, 0.25);
-            box-shadow:
-                0 0 0 1px rgba(247, 38, 109, 0.08) inset,
-                0 30px 80px rgba(0, 0, 0, 0.6),
-                0 0 80px rgba(247, 38, 109, 0.25);
-            position: relative;
-        }
-        .cb-hero-box::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: 26px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(247, 38, 109, 0.5), transparent 40%, transparent 60%, rgba(30, 136, 229, 0.4));
-            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-
-        .hero .hot-badge {
-            background: linear-gradient(135deg, rgba(247, 38, 109, 0.25), rgba(196, 30, 86, 0.15));
-            border: 1px solid rgba(247, 38, 109, 0.4);
-            color: #ffd1e0;
-            box-shadow: 0 0 30px rgba(247, 38, 109, 0.3), inset 0 0 20px rgba(247, 38, 109, 0.1);
-            text-shadow: 0 0 12px rgba(247, 38, 109, 0.8);
-            animation: badgePulseDark 2.5s infinite;
-        }
-        @keyframes badgePulseDark {
-            0%, 100% { box-shadow: 0 0 30px rgba(247, 38, 109, 0.3), inset 0 0 20px rgba(247, 38, 109, 0.1); }
-            50% { box-shadow: 0 0 50px rgba(247, 38, 109, 0.55), inset 0 0 30px rgba(247, 38, 109, 0.2); }
-        }
-
-        .cb-hero-title {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 52px;
-            font-weight: 700;
-            color: #ffffff;
-            line-height: 1.12;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
-            text-shadow: 0 0 30px rgba(247, 38, 109, 0.5), 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        .cb-hero-title em {
-            color: #ffffff;
-            font-style: normal;
-            display: block;
-            text-shadow: 0 0 30px rgba(247, 38, 109, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
-            margin-top: 2px;
-        }
-        .cb-hero-title .gradient-text {
-            background: linear-gradient(135deg, #F7266D 0%, #ff85a8 50%, #1E88E5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 20px rgba(247, 38, 109, 0.6));
-        }
-
-        .hero .hero-subtitle {
-            color: rgba(255, 209, 224, 0.85);
-            font-size: 16.5px;
-            text-shadow: none;
-            max-width: 420px;
-        }
-
-        .hero-safety-menu {
-            background: rgba(10, 4, 16, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 14px;
-            padding: 14px 18px;
-            margin: 20px 0 26px;
-            border: 1px solid rgba(247, 38, 109, 0.2);
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .hero-safety-menu:hover {
-            border-color: rgba(247, 38, 109, 0.4);
-            box-shadow: 0 0 30px rgba(247, 38, 109, 0.2);
-        }
-        .hero-safety-menu summary {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: #ffd1e0;
-            list-style: none;
-            font-size: 15px;
-            font-family: "Inter", sans-serif;
-        }
-        .hero-safety-menu summary::-webkit-details-marker { display: none; }
-        .hero-safety-menu ul {
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(247, 38, 109, 0.15);
-            display: grid;
-            gap: 8px;
-        }
-        .hero-safety-menu ul li {
-            color: rgba(255, 209, 224, 0.75);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: "Inter", sans-serif;
-        }
-
-        .hero .cb-btn {
-            display: block;
-            padding: 17px 22px;
-            border-radius: 14px;
-            text-align: center;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 12px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            font-family: "Inter", sans-serif;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero .cb-btn:hover { transform: translateY(-3px); }
-
-        .hero .cb-btn-male {
-            background: linear-gradient(135deg, #F7266D 0%, #C41E56 50%, #7a0a35 100%);
-            color: #fff;
-            border: 1px solid rgba(255, 133, 168, 0.35);
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.35), inset 0 1px 0 rgba(255, 133, 168, 0.2);
-            animation: none;
-        }
-        .hero .cb-btn-male:hover {
-            box-shadow: 0 12px 50px rgba(247, 38, 109, 0.55), inset 0 1px 0 rgba(255, 133, 168, 0.3);
-            border-color: rgba(255, 133, 168, 0.55);
-        }
-
-        .hero .cb-btn-female {
-            background: rgba(30, 136, 229, 0.08);
-            color: #cfe8ff;
-            border: 1px solid rgba(30, 136, 229, 0.35);
-            box-shadow: inset 0 0 30px rgba(30, 136, 229, 0.05);
-            animation: none;
-        }
-        .hero .cb-btn-female:hover {
-            background: rgba(30, 136, 229, 0.15);
-            border-color: rgba(30, 136, 229, 0.6);
-            box-shadow: 0 8px 30px rgba(30, 136, 229, 0.25), inset 0 0 30px rgba(30, 136, 229, 0.1);
-        }
-
-        .hero .cb-line1 {
-            font-size: 17px;
-            font-weight: 700;
-            display: block;
-            font-family: "Inter", sans-serif;
-            letter-spacing: 0.2px;
-        }
-        .hero .cb-line2 {
-            font-size: 13px;
-            opacity: 0.75;
-            display: block;
-            margin-top: 3px;
-            font-family: "Inter", sans-serif;
-        }
-        .hero .cb-action {
-            display: block;
-            font-size: 10.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 8px;
-            opacity: 0.95;
-            font-family: "Inter", sans-serif;
-            color: #ffd1e0;
-        }
-
-        .hero .pulse-glow { animation: none !important; }
-
-        .hero .social-proof {
-            background: rgba(10, 4, 16, 0.5);
-            border: 1px solid rgba(247, 38, 109, 0.2);
-            backdrop-filter: blur(12px);
-            margin-top: 26px;
-        }
-        .hero .social-proof__avatars img {
-            border-color: rgba(247, 38, 109, 0.5);
-            box-shadow: 0 0 12px rgba(247, 38, 109, 0.3);
-        }
-        .hero .social-proof__count {
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            box-shadow: 0 0 15px rgba(247, 38, 109, 0.5);
-        }
-        .hero .social-proof p { color: rgba(255, 209, 224, 0.7); }
-        .hero .social-proof strong { color: #ffffff; }
-
-        .hero .heart { filter: drop-shadow(0 0 8px rgba(247, 38, 109, 0.6)); }
-
-        /* BUTTONS */
-        .btn-primary {
-            display: inline-block;
-            padding: 14px 36px;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            font-family: "Inter", sans-serif;
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.35);
-        }
-
-        .btn-secondary {
-            display: inline-block;
-            padding: 14px 36px;
-            background: transparent;
-            color: #C41E56;
-            border: 2px solid #C41E56;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-align: center;
-            font-family: "Inter", sans-serif;
-        }
-        .btn-secondary:hover {
-            background: #C41E56;
-            color: #fff;
-        }
-
-        .section-kicker {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #F7266D;
-            margin-bottom: 8px;
-            font-family: "Inter", sans-serif;
-        }
-
-        .shell {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* HEADER */
+        /* ============ HEADER ============ */
         .cb-shell-header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(247, 38, 109, 0.12);
         }
-
         .cb-shell-header__inner {
             max-width: 1200px;
             margin: 0 auto;
@@ -641,90 +128,289 @@
             align-items: center;
             justify-content: space-between;
         }
-
-        .cb-shell-brand-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .cb-shell-actions {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .cb-shell-button {
-            padding: 8px 20px;
+            padding: 9px 22px;
             border-radius: 50px;
             font-weight: 700;
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             cursor: pointer;
             border: none;
             font-family: "Inter", sans-serif;
         }
-        .cb-shell-button--secondary {
-            background: rgba(247, 38, 109, 0.1);
-            color: #1a0a14;
-            border: 1px solid rgba(247, 38, 109, 0.12);
-        }
-        .cb-shell-button--secondary:hover { background: rgba(247, 38, 109, 0.18); }
         .cb-shell-button--primary {
             background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
         }
         .cb-shell-button--primary:hover {
-            background: linear-gradient(135deg, #C41E56, #F7266D);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(247, 38, 109, 0.3);
+        }
+        @media (max-width: 600px) {
+            .cb-shell-button { padding: 7px 14px; font-size: 12px; }
         }
 
-        .cb-shell-mobile-btns {
-            display: none;
+        /* ============ HERO ============ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 90px 20px 60px;
+            overflow: hidden;
+            background: #0a0410;
+        }
+        .hero__backdrop {
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            filter: brightness(0.35) saturate(0.9);
+            z-index: 0;
+        }
+        .hero__backdrop::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(247, 38, 109, 0.35) 0%, transparent 55%),
+                radial-gradient(circle at 80% 70%, rgba(30, 136, 229, 0.30) 0%, transparent 55%),
+                linear-gradient(135deg, rgba(10, 4, 16, 0.92) 0%, rgba(20, 5, 15, 0.88) 40%, rgba(10, 4, 16, 0.94) 100%);
+        }
+        .hero__grid { position: relative; z-index: 2; width: 100%; }
+        .cb-hero-box {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 44px 36px 38px;
+            background: rgba(20, 5, 15, 0.55);
+            backdrop-filter: blur(24px) saturate(1.2);
+            border-radius: 24px;
+            border: 1px solid rgba(247, 38, 109, 0.25);
+            box-shadow:
+                0 0 0 1px rgba(247, 38, 109, 0.08) inset,
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(247, 38, 109, 0.25);
+        }
+        @media (max-width: 600px) { .cb-hero-box { padding: 32px 22px 28px; } }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(247, 38, 109, 0.25), rgba(196, 30, 86, 0.15));
+            border: 1px solid rgba(247, 38, 109, 0.4);
+            color: #ffd1e0;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            font-family: "Inter", sans-serif;
+            text-shadow: 0 0 12px rgba(247, 38, 109, 0.8);
+        }
+        .cb-hero-title {
+            font-size: 48px;
+            color: #ffffff;
+            line-height: 1.12;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 30px rgba(247, 38, 109, 0.5), 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .cb-hero-title .gradient-text {
+            background: linear-gradient(135deg, #F7266D 0%, #ff85a8 50%, #1E88E5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(247, 38, 109, 0.6));
+        }
+        .cb-hero-title em {
+            color: #ffffff;
+            font-style: normal;
+            display: block;
+            text-shadow: 0 0 30px rgba(247, 38, 109, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 2px;
+        }
+        @media (max-width: 600px) { .cb-hero-title { font-size: 34px; } }
+        @media (max-width: 400px) { .cb-hero-title { font-size: 28px; } }
+
+        .hero-subtitle {
+            color: rgba(255, 209, 224, 0.9);
+            font-size: 16.5px;
+            line-height: 1.55;
+            max-width: 500px;
+            margin: 0 auto 28px;
+            font-family: "Inter", sans-serif;
+        }
+        @media (max-width: 600px) { .hero-subtitle { font-size: 15px; } }
+
+        .hero-cta {
+            display: block;
+            width: 100%;
+            padding: 17px 24px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(135deg, #F7266D 0%, #C41E56 50%, #7a0a35 100%);
+            border: 1px solid rgba(255, 133, 168, 0.35);
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.35);
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            margin-bottom: 14px;
+        }
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 50px rgba(247, 38, 109, 0.55);
+        }
+
+        .hero-trust {
+            font-size: 13px;
+            color: rgba(255, 209, 224, 0.75);
+            font-family: "Inter", sans-serif;
+            line-height: 1.6;
+        }
+        .hero-trust strong { color: #fff; }
+
+        /* ============ GLOBAL STRIP ============ */
+        .global-strip {
+            background: #fff;
+            border-bottom: 1px solid rgba(247, 38, 109, 0.08);
+            padding: 18px 20px;
+            text-align: center;
+        }
+        .global-strip__inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px 24px;
+        }
+        .global-strip__label {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #F7266D;
+            font-family: "Inter", sans-serif;
+        }
+        .global-strip__region {
+            font-size: 13.5px;
+            color: #555;
+            font-family: "Inter", sans-serif;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
-        .cb-shell-mobile-btn {
-            padding: 6px 14px;
-            border-radius: 50px;
+        .global-strip__region strong {
+            color: #1a0a14;
             font-weight: 700;
-            font-size: 12px;
-            transition: all 0.3s ease;
+        }
+        @media (max-width: 500px) {
+            .global-strip__region { font-size: 12.5px; }
+        }
+
+        /* ============ WHAT WE DO ============ */
+        .what-we-do {
+            padding: 80px 20px;
+            background: #fff;
+            text-align: center;
+        }
+        .what-we-do h2 {
+            font-size: 32px;
+            color: #1a0a14;
+            margin-bottom: 12px;
+        }
+        @media (max-width: 600px) { .what-we-do h2 { font-size: 24px; } }
+        .what-we-do__sub {
+            color: #666;
+            max-width: 620px;
+            margin: 0 auto 44px;
             font-family: "Inter", sans-serif;
-            cursor: pointer;
-            border: none;
+            font-size: 15.5px;
+            line-height: 1.65;
         }
-        .cb-shell-mobile-btn--register {
-            background: rgba(247, 38, 109, 0.1);
+        .what-we-do__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1080px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .service-card {
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFF9FB 100%);
+            border: 1px solid rgba(247, 38, 109, 0.1);
+            border-radius: 16px;
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #F7266D, #C41E56);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(247, 38, 109, 0.12);
+            border-color: rgba(247, 38, 109, 0.22);
+        }
+        .service-card:hover::before { opacity: 1; }
+        .service-card__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(247, 38, 109, 0.1), rgba(196, 30, 86, 0.05));
+            font-size: 26px;
+            margin-bottom: 18px;
+        }
+        .service-card h3 {
+            font-size: 20px;
             color: #1a0a14;
-            border: 1px solid rgba(247, 38, 109, 0.12);
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
-        .cb-shell-mobile-btn--login {
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
+        .service-card p {
+            font-size: 14.5px;
+            color: #555;
+            line-height: 1.7;
+            font-family: "Inter", sans-serif;
         }
 
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: #1a0a14;
-            font-size: 22px;
-            cursor: pointer;
-            padding: 4px 8px;
-        }
-
-        /* HOW IT WORKS */
+        /* ============ HOW IT WORKS ============ */
         .how-it-works-section {
             padding: 80px 20px;
             background: #FFF5F8;
             text-align: center;
         }
         .how-it-works-section h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
             font-size: 32px;
             color: #1a0a14;
-            margin-bottom: 40px;
+            margin-bottom: 12px;
+        }
+        @media (max-width: 600px) { .how-it-works-section h2 { font-size: 24px; } }
+        .how-it-works-section__sub {
+            color: #666;
+            max-width: 560px;
+            margin: 0 auto 44px;
+            font-family: "Inter", sans-serif;
+            font-size: 15.5px;
         }
         .how-it-works-grid {
             display: grid;
@@ -734,77 +420,76 @@
             margin: 0 auto;
         }
         .how-it-works-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.75);
             border-radius: 14px;
-            padding: 30px;
+            padding: 34px 28px 28px;
             border: 1px solid rgba(247, 38, 109, 0.08);
             transition: all 0.3s ease;
             position: relative;
+            text-align: left;
         }
         .how-it-works-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(247, 38, 109, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(247, 38, 109, 0.12);
+            border-color: rgba(247, 38, 109, 0.2);
         }
         .how-it-works-card .step-num {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             font-weight: 700;
             font-size: 14px;
             position: absolute;
-            top: -12px;
+            top: -14px;
             left: 24px;
             box-shadow: 0 4px 12px rgba(247, 38, 109, 0.3);
+            font-family: "Inter", sans-serif;
         }
         .how-it-works-card .icon {
-            font-size: 40px;
-            margin-bottom: 15px;
+            font-size: 36px;
+            margin-bottom: 12px;
             display: block;
         }
         .how-it-works-card h3 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 20px;
+            font-size: 19px;
             color: #1a0a14;
-            margin-bottom: 10px;
-            margin-top: 8px;
+            margin-bottom: 8px;
         }
         .how-it-works-card p {
             font-size: 15px;
             color: rgba(26, 10, 20, 0.7);
             font-family: "Inter", sans-serif;
+            line-height: 1.6;
         }
 
-        /* MATCH PREVIEW */
-        .match-preview-section {
+        /* ============ FEATURED MEMBERS ============ */
+        .members-section {
             padding: 80px 20px;
             background: #FFF5F8;
             text-align: center;
         }
-        .match-preview-section h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
+        .members-section h2 {
             font-size: 32px;
             color: #1a0a14;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        .match-preview-section .subtitle {
-            font-size: 16px;
-            color: rgba(26, 10, 20, 0.7);
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+        @media (max-width: 600px) { .members-section h2 { font-size: 24px; } }
+        .members-sub {
+            color: #666;
+            max-width: 580px;
+            margin: 0 auto 40px;
             font-family: "Inter", sans-serif;
+            font-size: 15px;
         }
-        .match-preview-grid {
+        .members-grid {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 22px;
             flex-wrap: wrap;
             min-height: 100px;
         }
@@ -814,17 +499,14 @@
             border-radius: 16px;
             overflow: hidden;
             position: relative;
-            background-color: #fff;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s ease;
             background: linear-gradient(135deg, #F7266D, #C41E56, #1E88E5, #F7266D);
             background-size: 300% 300%;
             animation: gradientBorder 4s ease infinite;
             padding: 3px;
             cursor: pointer;
+            transition: transform 0.35s ease;
         }
         .match-card:hover { transform: translateY(-8px); }
-        .match-card > * { border-radius: 14px; }
         @keyframes gradientBorder {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -834,13 +516,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            border-radius: 14px;
         }
-        .match-card:hover img { transform: scale(1.08); }
         .match-card-overlay {
             position: absolute;
             inset: 3px;
-            background: linear-gradient(to top, rgba(20, 5, 15, 0.9) 0%, rgba(20, 5, 15, 0) 55%);
+            background: linear-gradient(to top, rgba(20, 5, 15, 0.92) 0%, rgba(20, 5, 15, 0) 60%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -850,56 +531,59 @@
             border-radius: 14px;
         }
         .match-card-overlay h3 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
             font-size: 18px;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
+            font-family: "Playfair Display", serif;
         }
         .match-card-overlay p {
             font-family: "Inter", sans-serif;
             font-size: 13px;
             line-height: 1.4;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 2px;
-        }
-        .badge-online {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #28a745;
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: "Inter", sans-serif;
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
-            z-index: 2;
+            color: rgba(255, 255, 255, 0.88);
         }
         .badge-verified {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(255, 255, 255, 0.9);
+            top: 14px;
+            left: 14px;
+            background: rgba(255, 255, 255, 0.95);
             color: #F7266D;
-            padding: 3px 10px;
+            padding: 4px 11px;
             border-radius: 20px;
             font-size: 10px;
             font-weight: 700;
             font-family: "Inter", sans-serif;
-            backdrop-filter: blur(4px);
             z-index: 2;
         }
-
-        .members-loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
+        .badge-country {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(20, 5, 15, 0.75);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: "Inter", sans-serif;
+            z-index: 2;
+            backdrop-filter: blur(4px);
+        }
+        .members-loading, .members-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: rgba(26, 10, 20, 0.5);
             width: 100%;
-            color: rgba(26, 10, 20, 0.4);
+        }
+        .members-empty h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+            color: #1a0a14;
+            margin-bottom: 8px;
+        }
+        .members-empty p {
+            font-family: "Inter", sans-serif;
             font-size: 14px;
-            gap: 12px;
+            margin-bottom: 18px;
         }
         .loading-spinner {
             display: inline-block;
@@ -909,509 +593,225 @@
             border-top-color: #F7266D;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .members-empty {
-            padding: 60px 20px;
-            text-align: center;
-            color: rgba(26, 10, 20, 0.4);
-            width: 100%;
+        .members-cta-wrap {
+            margin-top: 40px;
         }
-        .members-empty .icon { font-size: 48px; margin-bottom: 12px; }
-        .members-empty h3 {
-            font-family: "Playfair Display", Georgia, serif;
-            font-size: 22px;
-            color: #1a0a14;
-            margin-bottom: 6px;
-        }
-        .members-empty p { font-family: "Inter", sans-serif; font-size: 14px; }
-
-        /* TRUST SIGNALS */
-        .trust-signals-section {
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #C41E56, #7a0a35);
-            text-align: center;
-        }
-        .trust-signals-section h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 28px;
+        .members-cta-wrap .btn {
+            display: inline-block;
+            padding: 15px 38px;
+            background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
-            margin-bottom: 30px;
-        }
-        .trust-signals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .trust-signal-item {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            font-family: "Inter", sans-serif;
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3);
             transition: all 0.3s ease;
         }
-        .trust-signal-item:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.2);
+        .members-cta-wrap .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(247, 38, 109, 0.5);
         }
-        .trust-signal-item .icon {
-            font-size: 40px;
+
+        /* ============ WHY US ============ */
+        .why-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #C41E56, #7a0a35);
+            color: #fff;
+            text-align: center;
+        }
+        .why-section .section-kicker { color: #ffb3cc; }
+        .why-section h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        @media (max-width: 600px) { .why-section h2 { font-size: 24px; } }
+        .why-section__sub {
+            max-width: 560px;
+            margin: 0 auto 44px;
+            color: rgba(255, 255, 255, 0.75);
+            font-family: "Inter", sans-serif;
+            font-size: 15.5px;
+        }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .why-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 26px 24px;
+            transition: all 0.3s ease;
+        }
+        .why-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+        }
+        .why-card .icon {
+            font-size: 32px;
             display: block;
             margin-bottom: 12px;
         }
-        .trust-signal-item h3 {
+        .why-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 19px;
+            margin-bottom: 8px;
             color: #fff;
-            font-size: 16px;
-            margin-bottom: 4px;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
         }
-        .trust-signal-item p {
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 13px;
+        .why-card p {
             font-family: "Inter", sans-serif;
-        }
-
-        /* VIDEO */
-        .video-section {
-            padding: 60px 20px 80px;
-            background: #FFF5F8;
-            text-align: center;
-        }
-        .video-section h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 28px;
-            color: #1a0a14;
-            margin-bottom: 30px;
-        }
-        .video-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .video-subtitle {
-            color: rgba(26, 10, 20, 0.5);
             font-size: 14px;
-            margin-top: 16px;
-            font-family: "Inter", sans-serif;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.82);
         }
 
-        /* STACKED CARDS */
-        .stacked-cards-section {
+        /* ============ ABOUT ============ */
+        .about-section {
             padding: 80px 20px;
             background: #fff;
         }
-
-        .stacked-cards-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            gap: 40px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .stacked-cards-copy {
-            flex: 1;
-            min-width: 260px;
-        }
-
-        .stacked-cards-copy h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 32px;
-            color: #1a0a14;
-            margin-bottom: 10px;
-        }
-
-        .stacked-cards-copy p {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-family: "Inter", sans-serif;
-        }
-
-        .stacked-cards-copy .btn-stacked {
-            display: inline-block;
-            padding: 14px 36px;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            font-family: "Inter", sans-serif;
-        }
-        .stacked-cards-copy .btn-stacked:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3);
-            background: linear-gradient(135deg, #C41E56, #F7266D);
-        }
-
-        .stacked-cards-grid {
-            display: flex;
-            gap: 16px;
-            flex: 1;
-            min-width: 260px;
-            justify-content: center;
-        }
-
-        .stacked-card {
-            width: 150px;
-            border-radius: 14px;
-            overflow: hidden;
-            background: #FFFFFF;
-            box-shadow: 0 4px 20px rgba(247, 38, 109, 0.08);
-            position: relative;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .stacked-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.15);
-        }
-
-        .stacked-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .stacked-card .badge {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 10px;
-            font-weight: 700;
-            font-family: "Inter", sans-serif;
-        }
-
-        /* CTA IMAGE BOX */
-        .cta-image-box {
-            padding: 80px 20px;
-            background: #FFF5F8;
-        }
-
-        .cta-image-box-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            gap: 40px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-content {
-            flex: 1;
-            min-width: 260px;
-        }
-
-        .cta-content h2 {
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-size: 32px;
-            color: #1a0a14;
-            margin-bottom: 12px;
-        }
-
-        .cta-content p {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.7;
-            margin-bottom: 18px;
-            font-family: "Inter", sans-serif;
-        }
-
-        .cta-content .btn-cta {
-            display: inline-block;
-            padding: 14px 36px;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            font-family: "Inter", sans-serif;
-        }
-        .cta-content .btn-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3);
-            background: linear-gradient(135deg, #C41E56, #F7266D);
-        }
-
-        .cta-image {
-            flex: 1;
-            min-width: 260px;
-            border-radius: 14px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .cta-image img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-
-        /* STATS */
-        .stats {
-            padding: 80px 20px;
-            background: rgba(247, 38, 109, 0.04);
-        }
-        .stats__grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .stat-card {
-            text-align: center;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 14px;
-            border: 1px solid rgba(247, 38, 109, 0.08);
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover {
-            border-color: rgba(247, 38, 109, 0.2);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(247, 38, 109, 0.05);
-        }
-        .stat-card__value {
-            font-size: 40px;
-            font-weight: 700;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .stat-card h3 {
-            font-size: 18px;
-            color: #1a0a14;
-            margin: 8px 0;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-        }
-        .stat-card p {
-            font-size: 13px;
-            color: rgba(26, 10, 20, 0.5);
-            font-family: "Inter", sans-serif;
-        }
-
-        /* 2-UP CARDS */
-        .cards-2up {
-            padding: 80px 20px;
-            background: #fff;
-        }
-
-        .cards-2up-grid {
-            max-width: 1100px;
+        .about-inner {
+            max-width: 1000px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 50px;
+            align-items: center;
         }
-
-        .card-2up {
-            border-radius: 16px;
-            overflow: hidden;
-            background: #FFFFFF;
-            box-shadow: 0 4px 20px rgba(247, 38, 109, 0.06);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(247, 38, 109, 0.08);
+        @media (max-width: 720px) {
+            .about-inner { grid-template-columns: 1fr; gap: 30px; }
         }
-        .card-2up:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(247, 38, 109, 0.1);
-            border-color: rgba(247, 38, 109, 0.2);
-        }
-
-        .card-2up img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .card-2up .card-body { padding: 24px 26px 26px; }
-
-        .card-2up .card-body h3 {
-            font-size: 22px;
+        .about-copy h2 {
+            font-size: 32px;
             color: #1a0a14;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            margin-bottom: 6px;
+            margin-bottom: 16px;
+            line-height: 1.2;
         }
-
-        .card-2up .card-body p {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.6;
+        @media (max-width: 600px) { .about-copy h2 { font-size: 24px; } }
+        .about-copy p {
+            font-size: 15.5px;
+            color: #555;
+            line-height: 1.75;
             margin-bottom: 14px;
             font-family: "Inter", sans-serif;
         }
-
-        .card-2up .card-body .card-link {
-            color: #F7266D;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: gap 0.3s ease;
-            font-size: 14px;
-            font-family: "Inter", sans-serif;
-        }
-        .card-2up .card-body .card-link:hover {
-            gap: 10px;
-            color: #C41E56;
-        }
-
-        /* QUOTE */
-        .quote-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #C41E56, #7a0a35);
-            text-align: center;
-        }
-
-        .quote-section-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            gap: 40px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .quote-text {
-            flex: 1;
-            min-width: 260px;
-            text-align: left;
-        }
-
-        .quote-text blockquote {
-            font-size: 28px;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
-            font-weight: 400;
-            font-style: italic;
-            line-height: 1.4;
-            color: #fff;
-        }
-
-        .quote-text blockquote::before {
-            content: '"';
-            font-family: "Great Vibes", cursive;
-            font-size: 48px;
-            color: #ffb3cc;
-            display: block;
-            line-height: 0.8;
-        }
-
-        .quote-text .author {
-            color: #ffb3cc;
-            font-weight: 600;
-            font-size: 16px;
-            margin-top: 12px;
-            font-family: "Inter", sans-serif;
-        }
-
-        .quote-text .btn-quote {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 32px;
-            background: transparent;
-            color: #ffb3cc;
-            border: 2px solid #ffb3cc;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: "Inter", sans-serif;
-        }
-        .quote-text .btn-quote:hover {
-            background: #ffb3cc;
-            color: #C41E56;
-        }
-
-        .quote-image {
-            flex: 1;
-            min-width: 260px;
-            border-radius: 14px;
+        .about-image {
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 20px 50px rgba(247, 38, 109, 0.15);
         }
-
-        .quote-image img {
+        .about-image img {
             width: 100%;
-            height: 280px;
+            height: 420px;
             object-fit: cover;
         }
+        @media (max-width: 720px) {
+            .about-image img { height: 280px; }
+        }
 
-        /* STAY CONNECTED */
-        .app-section {
+        /* ============ FAQ ============ */
+        .faq-section {
             padding: 80px 20px;
-            background: #fff;
+            background: #FFF5F8;
             text-align: center;
         }
-
-        .app-section-inner { max-width: 900px; margin: 0 auto; }
-
-        .app-section h2 {
+        .faq-section h2 {
             font-size: 32px;
-            font-family: "Playfair Display", Georgia, 'Times New Roman', serif;
             color: #1a0a14;
-            margin-bottom: 6px;
+            margin-bottom: 36px;
         }
-
-        .app-section p {
-            color: #666;
-            max-width: 500px;
-            margin: 0 auto 24px;
-            font-size: 15px;
+        @media (max-width: 600px) { .faq-section h2 { font-size: 24px; } }
+        .faq-list {
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: left;
+            display: grid;
+            gap: 14px;
+        }
+        .faq-item {
+            background: #fff;
+            border: 1px solid rgba(247, 38, 109, 0.1);
+            border-radius: 12px;
+            padding: 18px 22px;
+            transition: all 0.25s ease;
+        }
+        .faq-item:hover { border-color: rgba(247, 38, 109, 0.25); }
+        .faq-item summary {
+            font-weight: 700;
+            font-size: 15.5px;
+            color: #1a0a14;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-family: "Inter", sans-serif;
         }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: '+';
+            color: #F7266D;
+            font-size: 20px;
+            font-weight: 400;
+        }
+        .faq-item[open] summary::after { content: '−'; }
+        .faq-item p {
+            margin-top: 12px;
+            font-family: "Inter", sans-serif;
+            font-size: 14.5px;
+            color: #555;
+            line-height: 1.65;
+        }
 
-        .app-section .btn-app {
+        /* ============ FINAL CTA ============ */
+        .final-cta {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #0a0410, #1a0a20);
+            text-align: center;
+            color: #fff;
+        }
+        .final-cta h2 {
+            font-size: 32px;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+        @media (max-width: 600px) { .final-cta h2 { font-size: 24px; } }
+        .final-cta p {
+            color: rgba(255, 209, 224, 0.8);
+            max-width: 500px;
+            margin: 0 auto 28px;
+            font-family: "Inter", sans-serif;
+            font-size: 15.5px;
+            line-height: 1.6;
+        }
+        .final-cta .btn-final {
             display: inline-block;
-            padding: 14px 40px;
+            padding: 16px 40px;
             background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             border-radius: 50px;
             font-weight: 700;
             font-size: 15px;
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
             font-family: "Inter", sans-serif;
+            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.4);
         }
-        .app-section .btn-app:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.3);
-            background: linear-gradient(135deg, #C41E56, #F7266D);
+        .final-cta .btn-final:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 50px rgba(247, 38, 109, 0.6);
         }
 
-        /* FOOTER */
+        /* ============ FOOTER ============ */
         .cb-shell-footer {
             background: #14050f;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -1430,150 +830,76 @@
             line-height: 1.7;
             max-width: 280px;
             font-family: "Inter", sans-serif;
+            margin-top: 14px;
         }
-
+        .cb-shell-footer__global {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12.5px;
+            margin-top: 10px;
+            font-family: "Inter", sans-serif;
+        }
         .cb-shell-footer__group h2 {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #ffb3cc;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-family: "Inter", sans-serif;
         }
         .cb-shell-footer__group a {
             display: block;
             color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            padding: 4px 0;
-            transition: color 0.3s ease;
+            font-size: 13.5px;
+            padding: 5px 0;
+            transition: color 0.25s ease;
             font-family: "Inter", sans-serif;
         }
         .cb-shell-footer__group a:hover { color: #ffb3cc; }
         .cb-shell-footer__meta {
             color: rgba(255, 255, 255, 0.4);
             font-size: 12px;
-            margin-top: 16px;
+            margin-top: 18px;
             font-family: "Inter", sans-serif;
         }
-
         .cb-shell-socials {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             margin-top: 16px;
             flex-wrap: wrap;
         }
         .cb-shell-socials a {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 20px;
-            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
         }
         .cb-shell-socials a:hover {
             color: #ffb3cc;
-            background: rgba(255, 179, 204, 0.1);
+            background: rgba(255, 179, 204, 0.12);
             transform: translateY(-2px);
         }
-
-        /* FLOATING SUPPORT BUTTON */
-        .support-float {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
+        @media (max-width: 900px) {
+            .cb-shell-footer__inner { grid-template-columns: 1fr 1fr; gap: 30px; }
+        }
+        @media (max-width: 500px) {
+            .cb-shell-footer__inner { grid-template-columns: 1fr; }
         }
 
-        .support-float__label {
-            background: rgba(255, 255, 255, 0.95);
-            color: #1a0a14;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 50px;
-            box-shadow: 0 4px 16px rgba(247, 38, 109, 0.15);
-            border: 1px solid rgba(247, 38, 109, 0.1);
-            font-family: "Inter", sans-serif;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: translateX(10px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-
-        .support-float:hover .support-float__label {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .support-float__btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #F7266D, #C41E56);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            box-shadow: 0 8px 30px rgba(247, 38, 109, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            animation: float-support 3s ease-in-out infinite;
-        }
-
-        @keyframes float-support {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-        }
-
-        .support-float__btn:hover {
-            transform: scale(1.1) translateY(-4px);
-            box-shadow: 0 12px 40px rgba(247, 38, 109, 0.5);
-        }
-
-        .support-float__btn:active { transform: scale(0.95); }
-
-        .support-float__dot {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #28a745;
-            border: 2.5px solid #fff;
-            box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
-            animation: pulse-online 1.8s infinite;
-        }
-
-        @keyframes pulse-online {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.15); opacity: 0.7; }
-        }
-
-        /* COOKIE CONSENT */
+        /* ============ COOKIE ============ */
         .cookie-consent {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             padding: 16px 20px;
-            background: rgba(20, 5, 15, 0.95);
+            background: rgba(20, 5, 15, 0.97);
             backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 999;
             display: none;
         }
@@ -1588,688 +914,469 @@
             gap: 12px;
         }
         .cookie-consent__content p {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.65);
             font-size: 13px;
             flex: 1;
-            min-width: 180px;
+            min-width: 200px;
             font-family: "Inter", sans-serif;
         }
         .cookie-consent__link {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 13px;
-            transition: color 0.3s ease;
+            text-decoration: underline;
             font-family: "Inter", sans-serif;
         }
-        .cookie-consent__link:hover { color: #ffb3cc; }
         .cookie-consent__accept {
-            padding: 8px 24px;
+            padding: 9px 26px;
             background: linear-gradient(135deg, #F7266D, #C41E56);
             color: #fff;
             border: none;
             border-radius: 50px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 13px;
             font-family: "Inter", sans-serif;
         }
-        .cookie-consent__accept:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(247, 38, 109, 0.3);
+
+        /* ============ SCROLL REVEAL ============ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .stacked-cards-inner { flex-direction: column; text-align: center; }
-            .cta-image-box-inner { flex-direction: column; text-align: center; }
-            .cards-2up-grid { grid-template-columns: 1fr; }
-            .quote-section-inner { flex-direction: column; text-align: center; }
-            .quote-text { text-align: center; }
-            .stats__grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 768px) {
-            .cb-shell-header__inner { height: 60px; padding: 0 12px; }
-            .cb-shell-actions { display: none; }
-            .cb-shell-mobile-btns { display: flex; }
-            .mobile-menu-btn { display: block; }
-
-            .cb-hero-title { font-size: 36px; }
-            .cb-hero-box { padding: 30px 22px 26px; margin: 0 12px; }
-
-            .hero-safety-menu { padding: 12px 14px; margin: 12px 0 18px; }
-            .hero-safety-menu summary { font-size: 14px; }
-            .hero-safety-menu ul li { font-size: 12px; }
-
-            .hero .cb-btn { padding: 14px 16px; border-radius: 12px; }
-            .hero .cb-line1 { font-size: 15px; }
-            .hero .cb-line2 { font-size: 12px; }
-            .hero .cb-action { font-size: 10px; }
-
-            .stats__grid { grid-template-columns: 1fr; }
-            .stacked-cards-grid { flex-wrap: wrap; justify-content: center; }
-            .stacked-card { width: 120px; }
-            .stacked-card img { height: 150px; }
-
-            .cb-shell-footer__inner { grid-template-columns: 1fr; gap: 30px; }
-            .cookie-consent__content { flex-direction: column; text-align: center; }
-
-            .cta-image img { height: 220px; }
-            .quote-text blockquote { font-size: 22px; }
-            .match-preview-grid { gap: 15px; }
-            .match-card { width: 160px; height: 240px; }
-            .match-card-overlay h3 { font-size: 15px; }
-            .match-card-overlay p { font-size: 11px; }
-            .badge-online { font-size: 9px; padding: 3px 6px; }
-
-            .support-float { bottom: 16px; right: 16px; }
-            .support-float__btn { width: 54px; height: 54px; font-size: 22px; }
-            .support-float__label { display: none; }
-        }
-
-        @media (max-width: 480px) {
-            .cb-hero-title { font-size: 30px; }
-            .hero .hero-subtitle { font-size: 14px; }
-
-            .stacked-card { width: 100px; }
-            .stacked-card img { height: 120px; }
-            .stacked-card .badge { font-size: 8px; padding: 2px 8px; bottom: 6px; left: 6px; }
-
-            .stat-card__value { font-size: 32px; }
-            .card-2up img { height: 160px; }
-
-            .match-card { width: 145px; height: 210px; }
-            .match-card-overlay { padding: 12px; }
-            .match-card-overlay h3 { font-size: 13px; }
-            .match-card-overlay p { font-size: 10px; }
-
-            .hero-subtitle { font-size: 15px; }
-            .hot-badge { font-size: 10px; padding: 4px 14px; }
-            .social-proof { padding: 10px 16px; gap: 10px; }
-            .social-proof__avatars img { width: 26px; height: 26px; }
-            .social-proof p { font-size: 11px; }
-
-            .quote-text blockquote { font-size: 18px; }
-            .quote-image img { height: 200px; }
-
-            .how-it-works-section h2, .match-preview-section h2,
-            .trust-signals-section h2, .video-section h2,
-            .stacked-cards-copy h2, .cta-content h2, .app-section h2 {
-                font-size: 24px;
-            }
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header class="cb-shell-header" role="banner">
-        <div class="cb-shell-header__inner">
-            <div class="cb-shell-brand-group">
-                <a class="brand-logo" href="/" aria-label="Pro Love Hub">
-                    <span class="brand-logo__pro">Pro</span>
-                    <span class="brand-logo__stack">
-                        <span class="brand-logo__hearts">♥</span>
-                        <span class="brand-logo__love">
-                            <span class="l">L</span><span class="heart-o">♥</span><span class="l">ve</span>
-                        </span>
-                        <span class="brand-logo__hub">Hub</span>
+<!-- ============ HEADER ============ -->
+<header class="cb-shell-header">
+    <div class="cb-shell-header__inner">
+        <a class="brand-logo" href="/" aria-label="Pro Love Hub">
+            <span class="brand-logo__pro">Pro</span>
+            <span class="brand-logo__stack">
+                <span class="brand-logo__love">
+                    <span>L</span><span class="heart-o">♥</span><span>ve</span>
+                </span>
+                <span class="brand-logo__hub">Hub</span>
+            </span>
+        </a>
+        <div class="cb-shell-actions">
+            <a href="members.html" class="cb-shell-button cb-shell-button--primary">Browse Members</a>
+        </div>
+    </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+    <div class="hero__backdrop"></div>
+    <div class="shell hero__grid">
+        <div class="cb-hero-box">
+            <div class="hero-badge">🌍 For singles worldwide</div>
+
+            <h1 class="cb-hero-title">
+                Meet Someone <span class="gradient-text">Real</span>
+                <em>Without the Swiping</em>
+            </h1>
+
+            <p class="hero-subtitle">
+                Pro Love Hub connects verified singles from around the world. Browse real profiles, choose someone you like, and we make the introduction personally — by hand, not by algorithm.
+            </p>
+
+            <a href="members.html" class="hero-cta">
+                Browse Members →
+            </a>
+
+            <p class="hero-trust">
+                <strong>Every profile is manually reviewed</strong> · Personal introductions · Members across 40+ cities
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ GLOBAL STRIP ============ -->
+<div class="global-strip">
+    <div class="global-strip__inner">
+        <span class="global-strip__label">Trusted by members in</span>
+        <span class="global-strip__region">🇰🇪 <strong>Kenya</strong></span>
+        <span class="global-strip__region">🇳🇬 <strong>Nigeria</strong></span>
+        <span class="global-strip__region">🇬🇧 <strong>UK</strong></span>
+        <span class="global-strip__region">🇺🇸 <strong>USA</strong></span>
+        <span class="global-strip__region">🇿🇦 <strong>South Africa</strong></span>
+        <span class="global-strip__region">🇦🇪 <strong>UAE</strong></span>
+        <span class="global-strip__region">+ <strong>more</strong></span>
+    </div>
+</div>
+
+<!-- ============ WHAT WE DO ============ -->
+<section class="what-we-do">
+    <div class="shell">
+        <p class="section-kicker">What We Do</p>
+        <h2>A matchmaking service built for real people</h2>
+        <p class="what-we-do__sub">
+            Pro Love Hub is a private matchmaking service — not a swipe app. Here's what you get when you join us.
+        </p>
+        <div class="what-we-do__grid">
+            <div class="service-card reveal">
+                <div class="service-card__icon">👥</div>
+                <h3>Verified member profiles</h3>
+                <p>Every member is reviewed by our team before going live. Real photos, real people, real intentions — no bots, no catfish, no time-wasters.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-card__icon">🔍</div>
+                <h3>Browse and choose</h3>
+                <p>Explore our global community of singles. Filter by age, city, and interests, then choose someone you'd genuinely like to meet.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-card__icon">🤝</div>
+                <h3>Personal introductions</h3>
+                <p>When you find someone, we handle the introduction ourselves — discreetly, politely, and only after both sides agree. No cold messages.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-card__icon">🛡️</div>
+                <h3>Privacy and safety</h3>
+                <p>Your contact details are never shared without your approval. We confirm every introduction before connecting two people.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-card__icon">💬</div>
+                <h3>Real human support</h3>
+                <p>Questions or concerns? Message us anytime and a real person responds — not a bot, not an automated reply.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-card__icon">🌍</div>
+                <h3>Global reach</h3>
+                <p>Our members live across 40+ cities in Africa, Europe, North America, and the Middle East. Distance is your choice.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how-it-works-section">
+    <div class="shell">
+        <p class="section-kicker">How It Works</p>
+        <h2>Three simple steps to a real connection</h2>
+        <p class="how-it-works-section__sub">From browsing to introduction — here's what happens.</p>
+        <div class="how-it-works-grid">
+            <div class="how-it-works-card reveal">
+                <span class="step-num">1</span>
+                <span class="icon">👀</span>
+                <h3>Browse verified members</h3>
+                <p>See real profiles of real people from around the world. Every profile is manually reviewed before it goes live.</p>
+            </div>
+            <div class="how-it-works-card reveal">
+                <span class="step-num">2</span>
+                <span class="icon">💎</span>
+                <h3>Pick someone you like</h3>
+                <p>Found someone who catches your eye? Open their profile to see more about them, then request an introduction.</p>
+            </div>
+            <div class="how-it-works-card reveal">
+                <span class="step-num">3</span>
+                <span class="icon">💬</span>
+                <h3>We make the introduction</h3>
+                <p>We reach out personally, confirm they're interested, and connect you both on WhatsApp. No cold messages, no awkward first contact.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FEATURED MEMBERS ============ -->
+<section class="members-section">
+    <div class="shell">
+        <p class="section-kicker">Featured Members</p>
+        <h2>Some of our verified singles</h2>
+        <p class="members-sub">Real people, verified by hand, from cities around the world. Browse the full member list to see who's available.</p>
+        <div class="members-grid" id="featured-members">
+            <div class="members-loading">
+                <span class="loading-spinner"></span>
+                <p>Loading members...</p>
+            </div>
+        </div>
+        <div class="members-cta-wrap">
+            <a href="members.html" class="btn">See All Members →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section class="why-section">
+    <div class="shell">
+        <p class="section-kicker">Why Pro Love Hub</p>
+        <h2>Built for people who are serious</h2>
+        <p class="why-section__sub">If you're tired of swipe apps and dead-end chats, this is different.</p>
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <span class="icon">🔒</span>
+                <h3>Verified members only</h3>
+                <p>Every profile is manually reviewed before it goes live. No bots, no catfish, no time-wasters.</p>
+            </div>
+            <div class="why-card reveal">
+                <span class="icon">🤝</span>
+                <h3>Personal introductions</h3>
+                <p>We reach out to your match first, confirm they're interested, and only then connect you. No cold messages.</p>
+            </div>
+            <div class="why-card reveal">
+                <span class="icon">💬</span>
+                <h3>Real human support</h3>
+                <p>Questions or concerns? Message us on WhatsApp and a real person replies — not a bot.</p>
+            </div>
+            <div class="why-card reveal">
+                <span class="icon">🛡️</span>
+                <h3>Your privacy protected</h3>
+                <p>Your number is never shared without your explicit approval. Every introduction is confirmed first.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about-section">
+    <div class="about-inner">
+        <div class="about-copy reveal">
+            <p class="section-kicker">About Us</p>
+            <h2>We exist to bring people closer to love.</h2>
+            <p>Pro Love Hub was built for people who are done with endless swiping, ghosting, and games. If you know what you're looking for and you're serious about finding it, you're in the right place.</p>
+            <p>Every member on our platform is real, verified, and looking for something meaningful. We review each profile personally before it goes live — and we connect people from cities around the world.</p>
+            <p>When you find someone you'd like to meet, we make the introduction ourselves. Politely, discreetly, and with respect for both of you.</p>
+        </div>
+        <div class="about-image reveal">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="People connecting" loading="lazy">
+        </div>
+    </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq-section">
+    <div class="shell">
+        <p class="section-kicker">Questions</p>
+        <h2>Frequently asked questions</h2>
+        <div class="faq-list">
+            <details class="faq-item reveal">
+                <summary>What exactly is Pro Love Hub?</summary>
+                <p>Pro Love Hub is a private matchmaking service. You browse verified members, choose someone you'd like to meet, and we personally handle the introduction. We're not a swipe app — we're a small team that connects people seriously looking for a relationship.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>Are these real people?</summary>
+                <p>Yes — every member on Pro Love Hub is a real, verified person. We don't use stock photos or fake profiles. Each profile is reviewed by our team before it appears on the site.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>Do you work outside Kenya?</summary>
+                <p>Yes. Our members live across 40+ cities in Africa, Europe, North America, and the Middle East. You can choose to meet someone in your own city or anywhere in the world.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>How do introductions work?</summary>
+                <p>When you request an introduction, we personally reach out to the member you've chosen. Once they confirm they're interested, we connect you both on WhatsApp. No cold messages, no awkward first contact.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>Is this safe?</summary>
+                <p>Yes. Every member profile is manually reviewed before it's listed. We confirm with your match before sharing their contact details with you, and your details are never shared without your explicit approval.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>Do you share my number with anyone?</summary>
+                <p>Only with the specific member you're introduced to, and only after you've confirmed you want the introduction. Never with anyone else.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>How do I get started?</summary>
+                <p>Browse our members, find someone who interests you, and open their profile. From there you'll see how to request an introduction. It takes less than a minute.</p>
+            </details>
+            <details class="faq-item reveal">
+                <summary>What if my match doesn't reply?</summary>
+                <p>Message us on WhatsApp. We'll either arrange a replacement introduction or help you find someone else — your choice.</p>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta">
+    <div class="shell">
+        <h2>Ready to meet someone real?</h2>
+        <p>Browse our verified members and find someone worth meeting. We'll handle the introduction personally.</p>
+        <a href="members.html" class="btn-final">Browse Members →</a>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="cb-shell-footer">
+    <div class="cb-shell-footer__inner">
+        <div class="cb-shell-footer__brand">
+            <a class="brand-logo" href="/" aria-label="Pro Love Hub">
+                <span class="brand-logo__pro">Pro</span>
+                <span class="brand-logo__stack">
+                    <span class="brand-logo__love">
+                        <span>L</span><span class="heart-o">♥</span><span>ve</span>
                     </span>
-                </a>
-            </div>
-
-            <div class="cb-shell-actions">
-                <a href="signup.html" class="cb-shell-button cb-shell-button--secondary">Join</a>
-                <a href="login.html" class="cb-shell-button cb-shell-button--primary">Log in</a>
-            </div>
-
-            <div class="cb-shell-mobile-btns">
-                <a href="signup.html" class="cb-shell-mobile-btn cb-shell-mobile-btn--register">Join</a>
-                <a href="login.html" class="cb-shell-mobile-btn cb-shell-mobile-btn--login">Log in</a>
-                <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero__backdrop"></div>
-
-        <div class="floating-hearts">
-            <span class="heart" style="left:5%;animation-delay:0s;font-size:20px;">❤️</span>
-            <span class="heart" style="left:15%;animation-delay:1.5s;font-size:28px;">💕</span>
-            <span class="heart" style="left:25%;animation-delay:3s;font-size:16px;">❤️‍🔥</span>
-            <span class="heart" style="left:35%;animation-delay:0.5s;font-size:32px;">💗</span>
-            <span class="heart" style="left:45%;animation-delay:2s;font-size:22px;">❤️</span>
-            <span class="heart" style="left:55%;animation-delay:4s;font-size:18px;">💖</span>
-            <span class="heart" style="left:65%;animation-delay:1s;font-size:30px;">❤️‍🔥</span>
-            <span class="heart" style="left:75%;animation-delay:3.5s;font-size:20px;">💕</span>
-            <span class="heart" style="left:85%;animation-delay:2.5s;font-size:26px;">❤️</span>
-            <span class="heart" style="left:95%;animation-delay:4.5s;font-size:18px;">💗</span>
-        </div>
-
-        <div class="shell hero__grid">
-            <div class="cb-hero-box">
-                <div class="hot-badge">🔥 10,000+ Matches This Week</div>
-
-                <h1 class="cb-hero-title">
-                    Find Your <span class="gradient-text">Perfect</span>
-                    <em>Connection</em>
-                </h1>
-
-                <p class="hero-subtitle">Join the most exclusive dating community for people who know what they want.</p>
-
-                <details class="hero-safety-menu">
-                    <summary>
-                        <span>🛡️</span>
-                        <span>How We Keep You Safe</span>
-                        <span>▾</span>
-                    </summary>
-                    <ul>
-                        <li>✅ Verified Member Accounts</li>
-                        <li>✅ AI Photo Verification</li>
-                        <li>✅ Profile Screening</li>
-                        <li>✅ Private Communication Tools</li>
-                        <li>✅ Direct Support Team</li>
-                    </ul>
-                </details>
-
-                <a class="cb-btn cb-btn-male" href="signup.html">
-                    <span class="cb-line1">👨 I am a Man</span>
-                    <span class="cb-line2">Here to Meet Amazing Women</span>
-                    <span class="cb-action">⚡ JOIN FREE — LIMITED SPOTS</span>
-                </a>
-
-                <a class="cb-btn cb-btn-female" href="signup.html">
-                    <span class="cb-line1">👩 I am a Woman</span>
-                    <span class="cb-line2">Looking for Real Love &amp; Marriage</span>
-                    <span class="cb-action">💎 JOIN FREE — ALWAYS FREE</span>
-                </a>
-
-                <div class="social-proof">
-                    <div class="social-proof__avatars">
-                        <img src="https://i.pravatar.cc/40?img=1" alt="User">
-                        <img src="https://i.pravatar.cc/40?img=2" alt="User">
-                        <img src="https://i.pravatar.cc/40?img=3" alt="User">
-                        <img src="https://i.pravatar.cc/40?img=4" alt="User">
-                        <img src="https://i.pravatar.cc/40?img=5" alt="User">
-                        <span class="social-proof__count">+2.4k</span>
-                    </div>
-                    <p><strong>2,412</strong> people joined today</p>
-                </div>
+                    <span class="brand-logo__hub">Hub</span>
+                </span>
+            </a>
+            <p>Built around trust, privacy, and genuine connection. Hand-picked introductions for people who are serious about finding someone real.</p>
+            <p class="cb-shell-footer__global">🌍 Serving members worldwide</p>
+            <div class="cb-shell-socials">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Instagram">📸</a>
+                <a href="#" aria-label="YouTube">▶️</a>
+                <a href="#" aria-label="TikTok">🎵</a>
+                <a href="#" aria-label="X">🐦</a>
             </div>
         </div>
-    </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works-section">
-        <div class="shell">
-            <p class="section-kicker">Our Process</p>
-            <h2>How Pro Love Hub Works</h2>
-            <div class="how-it-works-grid">
-                <div class="how-it-works-card">
-                    <span class="step-num">1</span>
-                    <span class="icon">🔍</span>
-                    <h3>Browse Members</h3>
-                    <p>See verified profiles of real people looking for genuine connections.</p>
-                </div>
-                <div class="how-it-works-card">
-                    <span class="step-num">2</span>
-                    <span class="icon">💎</span>
-                    <h3>Click Connect</h3>
-                    <p>Tap "Connect" on the profile you like and share your details securely.</p>
-                </div>
-                <div class="how-it-works-card">
-                    <span class="step-num">3</span>
-                    <span class="icon">💬</span>
-                    <h3>Chat with Support</h3>
-                    <p>Our team helps you get in touch safely and start a real conversation.</p>
-                </div>
-            </div>
+        <div class="cb-shell-footer__group">
+            <h2>Explore</h2>
+            <a href="index.html">Home</a>
+            <a href="members.html">Members</a>
         </div>
-    </section>
 
-    <!-- FEATURED MEMBERS -->
-    <section class="match-preview-section">
-        <div class="shell">
-            <p class="section-kicker">🔥 Exclusive Sneak Peek</p>
-            <h2>Meet Our Featured Members</h2>
-            <p class="subtitle">Discover a glimpse of the discerning singles waiting for you on Pro Love Hub. Our community is built on quality, not quantity.</p>
-            <div class="match-preview-grid" id="featured-members">
-                <div class="members-loading">
-                    <span class="loading-spinner"></span>
-                    <span>Loading featured members...</span>
-                </div>
-            </div>
+        <div class="cb-shell-footer__group">
+            <h2>Support</h2>
+            <a href="https://wa.me/254117044510" target="_blank" rel="noopener">💬 WhatsApp Us</a>
+            <a href="mailto:hello@prolovehub.com">✉️ Email Us</a>
+            <a href="faq.html">FAQs</a>
+            <a href="safety.html">Dating Safety</a>
         </div>
-    </section>
 
-    <!-- TRUST SIGNALS -->
-    <section class="trust-signals-section">
-        <div class="shell">
-            <p class="section-kicker" style="color:#ffb3cc;">⭐ Why Members Trust Us</p>
-            <h2>Your Safety &amp; Privacy Are Our Priority</h2>
-            <div class="trust-signals-grid">
-                <div class="trust-signal-item">
-                    <span class="icon">🔒</span>
-                    <h3>Bank-Grade Security</h3>
-                    <p>256-bit SSL encryption</p>
-                </div>
-                <div class="trust-signal-item">
-                    <span class="icon">👤</span>
-                    <h3>100% Verified Users</h3>
-                    <p>Every profile is screened</p>
-                </div>
-                <div class="trust-signal-item">
-                    <span class="icon">💬</span>
-                    <h3>Direct Support</h3>
-                    <p>Real people, real help</p>
-                </div>
-                <div class="trust-signal-item">
-                    <span class="icon">⭐</span>
-                    <h3>4.9/5 Member Rating</h3>
-                    <p>From 50,000+ reviews</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- VIDEO -->
-    <section class="video-section">
-        <div class="shell">
-            <p class="section-kicker">❤️ Real Love Stories</p>
-            <h2>Watch How Pro Love Hub Changed Their Lives</h2>
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/8KkKuTCFvzI" title="Pro Love Hub Success Stories" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
-            <p class="video-subtitle">⭐ Real members. Real connections. Real love.</p>
-        </div>
-    </section>
-
-    <!-- STACKED CARDS -->
-    <section class="stacked-cards-section">
-        <div class="stacked-cards-inner">
-            <div class="stacked-cards-copy">
-                <p class="section-kicker">About Us</p>
-                <h2>We exist to bring people closer to love.</h2>
-                <p>We want our members to find meaningful and authentic relationships that ignite confidence and joy. Our platform is designed for discerning individuals seeking genuine connections.</p>
-                <a href="signup.html" class="btn-stacked">Get Started</a>
-            </div>
-            <div class="stacked-cards-grid">
-                <div class="stacked-card">
-                    <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=400&q=80" alt="Outdoors" loading="lazy">
-                    <span class="badge">🌿 Outdoors</span>
-                </div>
-                <div class="stacked-card">
-                    <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400&q=80" alt="Running" loading="lazy">
-                    <span class="badge">🏃 Running</span>
-                </div>
-                <div class="stacked-card">
-                    <img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=400&q=80" alt="Dog parent" loading="lazy">
-                    <span class="badge">🐕 Dog Parent</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA IMAGE BOX -->
-    <section class="cta-image-box">
-        <div class="cta-image-box-inner">
-            <div class="cta-content">
-                <p class="section-kicker">Platform Overview</p>
-                <h2>Share your ideas &amp; shape our future.</h2>
-                <p>Help shape the future of Pro Love Hub by joining our Member Circle. This select community of Members shares ideas directly with our team through chats, discussions, and product tests.</p>
-                <p>Participants get early access to new features, sneak peeks at upcoming campaigns, and the chance to help make Pro Love Hub even better for everyone.</p>
-                <a href="signup.html" class="btn-cta">Sign up</a>
-            </div>
-            <div class="cta-image">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="People enjoying connections on Pro Love Hub" loading="lazy">
-            </div>
-        </div>
-    </section>
-
-    <!-- STATS -->
-    <section class="stats">
-        <div class="shell stats__grid">
-            <article class="stat-card">
-                <div class="stat-card__value">86%</div>
-                <h3>User Engagement</h3>
-                <p>Of actively engaged chats within 24 hours of joining.</p>
-            </article>
-            <article class="stat-card">
-                <div class="stat-card__value">50K+</div>
-                <h3>Perfect Match</h3>
-                <p>Successful matches made since the platform's launch.</p>
-            </article>
-            <article class="stat-card">
-                <div class="stat-card__value">34K+</div>
-                <h3>Love Online</h3>
-                <p>Messages exchanged daily on the platform on average.</p>
-            </article>
-        </div>
-    </section>
-
-    <!-- 2-UP CARDS -->
-    <section class="cards-2up">
-        <div class="cards-2up-grid">
-            <div class="card-2up">
-                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="Pro Love Hub Date" loading="lazy">
-                <div class="card-body">
-                    <h3>💕 Pro Love Hub Date</h3>
-                    <p>Whether you're new to dating or ready to try again, Pro Love Hub Date is built to bring you closer to love safely and meaningfully.</p>
-                    <a href="members.html" class="card-link">Find your person →</a>
-                </div>
-            </div>
-            <div class="card-2up">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80" alt="Pro Love Hub BFF" loading="lazy">
-                <div class="card-body">
-                    <h3>🤝 Pro Love Hub BFF</h3>
-                    <p>Whether you've moved to a new city or just want to expand your circle, Pro Love Hub BFF makes it easy to meet like-minded people who match your vibe.</p>
-                    <a href="members.html" class="card-link">Find your people →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- QUOTE -->
-    <section class="quote-section">
-        <div class="quote-section-inner">
-            <div class="quote-text">
-                <p class="section-kicker" style="color:#ffb3cc;">💖 Real People, Real Love</p>
-                <blockquote>We are both naturally positive, happy-go-getters, but when you put us together, it feels like there is nothing we can't accomplish.</blockquote>
-                <p class="author">— Leslie &amp; Thomas, married in 2025</p>
-                <a href="#" class="btn-quote">Read more stories</a>
-            </div>
-            <div class="quote-image">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Love story couple" loading="lazy">
-            </div>
-        </div>
-    </section>
-
-    <!-- STAY CONNECTED -->
-    <section class="app-section">
-        <div class="app-section-inner">
-            <p class="section-kicker">📱 Stay Connected</p>
-            <h2>Chat with us anytime</h2>
-            <p>Get notified when your match replies. Chat directly from your browser — no app needed.</p>
-            <a href="chat.html" class="btn-app">💬 Open Support Chat</a>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="cb-shell-footer" role="contentinfo">
-        <div class="cb-shell-footer__inner">
-            <div class="cb-shell-footer__brand">
-                <div style="margin-bottom:14px;">
-                    <a class="brand-logo" href="/" aria-label="Pro Love Hub">
-                        <span class="brand-logo__pro">Pro</span>
-                        <span class="brand-logo__stack">
-                            <span class="brand-logo__hearts">♥</span>
-                            <span class="brand-logo__love">
-                                <span class="l">L</span><span class="heart-o">♥</span><span class="l">ve</span>
-                            </span>
-                            <span class="brand-logo__hub">Hub</span>
-                        </span>
-                    </a>
-                </div>
-                <p>Built around trust, culture, and genuine connection.</p>
-                <div class="cb-shell-socials">
-                    <a href="#" aria-label="Facebook">📘</a>
-                    <a href="#" aria-label="Instagram">📸</a>
-                    <a href="#" aria-label="Threads">🧵</a>
-                    <a href="#" aria-label="YouTube">▶️</a>
-                    <a href="#" aria-label="TikTok">🎵</a>
-                    <a href="#" aria-label="X">🐦</a>
-                </div>
-            </div>
-
-            <div class="cb-shell-footer__group">
-                <h2>Explore</h2>
-                <a href="index.html">Home</a>
-                <a href="members.html">Members</a>
-                <a href="#">Testimonials</a>
-                <a href="#">Locations</a>
-                <a href="signup.html">Join Pro Love Hub</a>
-            </div>
-
-            <div class="cb-shell-footer__group">
-                <h2>About</h2>
-                <a href="#">About Us</a>
-                <a href="#">Dating Safety</a>
-                <a href="#">FAQs</a>
-                <a href="chat.html">💬 Support</a>
-            </div>
-
-            <div class="cb-shell-footer__group">
-                <h2>Legal</h2>
-                <a href="#">Terms of Use</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Child Safety</a>
-                <p class="cb-shell-footer__meta">© 2026 Pro Love Hub®</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- FLOATING SUPPORT BUTTON -->
-    <div class="support-float">
-        <span class="support-float__label">💬 Chat with Pro Love Hub Support</span>
-        <button class="support-float__btn" onclick="openSupport()" aria-label="Contact Support">
-            💬
-            <span class="support-float__dot"></span>
-        </button>
-    </div>
-
-    <!-- COOKIE CONSENT -->
-    <div id="cookie-consent" class="cookie-consent">
-        <div class="cookie-consent__content">
-            <p>We use cookies to improve your experience on our site. By continuing to use our site, you agree to our use of cookies.</p>
-            <div class="cookie-consent__buttons">
-                <a href="#" class="cookie-consent__link">Privacy Policy</a>
-                <button id="cookie-accept" class="cookie-consent__accept">I Agree</button>
-            </div>
+        <div class="cb-shell-footer__group">
+            <h2>Legal</h2>
+            <a href="terms.html">Terms of Use</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="safety.html">Safety &amp; Reporting</a>
+            <p class="cb-shell-footer__meta">© 2026 Pro Love Hub®</p>
         </div>
     </div>
+</footer>
 
-    <!-- ============================================================ -->
-    <!-- SCRIPTS - SUPABASE + INTERACTIONS                            -->
-    <!-- ============================================================ -->
-    <script type="importmap">
-        {
-            "imports": {
-                "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
-            }
-        }
-    </script>
+<!-- ============ COOKIE ============ -->
+<div id="cookie-consent" class="cookie-consent">
+    <div class="cookie-consent__content">
+        <p>We use cookies to improve your experience. By continuing, you agree to our use of cookies.</p>
+        <a href="privacy.html" class="cookie-consent__link">Privacy Policy</a>
+        <button id="cookie-accept" class="cookie-consent__accept">I Agree</button>
+    </div>
+</div>
 
-    <script type="module">
-        import { createClient } from "@supabase/supabase-js";
+<!-- ============ SUPABASE + INTERACTIONS ============ -->
+<script type="importmap">
+{
+    "imports": {
+        "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+    }
+}
+</script>
 
-        const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
+<script type="module">
+    import { createClient } from "@supabase/supabase-js";
 
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = 'https://eyoxtxnnwahaqgewckrk.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_1-qc4RNgrX7bgfHMapJnUw_DS1giSZK';
 
-        console.log('🔗 Supabase connected:', SUPABASE_URL);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ============================================================
-        // LOAD FEATURED MEMBERS
-        // ============================================================
-        async function loadFeaturedMembers() {
-            const container = document.getElementById('featured-members');
+    // ============================================================
+    // LOAD FEATURED MEMBERS
+    // ============================================================
+    async function loadFeaturedMembers() {
+        const container = document.getElementById('featured-members');
+        try {
+            const { data, error } = await supabase
+                .from('members')
+                .select('id, name, age, current_location, occupation, online, verified, photo_file_ids')
+                .eq('verified', true)
+                .order('created_at', { ascending: false })
+                .limit(8);
 
-            try {
-                const { data, error } = await supabase
-                    .from('members')
-                    .select('*')
-                    .eq('verified', true)
-                    .order('created_at', { ascending: false })
-                    .limit(8);
+            if (error) throw error;
 
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    container.innerHTML = `
-                        <div class="members-empty">
-                            <div class="icon">💎</div>
-                            <h3>No featured members yet</h3>
-                            <p>Check back soon for amazing people!</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = data.map(m => renderMemberCard(m)).join('');
-
-            } catch (err) {
-                console.error('Error loading featured members:', err);
+            if (!data || data.length === 0) {
                 container.innerHTML = `
                     <div class="members-empty">
-                        <div class="icon">⚠️</div>
-                        <h3>Could not load members</h3>
-                        <p>Please refresh the page.</p>
+                        <h3>New profiles are being added</h3>
+                        <p>We're reviewing new members every day from cities around the world. Check back soon.</p>
                     </div>
                 `;
-            }
-        }
-
-        function renderMemberCard(member) {
-            const memberName = member.name || 'Member';
-            const memberAge = member.age || '';
-            const currentLocation = member.current_location || 'Location Unknown';
-            const occupation = member.occupation || 'Not specified';
-            const isOnline = member.online;
-            const isVerified = member.verified;
-
-            let photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=F7266D&color=fff&size=400`;
-            if (member.photo_file_ids && member.photo_file_ids.length > 0) {
-                const { data } = supabase.storage
-                    .from('member_photos')
-                    .getPublicUrl(member.photo_file_ids[0]);
-                if (data && data.publicUrl) {
-                    photoUrl = data.publicUrl;
-                }
+                return;
             }
 
-            const onlineBadge = isOnline ? '<span class="badge-online">🟢 Online</span>' : '';
-            const verifiedBadge = isVerified ? '<span class="badge-verified">💎 Verified</span>' : '';
-
-            return `
-                <div class="match-card" onclick="window.location.href='profile.html?id=${member.id}'">
-                    <img src="${photoUrl}" alt="${memberName}" loading="lazy"
-                         onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(memberName)}&background=F7266D&color=fff&size=400'">
-                    ${onlineBadge}
-                    ${verifiedBadge}
-                    <div class="match-card-overlay">
-                        <h3>✨ ${memberName}${memberAge ? ', ' + memberAge : ''}</h3>
-                        <p>📍 ${currentLocation}</p>
-                        <p>💼 ${occupation}</p>
-                    </div>
+            container.innerHTML = data.map(renderMemberCard).join('');
+        } catch (err) {
+            console.warn('Members load failed:', err);
+            container.innerHTML = `
+                <div class="members-empty">
+                    <h3>Members loading slowly</h3>
+                    <p>Refresh the page to see featured members.</p>
                 </div>
             `;
         }
+    }
 
-        // ============================================================
-        // FLOATING SUPPORT BUTTON
-        // ============================================================
-        window.openSupport = async function() {
-            const { data: { session } } = await supabase.auth.getSession();
+    function renderMemberCard(member) {
+        const name = member.name || 'Member';
+        const age = member.age ? `, ${member.age}` : '';
+        const location = member.current_location || 'Location private';
+        const occupation = member.occupation || 'Not specified';
 
-            if (!session) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const { data: conv, error } = await supabase
-                .from('conversations')
-                .select('id')
-                .eq('user_id', session.user.id)
-                .order('updated_at', { ascending: false })
-                .limit(1)
-                .maybeSingle();
-
-            if (error || !conv) {
-                window.location.href = 'members.html';
-                return;
-            }
-
-            window.location.href = `chat.html?conversation=${conv.id}`;
+        let photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400`;
+        if (member.photo_file_ids && member.photo_file_ids.length > 0) {
+            const { data } = supabase.storage
+                .from('member_photos')
+                .getPublicUrl(member.photo_file_ids[0]);
+            if (data && data.publicUrl) photoUrl = data.publicUrl;
         }
 
-        // ============================================================
-        // COOKIE CONSENT
-        // ============================================================
-        const cookieConsent = document.getElementById('cookie-consent');
-        const cookieAccept = document.getElementById('cookie-accept');
+        const verifiedBadge = member.verified ? '<span class="badge-verified">💎 Verified</span>' : '';
+        const countryBadge = location && location !== 'Location private'
+            ? `<span class="badge-country">📍 ${location.split(',')[0].trim()}</span>`
+            : '';
 
-        if (cookieConsent && cookieAccept) {
-            if (!localStorage.getItem('cookieConsent')) {
-                cookieConsent.classList.add('show');
-            }
-            cookieAccept.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'true');
-                cookieConsent.classList.remove('show');
-            });
-        }
-
-        // ============================================================
-        // SPARKLE CURSOR EFFECT
-        // ============================================================
-        document.addEventListener('mousemove', function(e) {
-            const sparkle = document.createElement('div');
-            const emojis = ['✨', '❤️', '💕', '⭐', '💖'];
-            sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            const size = 12 + Math.random() * 14;
-            sparkle.style.cssText = `
-                position: fixed;
-                left: ${e.pageX - size/2}px;
-                top: ${e.pageY - size/2}px;
-                font-size: ${size}px;
-                pointer-events: none;
-                z-index: 9999;
-                animation: sparkleFade 0.8s ease forwards;
-                opacity: 0.9;
-            `;
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 800);
-        });
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = `
-            @keyframes sparkleFade {
-                0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.9; }
-                100% { transform: translate(${Math.random() * 100 - 50}px, -80px) scale(0) rotate(360deg); opacity: 0; }
-            }
+        return `
+            <div class="match-card" onclick="window.location.href='profile.html?id=${member.id}'">
+                <img src="${photoUrl}" alt="${name}" loading="lazy"
+                     onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F7266D&color=fff&size=400'">
+                ${verifiedBadge}
+                ${countryBadge}
+                <div class="match-card-overlay">
+                    <h3>${name}${age}</h3>
+                    <p>📍 ${location}</p>
+                    <p>💼 ${occupation}</p>
+                </div>
+            </div>
         `;
-        document.head.appendChild(styleSheet);
+    }
 
-        // ============================================================
-        // SCROLL REVEAL ANIMATION
-        // ============================================================
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        document.querySelectorAll('.how-it-works-card, .stat-card, .card-2up, .stacked-card, .trust-signal-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-            observer.observe(el);
+    // ============================================================
+    // COOKIE CONSENT
+    // ============================================================
+    const cookieConsent = document.getElementById('cookie-consent');
+    const cookieAccept = document.getElementById('cookie-accept');
+    if (cookieConsent && cookieAccept) {
+        if (!localStorage.getItem('cookieConsent')) {
+            cookieConsent.classList.add('show');
+        }
+        cookieAccept.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'true');
+            cookieConsent.classList.remove('show');
         });
+    }
 
-        // ============================================================
-        // INIT
-        // ============================================================
-        loadFeaturedMembers();
+    // ============================================================
+    // SCROLL REVEAL
+    // ============================================================
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        console.log('💎 Pro Love Hub❤️ — pink + blue palette applied');
-        console.log('✅ Featured Members pull from Supabase');
-        console.log('✅ Support button ready');
-        console.log('✅ All links updated');
-    </script>
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    loadFeaturedMembers();
+</script>
 </body>
 </html>
